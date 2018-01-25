@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web.Http.SelfHost;
 using NLog;
 
 namespace Kontur.ImageTransformer
@@ -14,7 +15,17 @@ namespace Kontur.ImageTransformer
         /// </summary>
         public static void Main(string[] args)
         {
-            logger.Trace("Hello world!");
+            var address = "http://localhost:8080";
+            var config = new HttpSelfHostConfiguration(address);
+            
+            using (var server = new HttpSelfHostServer(config))
+            {
+                server.OpenAsync().Wait();
+
+                logger.Info($"Server running at {address}. Press any key to exit");
+                Console.ReadKey();
+            }
+       
         }
     }
 }
