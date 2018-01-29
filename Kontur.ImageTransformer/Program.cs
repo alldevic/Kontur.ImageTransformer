@@ -4,7 +4,7 @@ using System.Web.Http.Controllers;
 using System.Web.Http.Dispatcher;
 using System.Web.Http.Routing.Constraints;
 using System.Web.Http.SelfHost;
-using Kontur.ImageTransformer.MessageHandlers;
+using Kontur.ImageTransformer.Handlers;
 using Kontur.ImageTransformer.Selectors;
 using NLog;
 
