@@ -1,0 +1,1063 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ThrottlingSuite.Http</name>
+    </assembly>
+    <members>
+        <member name="T:ThrottlingSuite.Core.AverageHistory">
+            <summary>
+            Class contains an average history data calcualted for a throttling controller. 
+            </summary>
+            <remarks>This class is used by Long/Short-AverageThrottlingController.</remarks>
+        </member>
+        <member name="P:ThrottlingSuite.Core.AverageHistory.LastTime">
+            <summary>
+            Gets or sets the last data and time the request has been received.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.AverageHistory.AverageTime">
+            <summary>
+            Gets or sets an average timespan between the requests.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.AverageHistory.CurrentCount">
+            <summary>
+            Gets or sets the total number of requests.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Core.AverageHistory.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="T:ThrottlingSuite.Core.ShortAverageThrottlingController">
+            <summary>
+            Class implements IThrottlingController using short-average throttlling  algorithm.
+            </summary>
+            <remarks>See Throttling Suite documentation for more information: https://throttlewebapi.codeplex.com/wikipage?title=Throttling%20algorithm%20considerations&amp;referringTitle=Documentation. </remarks>
+        </member>
+        <member name="M:ThrottlingSuite.Core.ShortAverageThrottlingController.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Constructor with time interval in msec and threshold as a number of allowed requests per time interval.
+            </summary>
+            <param name="timeIntervalMsec">The time interval in msec.</param>
+            <param name="maxThreshold">The threshold as a number of allowed requests per time interval.</param>
+        </member>
+        <member name="M:ThrottlingSuite.Core.ShortAverageThrottlingController.#ctor(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Constructor with time interval in msec and threshold as a number of allowed requests per time interval. 
+            You may supply the cleanup interval in msec - it is used for periodically cleaning up controller resources.
+            </summary>
+            <param name="timeIntervalMsec">The time interval in msec.</param>
+            <param name="maxThreshold">The threshold as a number of allowed requests per time interval.</param>
+            <param name="cleanupInterval">The cleanup interval in msec. Recommended value is between 180000 and 600000 (3 to 10 minutes).</param>
+        </member>
+        <member name="T:ThrottlingSuite.Core.LongAverageThrottlingController">
+            <summary>
+            Class implements IThrottlingController using long-average throttlling  algorithm.
+            </summary>
+            <remarks>See Throttling Suite documentation for more information: https://throttlewebapi.codeplex.com/wikipage?title=Throttling%20algorithm%20considerations&amp;referringTitle=Documentation. </remarks>
+        </member>
+        <member name="P:ThrottlingSuite.Core.LongAverageThrottlingController.ApplyLongtimePenalty">
+            <summary>
+            Gets or sets falg indicated that penalty should be applied to calls if user made too many calls at once. 
+            If false, then history will be reset as soon as Threshold Interval has passed since last call been made. 
+            If true, then calls will not be allowed for as long as threshold reaches permitted.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.LongAverageThrottlingController.LookupDictionarySize">
+            <summary>
+            Gets current size of the dictionary internally used by the controller.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Core.LongAverageThrottlingController.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Constructor with time interval in msec and threshold as a number of allowed requests per time interval. 
+            </summary>
+            <param name="timeIntervalMsec">The time interval in msec.</param>
+            <param name="maxThreshold">The threshold as a number of allowed requests per time interval.</param>
+        </member>
+        <member name="M:ThrottlingSuite.Core.LongAverageThrottlingController.#ctor(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Constructor with time interval in msec and threshold as a number of allowed requests per time interval. 
+            You may supply the cleanup interval in msec - it is used for periodically cleaning up controller resources.
+            </summary>
+            <param name="timeIntervalMsec">The time interval in msec.</param>
+            <param name="maxThreshold">The threshold as a number of allowed requests per time interval.</param>
+            <param name="cleanupInterval">The cleanup interval in msec. Recommended value is between 180000 and 600000 (3 to 10 minutes).</param>
+        </member>
+        <member name="M:ThrottlingSuite.Core.LongAverageThrottlingController.IsCallAllowed(System.String,System.DateTime)">
+            <summary>
+            Method evaluates whether the call (HTTP request) is allowed to go through or should be blocked.
+            </summary>
+            <param name="requestSignature">Request signature as a string.</param>
+            <param name="requestTimestamp">Request time stamp.</param>
+            <returns>Returns boolean value indicating whether the call (HTTP request) is allowed to go through.</returns>
+        </member>
+        <member name="M:ThrottlingSuite.Core.LongAverageThrottlingController.Dispose(System.Boolean)">
+            <summary>
+            Disposes resources used by the throttling controller.
+            </summary>
+        </member>
+        <member name="T:ThrottlingSuite.Core.IThrottlingController">
+            <summary>
+            Interface that must be implemented by a throttling controller.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.IThrottlingController.TimeIntervalMsec">
+            <summary>
+            Gets the time interval in msec that controller uses.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.IThrottlingController.MaxThreshold">
+            <summary>
+            Gets the concurrency model that controller uses.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.IThrottlingController.CreatedDatetime">
+            <summary>
+            Gets the date and time when controller was created.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.IThrottlingController.LookupDictionarySize">
+            <summary>
+            Gets current size of the dictionary internally used by the controller.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.IThrottlingController.Name">
+            <summary>
+            Gets the name of the controller.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.IThrottlingController.TotalCalls">
+            <summary>
+            Gets total number of calls (requests) evaluated by the controller.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.IThrottlingController.BlockedCalls">
+            <summary>
+            Gets total number of blocked calls (requests) evaluated by the controller.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Core.IThrottlingController.IsCallAllowed(System.String,System.DateTime)">
+            <summary>
+            Method evaluates whether the call (HTTP request) is allowed to go through or should be blocked.
+            </summary>
+            <param name="requestSignature">Request signature as a string.</param>
+            <param name="requestTimestamp">Request time stamp.</param>
+            <returns>Returns boolean value indicating whether the call (HTTP request) is allowed to go through.</returns>
+        </member>
+        <member name="P:ThrottlingSuite.Core.IThrottlingController.ConcurrencyModel">
+            <summary>
+            Gets the threshold as a number of allowed requests per time interval.
+            </summary>
+        </member>
+        <member name="T:ThrottlingSuite.Core.IThrottlingControllerInstanceExtensions">
+            <summary>
+            Implements extensions for include in scope and exclude from scope.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Core.IThrottlingControllerInstanceExtensions.IncludeInScope(ThrottlingSuite.Core.IThrottlingControllerInstance,System.String)">
+            <summary>
+            Includes HTTP request URL path into the throttling controller scope.
+            </summary>
+            <param name="instance"></param>
+            <param name="path">Path to include.</param>
+            <returns>Returns the throttling controller instance.</returns>
+        </member>
+        <member name="M:ThrottlingSuite.Core.IThrottlingControllerInstanceExtensions.IncludeInScope(ThrottlingSuite.Core.IThrottlingControllerInstance,System.String,ThrottlingSuite.Core.ScopeItemCondition)">
+            <summary>
+            Includes HTTP request URL path with specified condition into the throttling controller scope.
+            </summary>
+            <param name="instance"></param>
+            <param name="path">Path to include.</param>
+            <param name="condition">Condition to apply to the request.</param>
+            <returns>Returns the throttling controller instance.</returns>
+        </member>
+        <member name="M:ThrottlingSuite.Core.IThrottlingControllerInstanceExtensions.IncludeInScope(ThrottlingSuite.Core.IThrottlingControllerInstance,System.Text.RegularExpressions.Regex)">
+            <summary>
+            Includes HTTP request URL path Regular Expression with specified condition into the throttling controller scope.
+            </summary>
+            <param name="instance"></param>
+            <param name="pathRegex">Path Regular Expression to include.</param>
+            <returns>Returns the throttling controller instance.</returns>
+        </member>
+        <member name="M:ThrottlingSuite.Core.IThrottlingControllerInstanceExtensions.IncludeInScope(ThrottlingSuite.Core.IThrottlingControllerInstance,System.Text.RegularExpressions.Regex,ThrottlingSuite.Core.ScopeItemCondition)">
+            <summary>
+            Includes HTTP request URL path Regular Expression with specified condition into the throttling controller scope.
+            </summary>
+            <param name="instance"></param>
+            <param name="pathRegex">Path Regular Expression to include.</param>
+            <param name="condition">Condition to apply to the request.</param>
+            <returns>Returns the throttling controller instance.</returns>
+        </member>
+        <member name="M:ThrottlingSuite.Core.IThrottlingControllerInstanceExtensions.ExcludeFromScope(ThrottlingSuite.Core.IThrottlingControllerInstance,System.String)">
+            <summary>
+            Excludes HTTP request URL path with specified condition from the throttling controller scope.
+            </summary>
+            <param name="instance"></param>
+            <param name="path">Path to exclude.</param>
+            <returns>Returns the throttling controller instance.</returns>
+        </member>
+        <member name="M:ThrottlingSuite.Core.IThrottlingControllerInstanceExtensions.ExcludeFromScope(ThrottlingSuite.Core.IThrottlingControllerInstance,System.String,ThrottlingSuite.Core.ScopeItemCondition)">
+            <summary>
+            Excludes HTTP request URL path with specified condition from the throttling controller scope.
+            </summary>
+            <param name="instance"></param>
+            <param name="path">Path to exclude.</param>
+            <param name="condition">Condition to apply to the request.</param>
+            <returns>Returns the throttling controller instance.</returns>
+        </member>
+        <member name="M:ThrottlingSuite.Core.IThrottlingControllerInstanceExtensions.ExcludeFromScope(ThrottlingSuite.Core.IThrottlingControllerInstance,System.Text.RegularExpressions.Regex)">
+            <summary>
+            Excludes HTTP request URL path Regular Expression with specified condition from the throttling controller scope.
+            </summary>
+            <param name="instance"></param>
+            <param name="pathRegex">Path Regular Expression to exclude.</param>
+            <returns>Returns the throttling controller instance.</returns>
+        </member>
+        <member name="M:ThrottlingSuite.Core.IThrottlingControllerInstanceExtensions.ExcludeFromScope(ThrottlingSuite.Core.IThrottlingControllerInstance,System.Text.RegularExpressions.Regex,ThrottlingSuite.Core.ScopeItemCondition)">
+            <summary>
+            Excludes HTTP request URL path Regular Expression with specified condition from the throttling controller scope.
+            </summary>
+            <param name="instance"></param>
+            <param name="pathRegex">Path Regular Expression to exclude.</param>
+            <param name="condition">Condition to apply to the request.</param>
+            <returns>Returns the throttling controller instance.</returns>
+        </member>
+        <member name="T:ThrottlingSuite.Core.IThrottlingScopeExtensions">
+            <summary>
+            Implements extensions for include and exclude scope items.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Core.IThrottlingScopeExtensions.Include(ThrottlingSuite.Core.IThrottlingScope,System.String)">
+            <summary>
+            Includes HTTP request URL path into the throttling controller scope.
+            </summary>
+            <param name="scope"></param>
+            <param name="path">Path to include.</param>
+            <returns>Returns the throttling scope.</returns>
+        </member>
+        <member name="M:ThrottlingSuite.Core.IThrottlingScopeExtensions.Include(ThrottlingSuite.Core.IThrottlingScope,System.String,ThrottlingSuite.Core.ScopeItemCondition)">
+            <summary>
+            Includes HTTP request URL path with specified condition into the throttling controller scope.
+            </summary>
+            <param name="scope"></param>
+            <param name="path">Path to include.</param>
+            <param name="condition">Condition to apply to the request.</param>
+            <returns>Returns the throttling scope.</returns>
+        </member>
+        <member name="M:ThrottlingSuite.Core.IThrottlingScopeExtensions.Include(ThrottlingSuite.Core.IThrottlingScope,System.Text.RegularExpressions.Regex)">
+            <summary>
+            Includes HTTP request URL path Regular Expression with specified condition into the throttling controller scope.
+            </summary>
+            <param name="scope"></param>
+            <param name="pathRegex">Path Regular Expression to include.</param>
+            <returns>Returns the throttling scope.</returns>
+        </member>
+        <member name="M:ThrottlingSuite.Core.IThrottlingScopeExtensions.Include(ThrottlingSuite.Core.IThrottlingScope,System.Text.RegularExpressions.Regex,ThrottlingSuite.Core.ScopeItemCondition)">
+            <summary>
+            Includes HTTP request URL path Regular Expression with specified condition into the throttling controller scope.
+            </summary>
+            <param name="scope"></param>
+            <param name="pathRegex">Path Regular Expression to include.</param>
+            <param name="condition">Condition to apply to the request.</param>
+            <returns>Returns the throttling scope.</returns>
+        </member>
+        <member name="M:ThrottlingSuite.Core.IThrottlingScopeExtensions.Exclude(ThrottlingSuite.Core.IThrottlingScope,System.String)">
+            <summary>
+            Excludes HTTP request URL path with specified condition from the throttling controller scope.
+            </summary>
+            <param name="scope"></param>
+            <param name="path">Path to exclude.</param>
+            <returns>Returns the throttling scope.</returns>
+        </member>
+        <member name="M:ThrottlingSuite.Core.IThrottlingScopeExtensions.Exclude(ThrottlingSuite.Core.IThrottlingScope,System.String,ThrottlingSuite.Core.ScopeItemCondition)">
+            <summary>
+            Excludes HTTP request URL path with specified condition from the throttling controller scope.
+            </summary>
+            <param name="scope"></param>
+            <param name="path">Path to exclude.</param>
+            <param name="condition">Condition to apply to the request.</param>
+            <returns>Returns the throttling scope.</returns>
+        </member>
+        <member name="M:ThrottlingSuite.Core.IThrottlingScopeExtensions.Exclude(ThrottlingSuite.Core.IThrottlingScope,System.Text.RegularExpressions.Regex)">
+            <summary>
+            Excludes HTTP request URL path Regular Expression with specified condition from the throttling controller scope.
+            </summary>
+            <param name="scope"></param>
+            <param name="pathRegex">Path Regular Expression to exclude.</param>
+            <returns>Returns the throttling scope.</returns>
+        </member>
+        <member name="M:ThrottlingSuite.Core.IThrottlingScopeExtensions.Exclude(ThrottlingSuite.Core.IThrottlingScope,System.Text.RegularExpressions.Regex,ThrottlingSuite.Core.ScopeItemCondition)">
+            <summary>
+            Excludes HTTP request URL path Regular Expression with specified condition from the throttling controller scope.
+            </summary>
+            <param name="scope"></param>
+            <param name="pathRegex">Path Regular Expression to exclude.</param>
+            <param name="condition">Condition to apply to the request.</param>
+            <returns>Returns the throttling scope.</returns>
+        </member>
+        <member name="M:ThrottlingSuite.Core.IThrottlingScopeExtensions.OptimizeScopeItemsOrder(ThrottlingSuite.Core.IThrottlingScope)">
+            <summary>
+            Optimizes the scope items order to allow easier logic at runtime ensuring maximum performance.
+            </summary>
+        </member>
+        <member name="T:ThrottlingSuite.Core.LinearThrottlingController">
+            <summary>
+            Class implements IThrottlingController using linear throttlling  algorithm.
+            </summary>
+            <remarks>See Throttling Suite documentation for more information: https://throttlewebapi.codeplex.com/wikipage?title=Throttling%20algorithm%20considerations&amp;referringTitle=Documentation. </remarks>
+        </member>
+        <member name="P:ThrottlingSuite.Core.LinearThrottlingController.LookupDictionarySize">
+            <summary>
+            Gets current size of the dictionary internally used by the controller.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Core.LinearThrottlingController.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Constructor with time interval in msec and threshold as a number of allowed requests per time interval. 
+            </summary>
+            <param name="timeIntervalMsec">The time interval in msec.</param>
+            <param name="maxThreshold">The threshold as a number of allowed requests per time interval.</param>
+        </member>
+        <member name="M:ThrottlingSuite.Core.LinearThrottlingController.#ctor(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Constructor with time interval in msec and threshold as a number of allowed requests per time interval. 
+            You may supply the cleanup interval in msec - it is used for periodically cleaning up controller resources.
+            </summary>
+            <param name="timeIntervalMsec">The time interval in msec.</param>
+            <param name="maxThreshold">The threshold as a number of allowed requests per time interval.</param>
+            <param name="cleanupInterval">The cleanup interval in msec. Recommended value is between 180000 and 600000 (3 to 10 minutes).</param>
+        </member>
+        <member name="M:ThrottlingSuite.Core.LinearThrottlingController.IsCallAllowed(System.String,System.DateTime)">
+            <summary>
+            Method evaluates whether the call (HTTP request) is allowed to go through or should be blocked.
+            </summary>
+            <param name="requestSignature">Request signature as a string.</param>
+            <param name="requestTimestamp">Request time stamp.</param>
+            <returns>Returns boolean value indicating whether the call (HTTP request) is allowed to go through.</returns>
+        </member>
+        <member name="M:ThrottlingSuite.Core.LinearThrottlingController.ExecuteCleanup">
+            <summary>
+            Implements the resource clean-up process.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Core.LinearThrottlingController.Dispose(System.Boolean)">
+            <summary>
+            Disposes resources used by the throttling controller.
+            </summary>
+        </member>
+        <member name="T:ThrottlingSuite.Core.ScopeItemCondition">
+            <summary>
+            Enumeration for special condition matching an HTTP request.
+            </summary>
+        </member>
+        <member name="F:ThrottlingSuite.Core.ScopeItemCondition.None">
+            <summary>
+            No special conditions are set.
+            </summary>
+        </member>
+        <member name="F:ThrottlingSuite.Core.ScopeItemCondition.HasSessionId">
+            <summary>
+            Not in use.
+            </summary>
+        </member>
+        <member name="F:ThrottlingSuite.Core.ScopeItemCondition.NoSessionId">
+            <summary>
+            Not in use.
+            </summary>
+        </member>
+        <member name="F:ThrottlingSuite.Core.ScopeItemCondition.HasTracking">
+            <summary>
+            A request should have client tracking information.
+            </summary>
+        </member>
+        <member name="F:ThrottlingSuite.Core.ScopeItemCondition.HasNoTracking">
+            <summary>
+            A request should not have client tracking information.
+            </summary>
+        </member>
+        <member name="F:ThrottlingSuite.Core.ScopeItemCondition.HttpGet">
+            <summary>
+            An HTTP method for request should be GET.
+            </summary>
+        </member>
+        <member name="F:ThrottlingSuite.Core.ScopeItemCondition.HttpPost">
+            <summary>
+            An HTTP method for request should be POST.
+            </summary>
+        </member>
+        <member name="F:ThrottlingSuite.Core.ScopeItemCondition.HttpPut">
+            <summary>
+            An HTTP method for request should be PUT.
+            </summary>
+        </member>
+        <member name="F:ThrottlingSuite.Core.ScopeItemCondition.HttpDelete">
+            <summary>
+            An HTTP method for request should be DELETE.
+            </summary>
+        </member>
+        <member name="F:ThrottlingSuite.Core.ScopeItemCondition.HttpOptions">
+            <summary>
+            An HTTP method for request should be OPTIONS.
+            </summary>
+        </member>
+        <member name="F:ThrottlingSuite.Core.ScopeItemCondition.HttpTrace">
+            <summary>
+            An HTTP method for request should be TRACE.
+            </summary>
+        </member>
+        <member name="F:ThrottlingSuite.Core.ScopeItemCondition.HttpPatch">
+            <summary>
+            An HTTP method for request should be PATCH.
+            </summary>
+        </member>
+        <member name="F:ThrottlingSuite.Core.ScopeItemCondition.HttpHead">
+            <summary>
+            An HTTP method for request should be HEAD.
+            </summary>
+        </member>
+        <member name="T:ThrottlingSuite.Core.SignatureBuilderParameters">
+            <summary>
+            Class provides collection of configuration parameters for building HTTP request signature.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Core.SignatureBuilderParameters.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.SignatureBuilderParameters.IgnoreParameters">
+            <summary>
+            Gets the list of parameters to be ignored.
+            </summary>
+            <remarks>You may change this parameter during the runtime.</remarks>
+        </member>
+        <member name="P:ThrottlingSuite.Core.SignatureBuilderParameters.IgnoreAllQueryStringParameters">
+            <summary>
+            Gets a boolean indicator whether all query string parameters should be ignored.
+            </summary>
+            <remarks>You may change this parameter during the runtime.</remarks>
+        </member>
+        <member name="P:ThrottlingSuite.Core.SignatureBuilderParameters.IgnoreClientIpAddress">
+            <summary>
+            Gets a boolean indicator whether client IP address should be ignored.
+            </summary>
+            <remarks>You may change this parameter during the runtime.</remarks>
+        </member>
+        <member name="P:ThrottlingSuite.Core.SignatureBuilderParameters.EnableClientTracking">
+            <summary>
+            Gets a boolean indicator whether client tracking should be enabled via cookies.
+            </summary>
+            <remarks>You may change this parameter during the runtime.</remarks>
+        </member>
+        <member name="P:ThrottlingSuite.Core.SignatureBuilderParameters.UseInstanceUrl">
+            <summary>
+            Gets a boolean indicator whether the actual HTTP request URL is being substituted with controller instance scope. 
+            This allows to handle throttling threshold per instance combining multiple URLs from different API calls.
+            </summary>
+            <remarks>You may change this parameter during the runtime.</remarks>
+        </member>
+        <member name="T:ThrottlingSuite.Core.ThrottlingConfiguration">
+            <summary>
+            This class contains Throttling Configuration parameters. 
+            </summary>
+        </member>
+        <member name="F:ThrottlingSuite.Core.ThrottlingConfiguration.DefaultCleanupIntervalMsec">
+            <summary>
+            Gets the default value for cleanup process interval that is used to 
+            dispose unused data accumulated by the throttling controllers and become outdated.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.ThrottlingConfiguration.Enabled">
+            <summary>
+            Gets boolean indicator whether throttling is enabled.
+            </summary>
+            <remarks>You may enable or disable throttling service during the runtime.</remarks>
+        </member>
+        <member name="P:ThrottlingSuite.Core.ThrottlingConfiguration.LogOnly">
+            <summary>
+            Gets boolean indicator whether throttling is enabled for logging only.
+            </summary>
+            <remarks>You may change this parameter during the runtime.</remarks>
+        </member>
+        <member name="P:ThrottlingSuite.Core.ThrottlingConfiguration.ResourcesCleanupInterval">
+            <summary>
+            Gets value (in ms) for resources cleanup interval.
+            </summary>
+            <remarks>It is not possible to change the resource cleanup interval during the runtime.</remarks>
+        </member>
+        <member name="P:ThrottlingSuite.Core.ThrottlingConfiguration.RequestSignatureBuilderType">
+            <summary>
+            Gets a type responsible for building HTTP request signature.
+            </summary>
+            <remarks>You may not change this parameter during the runtime.</remarks>
+        </member>
+        <member name="P:ThrottlingSuite.Core.ThrottlingConfiguration.SignatureBuilderParams">
+            <summary>
+            Gets the dictionary contaning parameters for building HTTP request signature.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.ThrottlingConfiguration.ConcurrencyModel">
+            <summary>
+            Gets value of concurrency model to use while evaluating data in the throttling controller.
+            </summary>
+            <remarks>You may not change this parameter during the runtime.</remarks>
+        </member>
+        <member name="M:ThrottlingSuite.Core.ThrottlingConfiguration.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Core.ThrottlingConfiguration.#ctor(System.Xml.XmlElement)">
+            <summary>
+            Constructor that accepts XML config data and parses it into configuration parameters.
+            </summary>
+            <param name="xmlData">XML data to parse.</param>
+        </member>
+        <member name="T:ThrottlingSuite.Core.ConcurrencyModel">
+            <summary>
+            Concurrency model for the throttling controller.
+            </summary>
+        </member>
+        <member name="F:ThrottlingSuite.Core.ConcurrencyModel.Optimistic">
+            <summary>
+            Use this model when throttling accuracy is not as important as minimum locking of resources. 
+            </summary>
+            <remarks>Using this model might cause incorrect throttling, especially in highly concurrent scenarious. 
+            During tests involved 1,000 calls per second benchmark, the 2.6% error in throttling accuracy has been determined.</remarks>
+        </member>
+        <member name="F:ThrottlingSuite.Core.ConcurrencyModel.Pessimistic">
+            <summary>
+            [Recommended] Use this model when throttling accuracy is the most important factor.
+            </summary>
+            <remarks>This option forces to lock a small section of the code to ensure the throttling accuracy. 
+            During tests this section has been taken between 30 and 80 micro-seconds per HTTP request that is insignificant for most cases, 
+            but ensures the accuracy of throttling controllers.</remarks>
+        </member>
+        <member name="T:ThrottlingSuite.Core.ThrottlingConfigurationProvider">
+            <summary>
+            Class provides access to XML configuration in the .config file.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Core.ThrottlingConfigurationProvider.GetCurrentConfiguration">
+            <summary>
+            Gets current throttling configuration.
+            </summary>
+        </member>
+        <member name="T:ThrottlingSuite.Core.ThrottlingControllerStatus">
+            <summary>
+            An abstract class containing essential statistical information for the throttling controller.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.ThrottlingControllerStatus.CreatedDatetime">
+            <summary>
+            Gets the date and time when controller was created.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.ThrottlingControllerStatus.Name">
+            <summary>
+            Gets the name of the controller.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.ThrottlingControllerStatus.TotalCalls">
+            <summary>
+            Gets total number of calls (requests) evaluated by the controller. This number is provided for informational purpose only and is not being used internally by throttling controller logic. 
+            The lock is not used while incrementing this value and therefore it might be slightly inaccurate in high concurrency environment, but generally it does reflect the load on the system.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.ThrottlingControllerStatus.BlockedCalls">
+            <summary>
+            Gets total number of blocked calls (requests) evaluated by the controller. This number is provided for informational purpose only and is not being used internally by throttling controller logic. 
+            The lock is not used while incrementing this value and therefore it might be slightly inaccurate in high concurrency environment, but generally it does reflect the load on the system.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Core.ThrottlingControllerStatus.IncrementTotalCalls">
+            <summary>
+            Increments the number of total calls. If maximum value of ULONG type has been reached, it re-sets counters to 0.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Core.ThrottlingControllerStatus.IncrementBlockedCalls">
+            <summary>
+            Increments the number of blocked calls. If maximum value of ULONG type has been reached, it re-sets counters to 0.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Core.ThrottlingControllerStatus.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="T:ThrottlingSuite.Core.ThrottlingControllerBase">
+            <summary>
+            An abstract class providing a base for the throttling controller.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.ThrottlingControllerBase.TimeIntervalMsec">
+            <summary>
+            Gets the time interval in msec that controller uses.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.ThrottlingControllerBase.ConcurrencyModel">
+            <summary>
+            Gets the concurrency model that controller uses.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.ThrottlingControllerBase.MaxThreshold">
+            <summary>
+            Gets the threshold as a number of allowed requests per time interval.
+            </summary>
+        </member>
+        <member name="F:ThrottlingSuite.Core.ThrottlingControllerBase.cleanupTimer">
+            <summary>
+            The timer used to clean-up internal resources used by an instance of this class.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Core.ThrottlingControllerBase.#ctor(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Constructor with time interval in msec and threshold as a number of allowed requests per time interval. 
+            You may supply the cleanup interval in msec - it is used for periodically cleaning up controller resources.
+            </summary>
+            <param name="timeIntervalMsec">The time interval in msec.</param>
+            <param name="maxThreshold">The threshold as a number of allowed requests per time interval.</param>
+            <param name="cleanupInterval">The cleanup interval in msec. Default value is 30000. Recommended value is between 180000 and 600000 (3 to 10 minutes).</param>
+            <remarks>To set an unlimited throttling, the timeIntervalMsec and maxThreshold values should be set to -1. 
+            To prevent specific section of the application from being served, both values should be set to 0.</remarks>
+        </member>
+        <member name="P:ThrottlingSuite.Core.ThrottlingControllerBase.LookupDictionarySize">
+            <summary>
+            Gets current size of the dictionary internally used by the controller.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Core.ThrottlingControllerBase.IsCallAllowed(System.String,System.DateTime)">
+            <summary>
+            Method evaluates whether the call (HTTP request) is allowed to go through or should be blocked.
+            </summary>
+            <param name="requestSignature">Request signature as a string.</param>
+            <param name="requestTimestamp">Request time stamp.</param>
+            <returns>Returns boolean value indicating whether the call (HTTP request) is allowed to go through.</returns>
+        </member>
+        <member name="M:ThrottlingSuite.Core.ThrottlingControllerBase.ExecuteCleanup">
+            <summary>
+            An implementation of the clean-up functionality.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Core.ThrottlingControllerBase.cleanupTimer_Elapsed(System.Object,System.Timers.ElapsedEventArgs)">
+            <summary>
+            The clean-up timer event handler.
+            </summary>
+            <param name="sender">The object raised an event.</param>
+            <param name="e">The event arguments.</param>
+        </member>
+        <member name="M:ThrottlingSuite.Core.ThrottlingControllerBase.Dispose">
+            <summary>
+            Disposes resources used by the throttling controller.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Core.ThrottlingControllerBase.WriteTraceMessage(System.String)">
+            <summary>
+            Writes controller decision-making trace message into a configured trace listener, if available.
+            </summary>
+            <remarks>This method is only intended to be used for development/testing purposes.</remarks>
+        </member>
+        <member name="T:ThrottlingSuite.Core.IThrottlingControllerInstance">
+            <summary>
+            This interface should be implemented by a class providing a throttling controller unit as throttling controller paired with scope evaluation class. 
+            The controller instance is responsible for throttling a HTTP request if request is within the instance's scope.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.IThrottlingControllerInstance.Controller">
+            <summary>
+            Gets the throttling controller that instance uses.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.IThrottlingControllerInstance.Scope">
+            <summary>
+            Gets the throttling scope evaluation class that instance uses.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.IThrottlingControllerInstance.Name">
+            <summary>
+            Gets the name of the instance.
+            </summary>
+        </member>
+        <member name="T:ThrottlingSuite.Core.ThrottlingControllerInstance">
+            <summary>
+            This class provides a throttling controller unit as throttling controller paired with scope evaluation class. 
+            The controller instance is responsible for throttling a HTTP request if request is within the instance's scope.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.ThrottlingControllerInstance.Controller">
+            <summary>
+            Gets the throttling controller that instance uses.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.ThrottlingControllerInstance.Scope">
+            <summary>
+            Gets the throttling scope evaluation class that instance uses.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.ThrottlingControllerInstance.Name">
+            <summary>
+            Gets the name of the instance.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Core.ThrottlingControllerInstance.#ctor(ThrottlingSuite.Core.IThrottlingController,ThrottlingSuite.Core.IThrottlingScope)">
+            <summary>
+            Constructor that accepts throttling controller and it's scope evaluation class to pair with.
+            </summary>
+            <param name="controller">The throttling controller.</param>
+            <param name="scope">The throttling scope evaluation class.</param>
+        </member>
+        <member name="M:ThrottlingSuite.Core.ThrottlingControllerInstance.Create``1(System.String,System.Int32,System.Int32)">
+            <summary>
+            Creates an instance of throttling controller with time interval in msec and threshold as a number of allowed requests per time interval. 
+            The throttling scope is empty once an instance created and should be populated with throttling scope items.
+            </summary>
+            <param name="name">The name for controller instance.</param>
+            <param name="timeIntervalMsec">The time interval in msec.</param>
+            <param name="maxThreshold">The threshold as a number of allowed requests per time interval.</param>
+            <remarks>To set an unlimited throttling, the timeIntervalMsec and maxThreshold values should be set to -1. 
+            To prevent specific section of the application from being served, both values should be set to 0.</remarks>
+        </member>
+        <member name="M:ThrottlingSuite.Core.ThrottlingControllerInstance.Create``1(System.String,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Creates an instance of throttling controller with time interval in msec and threshold as a number of allowed requests per time interval. 
+            Supply the cleanup interval in msec - it is used for periodically cleaning up controller resources. 
+            The throttling scope is empty once an instance created and should be populated with throttling scope items.
+            </summary>
+            <param name="name">The name for controller instance.</param>
+            <param name="timeIntervalMsec">The time interval in msec.</param>
+            <param name="maxThreshold">The threshold as a number of allowed requests per time interval.</param>
+            <param name="cleanupInterval">The cleanup interval in msec. Default value is 30000. Recommended value is between 180000 and 600000 (3 to 10 minutes).</param>
+            <remarks>To set an unlimited throttling, the timeIntervalMsec and maxThreshold values should be set to -1. 
+            To prevent specific section of the application from being served, both values should be set to 0.</remarks>
+        </member>
+        <member name="T:ThrottlingSuite.Core.ThrottlingControllerSuite">
+            <summary>
+            Class represents the suite of throttling controllers and design to perform evaluation for all controllers within the suite. 
+            Class provides implementation for IThrottlingService interface.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.ThrottlingControllerSuite.Configuration">
+            <summary>
+            Gets the configuration. Changing configuration parameters at the runtime may not take an effect.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.ThrottlingControllerSuite.Instances">
+            <summary>
+            Gets the collection of throttling controllers.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Core.ThrottlingControllerSuite.#ctor">
+            <summary>
+            Default constructor. 
+            This constructor would load configuration from XML config file and create throttling controller instances from this configuration object.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Core.ThrottlingControllerSuite.#ctor(ThrottlingSuite.Core.ThrottlingConfiguration)">
+            <summary>
+            Constructor accepting the throttling configuration. 
+            This constructor would create throttling controller instances from the configuration object assuming it has been loaded from XML config file.
+            </summary>
+            <param name="configuration">Throttling configuration object.</param>
+        </member>
+        <member name="M:ThrottlingSuite.Core.ThrottlingControllerSuite.#ctor(ThrottlingSuite.Core.ThrottlingConfiguration,System.Collections.Generic.IEnumerable{ThrottlingSuite.Core.IThrottlingControllerInstance})">
+            <summary>
+            Constructor accepting the throttling configuration and collection of throttling controller instances. 
+            </summary>
+            <param name="configuration">Throttling configuration object.</param>
+            <param name="instances">The collection of throttling controller instances.</param>
+        </member>
+        <member name="M:ThrottlingSuite.Core.ThrottlingControllerSuite.GetControllerByName(System.String)">
+            <summary>
+            Method returns a throttling controller within the suite by its instance name.
+            </summary>
+            <param name="instanceName">The throttling controller instance name.</param>
+            <returns>Return an instance of IThrottlingController.</returns>
+        </member>
+        <member name="M:ThrottlingSuite.Core.ThrottlingControllerSuite.Dispose">
+            <summary>
+            Disposes resources used by the object.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Core.ThrottlingControllerSuite.IsCallAllowed(System.Net.Http.HttpRequestMessage,System.String,System.Boolean,System.String@)">
+            <summary>
+            Method evaluates whether the call (HTTP request) is allowed to go through or should be blocked.
+            </summary>
+            <param name="request">The HTTP request to validate.</param>
+            <param name="requestSignature">Request signature as a string.</param>
+            <param name="hasTracking">A boolean indicator whether particular HTTP request has client tracking information associated with the application.</param>
+            <param name="blockedInstanceName">A controller instance name that blocked the call, in case it should be blocked.</param>
+            <returns>Returns boolean value indicating whether the call (HTTP request) is allowed to go through.</returns>
+        </member>
+        <member name="T:ThrottlingSuite.Core.ThrottlingScopeItem">
+            <summary>
+            Class contains the rules for a throttling scope item.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.ThrottlingScopeItem.Path">
+            <summary>
+            Gets or sets the path root the HTTP request URL begins with.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.ThrottlingScopeItem.IsIncludeAllPath">
+            <summary>
+            Gets a boolean indication whether the Path contains a substitute for "All".
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.ThrottlingScopeItem.PathRegex">
+            <summary>
+            Gets or sets the path Regex that suppose to match the request URL.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.ThrottlingScopeItem.Include">
+            <summary>
+            Gets or sets boolean indicator whether HTTP request that matches this scope item should be inclusive (true) or exclusive toward the throttling scope overall.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.ThrottlingScopeItem.IsRegex">
+            <summary>
+            Gets or sets boolean indicator whether this scope item is a Regex match.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.ThrottlingScopeItem.Condition">
+            <summary>
+            Gets or sets special conditions for matching an HTTP request.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.ThrottlingScopeItem.HasHttpMethodCondition">
+            <summary>
+            Gets boolean indicator whether at least one of special conditions is a particular HTTP method.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.ThrottlingScopeItem.HasTrackingCondition">
+            <summary>
+            Gets boolean indicator whether at least one of special conditions is a client tracking information within an HTTP request.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Core.ThrottlingScopeItem.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="T:ThrottlingSuite.Core.DefaultRequestSignatureBuilder">
+            <summary>
+            Class implements IRequestSignatureBuilder interface and provides HTTP request signature building functionality.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Core.DefaultRequestSignatureBuilder.#ctor">
+            <summary>
+            The configuration object used by the class.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Core.DefaultRequestSignatureBuilder.ComputeRequestDescription(System.Net.Http.HttpRequestMessage)">
+            <summary>
+            Computes the HTTP request long description.
+            </summary>
+            <param name="request">The HTTP request object.</param>
+            <returns>Returns a description as a string.</returns>
+        </member>
+        <member name="M:ThrottlingSuite.Core.HttpRequestMessageExtensions.GetClientIpAddress(System.Net.Http.HttpRequestMessage)">
+            <summary>
+            Obtains client IP address for HTTP request using different method depending on the current runtime.
+            </summary>
+            <param name="request">The HTTP request.</param>
+            <returns>Returns a string representing client IP address.</returns>
+        </member>
+        <member name="M:ThrottlingSuite.Core.HttpRequestMessageExtensions.GetRequestVirtualPath(System.Net.Http.HttpRequestMessage)">
+            <summary>
+            Returns virtual path for HTTP request.
+            </summary>
+            <param name="request">The HTTP request.</param>
+            <returns>Returns a string. It would not have leading "/".</returns>
+        </member>
+        <member name="T:ThrottlingSuite.Core.IRequestSignatureBuilder">
+            <summary>
+            Interface that must be implemented by the class providing HTTP request signature building functionality.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Core.IRequestSignatureBuilder.Init(ThrottlingSuite.Core.ThrottlingConfiguration)">
+            <summary>
+            Initializes class instance with its configuration.
+            </summary>
+            <param name="configuration">The configuration object.</param>
+        </member>
+        <member name="M:ThrottlingSuite.Core.IRequestSignatureBuilder.ComputeRequestSignature(System.Net.Http.HttpRequestMessage)">
+            <summary>
+            Computes the HTTP request signature.
+            </summary>
+            <param name="request">The HTTP request object.</param>
+            <returns>Returns a signature as a string.</returns>
+        </member>
+        <member name="T:ThrottlingSuite.Core.IThrottlingScope">
+            <summary>
+            An interface that shell be implemented by a class providing throttling scope evaluation. 
+            The class implemented this interface is paired with a throttling controller within a throttling controller instance. 
+            Such class is responsible for determining whether particular HTTP request should be evaluated by specific throttling controller that it is paired with.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Core.IThrottlingScope.InScope(System.Net.Http.HttpRequestMessage,System.Boolean)">
+            <summary>
+            Method evaluates the HTTP request and determines whether it should be processed by paired throttling controller.
+            </summary>
+            <param name="request">The HttpRequestMessage object to evaluate.</param>
+            <param name="hasTracking">A boolean indicator whether particular HTTP request has client tracking information associated with the application.</param>
+            <returns>Returns true if HTTP request is within the scope.</returns>
+        </member>
+        <member name="P:ThrottlingSuite.Core.IThrottlingScope.Items">
+            <summary>
+            Gets or sets the collection of scope items.
+            </summary>
+        </member>
+        <member name="T:ThrottlingSuite.Core.IThrottlingService">
+            <summary>
+            Interface describes the service providing throttling functionality to the Web API application.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.IThrottlingService.Configuration">
+            <summary>
+            Gets the configuration. Changing configuration parameters at the runtime may not take an effect.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.IThrottlingService.Instances">
+            <summary>
+            Gets the collection of throttling controller instances.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Core.IThrottlingService.GetControllerByName(System.String)">
+            <summary>
+            Method returns a throttling controller within the suite by its instance name.
+            </summary>
+            <param name="instanceName">The throttling controller instance name.</param>
+            <returns>Return an instance of IThrottlingController.</returns>
+        </member>
+        <member name="M:ThrottlingSuite.Core.IThrottlingService.IsCallAllowed(System.Net.Http.HttpRequestMessage,System.String,System.Boolean,System.String@)">
+            <summary>
+            Method evaluates whether the call (HTTP request) is allowed to go through or should be blocked.
+            </summary>
+            <param name="request">The HTTP request to validate.</param>
+            <param name="requestSignature">Request signature as a string.</param>
+            <param name="hasTracking">A boolean indicator whether particular HTTP request has client tracking information associated with the application.</param>
+            <param name="blockedInstanceName">A controller instance name that blocked the call, in case it should be blocked.</param>
+            <returns>Returns boolean value indicating whether the call (HTTP request) is allowed to go through.</returns>
+        </member>
+        <member name="T:ThrottlingSuite.Core.RequestSignatureBuilderBase">
+            <summary>
+            An abstract class implements IRequestSignatureBuilder interface and provides basics of HTTP request signature building functionality.
+            </summary>
+        </member>
+        <member name="F:ThrottlingSuite.Core.RequestSignatureBuilderBase.Configuration">
+            <summary>
+            The configuration object used by the class.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Core.RequestSignatureBuilderBase.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Core.RequestSignatureBuilderBase.Init(ThrottlingSuite.Core.ThrottlingConfiguration)">
+            <summary>
+            Initializes class instance with its configuration.
+            </summary>
+            <param name="configuration">The configuration object.</param>
+        </member>
+        <member name="M:ThrottlingSuite.Core.RequestSignatureBuilderBase.ComputeRequestSignature(System.Net.Http.HttpRequestMessage)">
+            <summary>
+            Computes the HTTP request signature.
+            </summary>
+            <param name="request">The HTTP request object.</param>
+            <returns>Returns a signature as a string.</returns>
+        </member>
+        <member name="M:ThrottlingSuite.Core.RequestSignatureBuilderBase.ComputeRequestDescription(System.Net.Http.HttpRequestMessage)">
+            <summary>
+            Computes the HTTP request long description.
+            </summary>
+            <param name="request">The HTTP request object.</param>
+            <returns>Returns a description as a string.</returns>
+        </member>
+        <member name="M:ThrottlingSuite.Core.RequestSignatureBuilderBase.ComputeRequestSignature(System.String)">
+            <summary>
+            Computes the HTTP request signature from its long description.
+            </summary>
+            <param name="value">The HTTP request long description.</param>
+            <returns>Returns a signature as a string.</returns>
+        </member>
+        <member name="T:ThrottlingSuite.Core.ThrottlingScope">
+            <summary>
+            The class providing throttling scope evaluation. 
+            This class is paired with a throttling controller within a throttling controller instance. 
+            It is responsible for determining whether particular HTTP request should be evaluated by specific throttling controller that it is paired with.
+            </summary>
+        </member>
+        <member name="P:ThrottlingSuite.Core.ThrottlingScope.Items">
+            <summary>
+            Gets or sets the collection of scope items.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Core.ThrottlingScope.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Core.ThrottlingScope.InScope(System.Net.Http.HttpRequestMessage,System.Boolean)">
+            <summary>
+            Method evaluates the HTTP request and determines whether it should be processed by paired throttling controller.
+            </summary>
+            <param name="request">The HttpRequestMessage object to evaluate.</param>
+            <param name="hasTracking">A boolean indicator whether particular HTTP request has client tracking information associated with the application.</param>
+            <returns>Returns true if HTTP request is within the scope.</returns>
+        </member>
+        <member name="T:ThrottlingSuite.Http.Handlers.ThrottlingStatisticsHandler">
+            <summary>
+            Class represents the WebApi handler providing statistics for current throttling suite.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Http.Handlers.ThrottlingStatisticsHandler.#ctor(ThrottlingSuite.Core.IThrottlingService)">
+            <summary>
+            The constructor. A valid reference to the throttling service must be provided.
+            </summary>
+            <param name="throttlingService">The instance of a class that implements IThrottlingService.</param>
+        </member>
+        <member name="M:ThrottlingSuite.Http.Handlers.ThrottlingStatisticsHandler.SendAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)">
+            <summary>
+            Handles an HTTP request as an asynchronous operation and provides HttpResponseMessage with throttling statistics data.
+            </summary>
+            <param name="request">The HTTP request to handle.</param>
+            <param name="cancellationToken">A cancellation token to cancel operation.</param>
+            <returns>Returns a Task&lt;HttpResponseMessage&gt; type.</returns>
+        </member>
+        <member name="T:ThrottlingSuite.Http.Handlers.ThrottlingHandler">
+            <summary>
+            Class represents the WebApi handler providing HTTP request throttling.
+            </summary>
+        </member>
+        <member name="M:ThrottlingSuite.Http.Handlers.ThrottlingHandler.#ctor(ThrottlingSuite.Core.IThrottlingService)">
+            <summary>
+            Constructor that requires the instance of a class that implements IThrottlingService. 
+            </summary>
+            <param name="throttlingService">The instance of a class that implements IThrottlingService.</param>
+        </member>
+        <member name="M:ThrottlingSuite.Http.Handlers.ThrottlingHandler.GetThrottlingService">
+            <summary>
+            Method returns the instance of the throttling service (controller suite) used by this ThrottlingHandler.
+            </summary>
+            <returns>Returns an instance of class that implements IThrottlingService interface.</returns>
+        </member>
+        <member name="M:ThrottlingSuite.Http.Handlers.ThrottlingHandler.SendAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)">
+            <summary>
+            Throttles an HTTP request and either rejects the request with HTTP Status 429 "Too many requests", 
+            or sends HTTP request to the inner handler as an asynchronous operation.
+            </summary>
+            <param name="request">The HTTP request to send.</param>
+            <param name="cancellationToken">A cancellation token to cancel operation.</param>
+            <returns>Returns a Task&lt;HttpResponseMessage&gt; type.</returns>
+        </member>
+        <member name="M:ThrottlingSuite.Http.Handlers.ThrottlingHandler.Dispose(System.Boolean)">
+            <summary>
+            Disposes resources used by the object, including all the throttling controllers it uses.
+            </summary>
+        </member>
+    </members>
+</doc>

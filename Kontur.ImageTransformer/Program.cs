@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Dispatcher;
@@ -8,6 +9,8 @@ using Kontur.ImageTransformer.Handlers;
 using Kontur.ImageTransformer.ImageFilters;
 using Kontur.ImageTransformer.Selectors;
 using NLog;
+using ThrottlingSuite.Core;
+using ThrottlingSuite.Http.Handlers;
 
 namespace Kontur.ImageTransformer
 {
@@ -40,7 +43,7 @@ namespace Kontur.ImageTransformer
             config.Services.Replace(typeof(IHttpActionSelector), new Http404ActionSelector());
             Logger.Trace("Replace selectors");
 
-            
+
             Logger.Trace(Precalc.GrayInt[0xFFFFFF]);
             using (var server = new HttpSelfHostServer(config))
             {
@@ -73,6 +76,29 @@ namespace Kontur.ImageTransformer
             // Response 400 if no route matched
             config.Routes.MapHttpRoute("BadRequestApi", "{*url}",
                 new {controller = "BadRequest", action = "Handle404"});
+
+            IEnumerable<IThrottlingControllerInstance> instances = new List<IThrottlingControllerInstance>(new[]
+            {
+                ThrottlingControllerInstance.Create<LinearThrottlingController>("api", 1000, 500).IncludeInScope("*")
+            });
+
+            var throttleConfig = new ThrottlingConfiguration
+            {
+                ConcurrencyModel = ConcurrencyModel.Pessimistic,
+                Enabled = true,
+                LogOnly = false,
+                SignatureBuilderParams =
+                {
+                    IgnoreAllQueryStringParameters = true,
+                    IgnoreClientIpAddress = true,
+                    EnableClientTracking = false,
+                    UseInstanceUrl = true
+                }
+            };
+
+            var throttle = new ThrottlingControllerSuite(throttleConfig, instances);
+
+            config.MessageHandlers.Add(new ThrottlingHandler(throttle));
         }
     }
 }
