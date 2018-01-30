@@ -34,7 +34,6 @@ namespace Kontur.ImageTransformer
             Logger.Trace("Set routes");
 
             config.MessageHandlers.Add(new PostOnlyHandler());
-            config.MessageHandlers.Add(new ThrottleHandler());
             Logger.Trace("Add handlers");
 
             config.Services.Replace(typeof(IHttpControllerSelector), new Http404DefaultSelector(config));
