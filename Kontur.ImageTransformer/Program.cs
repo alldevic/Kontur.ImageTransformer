@@ -5,6 +5,7 @@ using System.Web.Http.Dispatcher;
 using System.Web.Http.Routing.Constraints;
 using System.Web.Http.SelfHost;
 using Kontur.ImageTransformer.Handlers;
+using Kontur.ImageTransformer.ImageFilters;
 using Kontur.ImageTransformer.Selectors;
 using NLog;
 
@@ -40,6 +41,8 @@ namespace Kontur.ImageTransformer
             config.Services.Replace(typeof(IHttpActionSelector), new Http404ActionSelector());
             Logger.Trace("Replace selectors");
 
+            
+            Logger.Trace(Precalc.GrayInt[0xFFFFFF]);
             using (var server = new HttpSelfHostServer(config))
             {
                 server.OpenAsync().Wait();
