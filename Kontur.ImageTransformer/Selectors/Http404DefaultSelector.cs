@@ -17,7 +17,7 @@ namespace Kontur.ImageTransformer.Selectors
 
         public override HttpControllerDescriptor SelectController(HttpRequestMessage request)
         {
-            HttpControllerDescriptor decriptor = null;
+            HttpControllerDescriptor decriptor;
             try
             {
                 decriptor = base.SelectController(request);

@@ -10,13 +10,9 @@ namespace Kontur.ImageTransformer.Selectors
     /// </summary>
     public class Http404ActionSelector : ApiControllerActionSelector
     {
-        public Http404ActionSelector()
-        {
-        }
-
         public override HttpActionDescriptor SelectAction(HttpControllerContext controllerContext)
         {
-            HttpActionDescriptor decriptor = null;
+            HttpActionDescriptor decriptor;
             try
             {
                 decriptor = base.SelectAction(controllerContext);

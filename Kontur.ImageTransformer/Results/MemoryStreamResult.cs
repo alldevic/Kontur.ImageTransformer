@@ -9,13 +9,18 @@ namespace Kontur.ImageTransformer.Results
 {
     /// <inheritdoc />
     /// <summary>
-    /// Write MemoryStram to body of response
+    /// Write MemoryStream to body of response
     /// </summary>
     public class MemoryStreamResult : IHttpActionResult
     {
         private readonly MemoryStream _value;
         private readonly string _contetntType;
 
+        /// <summary>
+        /// Send a content of MemoryStream in body of response with specific Content-Type HTTP header
+        /// </summary>
+        /// <param name="value">MemoryStream for pushing in reponse</param>
+        /// <param name="contetntType">Specific Content-Type HTTP header</param>
         public MemoryStreamResult(MemoryStream value, string contetntType = "application/octet-stream")
         {
             _value = value;
@@ -28,7 +33,7 @@ namespace Kontur.ImageTransformer.Results
             {
                 Content = new ByteArrayContent(_value.ToArray()),
             };
-            
+
             response.Content.Headers.ContentType = new MediaTypeHeaderValue(_contetntType);
 
             return await Task.FromResult(response);

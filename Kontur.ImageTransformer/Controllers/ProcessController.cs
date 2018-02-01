@@ -3,6 +3,7 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Net;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -32,12 +33,22 @@ namespace Kontur.ImageTransformer.Controllers
 
         private async Task<IHttpActionResult> Do(int x, int y, int w, int h, IPixelFilter filter)
         {
-            var img = new Bitmap(Request.Content.ReadAsStreamAsync().Result);
+            Bitmap img;
+
+            try
+            {
+                img = new Bitmap(Request.Content.ReadAsStreamAsync().Result);
+            }
+            catch
+            {
+                return await Task.FromResult(BadRequest());
+            }
+
 
             var plot = Rectangle.Intersect(new Rectangle(x, y, w, h), new Rectangle(0, 0, img.Width, img.Height));
             if (plot.IsEmpty || plot.Width == 0 || plot.Height == 0)
             {
-                return await Task.FromResult(new NoContentResult());
+                return await Task.FromResult(StatusCode(HttpStatusCode.NoContent));
             }
 
             var bytes = plot.Width * plot.Height;
@@ -53,7 +64,7 @@ namespace Kontur.ImageTransformer.Controllers
             }
 
             img = new Bitmap(plot.Width, plot.Height, PixelFormat.Format32bppArgb);
-            bmpData = img.LockBits(new Rectangle(0, 0, plot.Width, plot.Height), 
+            bmpData = img.LockBits(new Rectangle(0, 0, plot.Width, plot.Height),
                 ImageLockMode.WriteOnly, img.PixelFormat);
             Marshal.Copy(argbValues, 0, bmpData.Scan0, bytes);
             img.UnlockBits(bmpData);

@@ -25,14 +25,14 @@ namespace Kontur.ImageTransformer
         {
             Logger.Trace("App started");
 
-            
+
             const string address = "http://localhost:8080";
             var config = new HttpSelfHostConfiguration(address);
             ConfigureServer(config);
 
             Logger.Trace($"Sepia {Precalc.SepiaInt[0xFFFFFF]}");
             Logger.Trace($"Grayscale {Precalc.GrayInt[0xFFFFFF]}");
-            
+
             using (var server = new HttpSelfHostServer(config))
             {
                 server.OpenAsync().Wait();
@@ -57,6 +57,11 @@ namespace Kontur.ImageTransformer
             cfg.Services.Replace(typeof(IHttpControllerSelector), new Http404DefaultSelector(cfg));
             cfg.Services.Replace(typeof(IHttpActionSelector), new Http404ActionSelector());
 
+            cfg.Formatters.Remove(cfg.Formatters.FormUrlEncodedFormatter);
+            cfg.Formatters.Remove(cfg.Formatters.XmlFormatter);
+            
+            
+            
             cfg.MessageHandlers.Add(new PostOnlyHandler());
             cfg.MessageHandlers.Add(new ThrottlingHandler(new ThrottlingControllerSuite(new ThrottlingConfiguration
             {
@@ -70,7 +75,6 @@ namespace Kontur.ImageTransformer
                     EnableClientTracking = false,
                     UseInstanceUrl = true
                 }
-               
             }, new List<IThrottlingControllerInstance>(new[]
             {
                 ThrottlingControllerInstance
