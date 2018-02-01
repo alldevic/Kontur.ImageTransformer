@@ -28,7 +28,7 @@ namespace Kontur.ImageTransformer
 
         public static void SetConfiguration(HttpSelfHostConfiguration config)
         {
-            config.MaxConcurrentRequests = 3000 * Environment.ProcessorCount;
+            config.MaxConcurrentRequests = 100;
             config.MaxReceivedMessageSize = MaxReceivedSize;
             config.MaxBufferSize = MaxReceivedSize;
             config.ReceiveTimeout = TimeSpan.FromMilliseconds(100);

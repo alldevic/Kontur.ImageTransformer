@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 
 namespace Kontur.ImageTransformer.Controllers
@@ -10,7 +11,6 @@ namespace Kontur.ImageTransformer.Controllers
     public class BadRequestController : ApiController
     {
         [HttpPost, AcceptVerbs("PATCH")]
-        public async Task<IHttpActionResult> Handle404() =>
-            await Task.FromResult(BadRequest());
+        public HttpResponseMessage Handle404() => new HttpResponseMessage(HttpStatusCode.BadRequest);
     }
 }
