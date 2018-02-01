@@ -3,7 +3,7 @@ using static System.Linq.Enumerable;
 
 namespace Kontur.ImageTransformer.ImageFilters
 {
-    public static class Precalc
+    public class Precalc
     {
         //argb
         public static readonly int[] GrayInt = (from r in Range(0x00, 0x100)
