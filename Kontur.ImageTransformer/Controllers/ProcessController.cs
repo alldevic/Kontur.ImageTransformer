@@ -1,14 +1,11 @@
-﻿//#define debug
-
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Kontur.ImageTransformer.Formatters;
 using Kontur.ImageTransformer.ImageFilters;
-using Kontur.ImageTransformer.Results;
 
 namespace Kontur.ImageTransformer.Controllers
 {
@@ -27,9 +24,11 @@ namespace Kontur.ImageTransformer.Controllers
         public async Task<IHttpActionResult> Sepia(int x, int y, int w, int h) =>
             await Do(x, y, w, h, new SepiaFilter());
 
-        /*[HttpPost]
+#if DEBUG
+        [HttpPost]
         public async Task<IHttpActionResult> Crop(int x, int y, int w, int h) =>
-            await Do(x, y, w, h, new EqualFilter());*/
+            await Do(x, y, w, h, new EqualFilter());
+#endif
 
         private async Task<IHttpActionResult> Do(int x, int y, int w, int h, IPixelFilter filter)
         {
@@ -44,7 +43,6 @@ namespace Kontur.ImageTransformer.Controllers
                 return await Task.FromResult(BadRequest());
             }
 
-
             var plot = Rectangle.Intersect(new Rectangle(x, y, w, h), new Rectangle(0, 0, img.Width, img.Height));
             if (plot.IsEmpty || plot.Width == 0 || plot.Height == 0)
             {
@@ -57,11 +55,12 @@ namespace Kontur.ImageTransformer.Controllers
             var bmpData = img.LockBits(plot, ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
             Marshal.Copy(bmpData.Scan0, argbValues, 0, bytes);
             img.UnlockBits(bmpData);
-
-            for (var i = 0; i < bytes; i++)
+            int i;
+            for (i = 0; i < bytes; i++)
             {
                 argbValues[i] = filter.Set(argbValues[i]);
             }
+            
 
             img = new Bitmap(plot.Width, plot.Height, PixelFormat.Format32bppArgb);
             bmpData = img.LockBits(new Rectangle(0, 0, plot.Width, plot.Height),
@@ -69,11 +68,16 @@ namespace Kontur.ImageTransformer.Controllers
             Marshal.Copy(argbValues, 0, bmpData.Scan0, bytes);
             img.UnlockBits(bmpData);
 
+
+#if useResult
             using (var res = new MemoryStream())
             {
                 img.Save(res, ImageFormat.Png);
-                return await Task.FromResult(new MemoryStreamResult(res));
+                return await Task.FromResult(new ByteArrayResult(res.ToArray()));
             }
+#else
+            return await Task.FromResult(Content(HttpStatusCode.OK, img, new BitmapWriteFormatter()));
+#endif
         }
     }
 }

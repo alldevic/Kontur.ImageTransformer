@@ -6,6 +6,7 @@ using System.Web.Http.Dispatcher;
 
 namespace Kontur.ImageTransformer.Selectors
 {
+    /// <inheritdoc />
     /// <summary>
     /// Overload for response 400 on bad {controller}, like "proces" instead "process" 
     /// </summary>

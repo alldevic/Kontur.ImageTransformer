@@ -5,6 +5,7 @@ using Kontur.ImageTransformer.Controllers;
 
 namespace Kontur.ImageTransformer.Selectors
 {
+    /// <inheritdoc />
     /// <summary>
     /// Overload for response 400 on bad filter name 
     /// </summary>

@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration.cs" />
     <Compile Include="Controllers\BadRequestController.cs" />
     <Compile Include="Controllers\ProcessController.cs" />
     <Compile Include="Formatters\BitmapWriteFormatter.cs" />
