@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,14 +8,14 @@ namespace Kontur.ImageTransformer.Results
 {
     /// <inheritdoc />
     /// <summary>
-    /// Write MemoryStram to body of response
+    /// Write byte[] to body of response
     /// </summary>
-    public class MemoryStreamResult : IHttpActionResult
+    public class ByteArrayResult : IHttpActionResult
     {
-        private readonly MemoryStream _value;
+        private readonly byte[] _value;
         private readonly string _contetntType;
 
-        public MemoryStreamResult(MemoryStream value, string contetntType = "application/octet-stream")
+        public ByteArrayResult(byte[] value, string contetntType = "application/octet-stream")
         {
             _value = value;
             _contetntType = contetntType;
@@ -26,9 +25,9 @@ namespace Kontur.ImageTransformer.Results
         {
             var response = new HttpResponseMessage()
             {
-                Content = new ByteArrayContent(_value.ToArray()),
+                Content = new ByteArrayContent(_value),
             };
-            
+
             response.Content.Headers.ContentType = new MediaTypeHeaderValue(_contetntType);
 
             return await Task.FromResult(response);

@@ -11,7 +11,7 @@ namespace Kontur.ImageTransformer.Results
     /// </summary>
     public class NoContentResult : IHttpActionResult
     {
-        public Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken) =>
-            Task.FromResult(new HttpResponseMessage(HttpStatusCode.NoContent));
+        public async Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken) =>
+            await Task.FromResult(new HttpResponseMessage(HttpStatusCode.NoContent));
     }
 }
