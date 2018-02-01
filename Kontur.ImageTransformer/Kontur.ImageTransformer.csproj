@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="Controllers\BadRequestController.cs" />
     <Compile Include="Controllers\ProcessController.cs" />
+    <Compile Include="Formatters\BitmapWriteFormatter.cs" />
     <Compile Include="ImageFilters\EqualFilter.cs" />
     <Compile Include="ImageFilters\GrayscaleFilter.cs" />
     <Compile Include="ImageFilters\IPixelFilter.cs" />

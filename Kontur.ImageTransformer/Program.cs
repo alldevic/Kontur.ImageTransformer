@@ -5,6 +5,7 @@ using System.Web.Http.Controllers;
 using System.Web.Http.Dispatcher;
 using System.Web.Http.Routing.Constraints;
 using System.Web.Http.SelfHost;
+using Kontur.ImageTransformer.Formatters;
 using Kontur.ImageTransformer.Handlers;
 using Kontur.ImageTransformer.ImageFilters;
 using Kontur.ImageTransformer.Selectors;
@@ -96,6 +97,9 @@ namespace Kontur.ImageTransformer
 
             // Response 400 if no route matched
             cfg.Routes.MapHttpRoute("BadRequestApi", "{*url}", new {controller = "BadRequest", action = "Handle404"});
+            
+            cfg.Formatters.Add(new BitmapWriteFormatter());
+            
         }
     }
 }
