@@ -3,15 +3,23 @@ using static System.Linq.Enumerable;
 
 namespace Kontur.ImageTransformer.ImageFilters
 {
-    public class Precalc
+    /// <summary>
+    /// Precalculated values for filters. Without alpha channel, in ARGB format
+    /// </summary>
+    public static class Precalc
     {
-        //argb
+        /// <summary>
+        /// Precalculated values for grayscale filter in ARGB format. Default alpha channel is 0 
+        /// </summary>
         public static readonly int[] GrayInt = (from r in Range(0x00, 0x100)
             from g in Range(0x00, 0x100)
             from b in Range(0x00, 0x100)
             select (((GrayPix(r, g, b) << 8) + GrayPix(r, g, b)) << 8) + GrayPix(r, g, b)
         ).ToArray();
 
+        /// <summary>
+        /// Precalculated values for sepia filter in ARGB format. Default alpha channel is 0 
+        /// </summary>
         public static readonly int[] SepiaInt = (from r in Range(0x00, 0x100)
             from g in Range(0x00, 0x100)
             from b in Range(0x00, 0x100)
