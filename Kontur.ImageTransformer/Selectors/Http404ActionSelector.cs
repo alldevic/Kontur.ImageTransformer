@@ -5,18 +5,15 @@ using Kontur.ImageTransformer.Controllers;
 
 namespace Kontur.ImageTransformer.Selectors
 {
+    /// <inheritdoc />
     /// <summary>
     /// Overload for response 400 on bad filter name 
     /// </summary>
     public class Http404ActionSelector : ApiControllerActionSelector
     {
-        public Http404ActionSelector()
-        {
-        }
-
         public override HttpActionDescriptor SelectAction(HttpControllerContext controllerContext)
         {
-            HttpActionDescriptor decriptor = null;
+            HttpActionDescriptor decriptor;
             try
             {
                 decriptor = base.SelectAction(controllerContext);
