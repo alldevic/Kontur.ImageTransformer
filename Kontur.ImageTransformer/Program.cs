@@ -24,27 +24,15 @@ namespace Kontur.ImageTransformer
         public static void Main(string[] args)
         {
             Logger.Trace("App started");
+
+            
             const string address = "http://localhost:8080";
-            var config = new HttpSelfHostConfiguration(address)
-            {
-                MaxConcurrentRequests = 1000,
-                MaxReceivedMessageSize = 102400,
-                MaxBufferSize = 102400,
-            };
-            Logger.Trace("Set base settings");
+            var config = new HttpSelfHostConfiguration(address);
+            ConfigureServer(config);
 
-            RouteConfig(config);
-            Logger.Trace("Set routes");
-
-            config.MessageHandlers.Add(new PostOnlyHandler());
-            Logger.Trace("Add handlers");
-
-            config.Services.Replace(typeof(IHttpControllerSelector), new Http404DefaultSelector(config));
-            config.Services.Replace(typeof(IHttpActionSelector), new Http404ActionSelector());
-            Logger.Trace("Replace selectors");
-
-
-            Logger.Trace(Precalc.GrayInt[0xFFFFFF]);
+            Logger.Trace($"Sepia {Precalc.SepiaInt[0xFFFFFF]}");
+            Logger.Trace($"Grayscale {Precalc.GrayInt[0xFFFFFF]}");
+            
             using (var server = new HttpSelfHostServer(config))
             {
                 server.OpenAsync().Wait();
@@ -55,34 +43,22 @@ namespace Kontur.ImageTransformer
         }
 
         /// <summary>
-        /// Configure routes to process/filter/x,y,w,h/
+        /// Configure server
         /// </summary>
-        /// <param name="config">Configuration of server</param>
-        private static void RouteConfig(HttpSelfHostConfiguration config)
+        /// <param name="cfg">Configuration of server</param>
+        private static void ConfigureServer(HttpSelfHostConfiguration cfg)
         {
-            config.MapHttpAttributeRoutes();
+            var maxPerSecond = Environment.ProcessorCount * 1200;
 
-            // POST /process/{filter}/{x},{y},{w},{h}
-            config.Routes.MapHttpRoute("DefaultApi", "{controller}/{action}/{x},{y},{w},{h}",
-                constraints: new
-                {
-                    x = new IntRouteConstraint(),
-                    y = new IntRouteConstraint(),
-                    w = new IntRouteConstraint(),
-                    h = new IntRouteConstraint(),
-                },
-                defaults: null);
+            cfg.MaxConcurrentRequests = 3000 * Environment.ProcessorCount;
+            cfg.MaxReceivedMessageSize = 102400;
+            cfg.MaxBufferSize = 102400;
 
-            // Response 400 if no route matched
-            config.Routes.MapHttpRoute("BadRequestApi", "{*url}",
-                new {controller = "BadRequest", action = "Handle404"});
+            cfg.Services.Replace(typeof(IHttpControllerSelector), new Http404DefaultSelector(cfg));
+            cfg.Services.Replace(typeof(IHttpActionSelector), new Http404ActionSelector());
 
-            IEnumerable<IThrottlingControllerInstance> instances = new List<IThrottlingControllerInstance>(new[]
-            {
-                ThrottlingControllerInstance.Create<LinearThrottlingController>("api", 1000, 500).IncludeInScope("*")
-            });
-
-            var throttleConfig = new ThrottlingConfiguration
+            cfg.MessageHandlers.Add(new PostOnlyHandler());
+            cfg.MessageHandlers.Add(new ThrottlingHandler(new ThrottlingControllerSuite(new ThrottlingConfiguration
             {
                 ConcurrencyModel = ConcurrencyModel.Pessimistic,
                 Enabled = true,
@@ -94,11 +70,28 @@ namespace Kontur.ImageTransformer
                     EnableClientTracking = false,
                     UseInstanceUrl = true
                 }
-            };
+               
+            }, new List<IThrottlingControllerInstance>(new[]
+            {
+                ThrottlingControllerInstance
+                    .Create<LinearThrottlingController>("api", 1000, maxPerSecond).IncludeInScope("process")
+            }))));
 
-            var throttle = new ThrottlingControllerSuite(throttleConfig, instances);
+            cfg.MapHttpAttributeRoutes();
 
-            config.MessageHandlers.Add(new ThrottlingHandler(throttle));
+            // POST /process/{filter}/{x},{y},{w},{h}
+            cfg.Routes.MapHttpRoute("DefaultApi", "{controller}/{action}/{x},{y},{w},{h}",
+                constraints: new
+                {
+                    x = new IntRouteConstraint(),
+                    y = new IntRouteConstraint(),
+                    w = new IntRouteConstraint(),
+                    h = new IntRouteConstraint(),
+                },
+                defaults: null);
+
+            // Response 400 if no route matched
+            cfg.Routes.MapHttpRoute("BadRequestApi", "{*url}", new {controller = "BadRequest", action = "Handle404"});
         }
     }
 }
