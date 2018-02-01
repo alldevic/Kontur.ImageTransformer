@@ -63,7 +63,7 @@
   <ItemGroup>
     <Compile Include="Controllers\BadRequestController.cs" />
     <Compile Include="Controllers\ProcessController.cs" />
-    <Compile Include="Filtering.cs" />
+    <Compile Include="ImageFilters\EqualFilter.cs" />
     <Compile Include="ImageFilters\GrayscaleFilter.cs" />
     <Compile Include="ImageFilters\IPixelFilter.cs" />
     <Compile Include="ImageFilters\Precalc.cs" />
@@ -72,6 +72,7 @@
     <Compile Include="Handlers\PostOnlyHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Results\ByteArrayResult.cs" />
     <Compile Include="Results\MemoryStreamResult.cs" />
     <Compile Include="Results\NoContentResult.cs" />
     <Compile Include="Selectors\Http404ActionSelector.cs" />
