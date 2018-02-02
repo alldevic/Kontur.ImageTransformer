@@ -6,7 +6,6 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Kontur.ImageTransformer.Formatters
@@ -43,6 +42,7 @@ namespace Kontur.ImageTransformer.Formatters
         /// <returns></returns>
         public override bool CanWriteType(Type type) => true;
 
+        /// <inheritdoc />
         /// <summary>
         /// Dirty hack, so ugly
         /// </summary>
@@ -52,7 +52,7 @@ namespace Kontur.ImageTransformer.Formatters
         /// <param name="content"></param>
         /// <param name="transportContext"></param>
         /// <returns></returns>
-        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="T:System.NullReferenceException"></exception>
         public override Task WriteToStreamAsync(Type type, object value, Stream stream, HttpContent content,
             TransportContext transportContext)
         {
@@ -61,8 +61,7 @@ namespace Kontur.ImageTransformer.Formatters
                 throw new NullReferenceException();
             }
 
-            tmp.Save(stream, ImageFormat.Png);
-            return Task.Delay(TimeSpan.Zero);
+            return Task.Run(() => tmp.Save(stream, ImageFormat.Png));
         }
     }
 }
