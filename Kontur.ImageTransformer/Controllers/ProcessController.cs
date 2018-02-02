@@ -69,15 +69,9 @@ namespace Kontur.ImageTransformer.Controllers
             img.UnlockBits(bmpData);
 
 
-#if useResult
-            using (var res = new MemoryStream())
             {
-                img.Save(res, ImageFormat.Png);
-                return await Task.FromResult(new ByteArrayResult(res.ToArray()));
             }
-#else
             return await Task.FromResult(Content(HttpStatusCode.OK, img, new BitmapWriteFormatter()));
-#endif
         }
     }
 }
