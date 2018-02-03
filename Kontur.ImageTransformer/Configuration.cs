@@ -20,7 +20,7 @@ namespace Kontur.ImageTransformer
 
         public const string Address = "http://localhost:8080";
 
-        private static readonly int MaxPerSecond = Environment.ProcessorCount * 1200;
+        private static readonly int MaxPerSecond = Environment.ProcessorCount * 50;
 
         private const int MaxReceivedSize = 102400;
 
@@ -76,17 +76,6 @@ namespace Kontur.ImageTransformer
         private static void ConfigureRoutes(HttpSelfHostConfiguration config)
         {
             config.MapHttpAttributeRoutes();
-
-            // POST /process/{filter}/{x},{y},{w},{h}
-            config.Routes.MapHttpRoute("DefaultApi", "{controller}/{action}/{x},{y},{w},{h}",
-                constraints: new
-                {
-                    x = new IntRouteConstraint(),
-                    y = new IntRouteConstraint(),
-                    w = new IntRouteConstraint(),
-                    h = new IntRouteConstraint(),
-                },
-                defaults: null);
 
             // Response 400 if no route matched
             config.Routes.MapHttpRoute("BadRequestApi", "{*url}",

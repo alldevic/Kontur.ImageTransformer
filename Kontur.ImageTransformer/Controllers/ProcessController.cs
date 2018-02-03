@@ -8,17 +8,18 @@ using Kontur.ImageTransformer.Formatters;
 namespace Kontur.ImageTransformer.Controllers
 {
     [OverrideAuthentication, OverrideAuthorization]
+    [RoutePrefix("process")]
     public class ProcessController : ApiController
     {
-        [HttpPost]
+        [HttpPost, Route("grayscale/{x:int},{y:int},{w:int},{h:int}")]
         public async Task<IHttpActionResult> Grayscale(int x, int y, int w, int h) =>
             await Do(x, y, w, h, ImageFilters.GrayscaleFilter);
 
-        [HttpPost, Route("process/threshold({level:int:range(0,100)})/{x},{y},{w},{h}")]
+        [HttpPost, Route("threshold({level:int:range(0,100)})/{x:int},{y:int},{w:int},{h:int}")]
         public async Task<IHttpActionResult> Threshold(byte level, int x, int y, int w, int h) =>
             await Do(x, y, w, h, ImageFilters.ThresholdFilter, level);
 
-        [HttpPost]
+        [HttpPost, Route("sepia/{x:int},{y:int},{w:int},{h:int}")]
         public async Task<IHttpActionResult> Sepia(int x, int y, int w, int h) =>
             await Do(x, y, w, h, ImageFilters.SepiaFilter);
 
@@ -46,10 +47,6 @@ namespace Kontur.ImageTransformer.Controllers
             }
 
             img = argbValues.ToBitmap(plot.Width, plot.Height);
-
-#if filesave
-            img.Save("file.png", ImageFormat.Png);
-#endif
 
             return await Task.FromResult(Content(HttpStatusCode.OK, img, new BitmapWriteFormatter()));
         }
