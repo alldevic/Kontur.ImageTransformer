@@ -7,7 +7,6 @@ using System.Web.Http.Routing.Constraints;
 using System.Web.Http.SelfHost;
 using Kontur.ImageTransformer.Formatters;
 using Kontur.ImageTransformer.Handlers;
-using Kontur.ImageTransformer.ImageFilters;
 using Kontur.ImageTransformer.Selectors;
 using NLog;
 using ThrottlingSuite.Core;
@@ -47,6 +46,7 @@ namespace Kontur.ImageTransformer
             Logger.Trace("Configured throttling policy");
             ConfigureRoutes(config);
             Logger.Trace("Configured routes");
+            Logger.Info("Starting precalc");
             PrecalcInit();
             Logger.Trace("Configuration done");
         }
@@ -95,8 +95,8 @@ namespace Kontur.ImageTransformer
 
         private static void PrecalcInit()
         {
-            Logger.Trace($"Init Sepia precalc: [0xFFFFFF]={Precalc.SepiaInt[0xFFFFFF]}");
-            Logger.Trace($"Init Grayscale  precalc: [0xFFFFFF]={Precalc.GrayInt[0xFFFFFF]}");
+            Logger.Trace($"Init Sepia precalc: [0xFFFFFF]={ImageFilters.SepiaInt[0xFFFFFF]}");
+            Logger.Trace($"Init Grayscale  precalc: [0xFFFFFF]={ImageFilters.GrayInt[0xFFFFFF]}");
         }
     }
 }
