@@ -35,13 +35,14 @@ namespace Kontur.ImageTransformer
         /// <param name="img">Source Bitmap</param>
         /// <param name="area">Rectangle for copied to array</param>
         /// <returns>Array with ARGB pixels</returns>
+        /// <exception cref="ArgumentException"></exception>
         public static int[] ToArray(this Bitmap img, Rectangle area)
         {
             if (img.PixelFormat != PixelFormat.Format32bppArgb || area.IsEmpty)
             {
                 throw new ArgumentException();
             }
-            
+
             var bytes = area.Width * area.Height;
             var imgArray = new int[bytes];
             var bmpData = img.LockBits(area, ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
@@ -57,6 +58,7 @@ namespace Kontur.ImageTransformer
         /// <param name="width">Width of new Bitmap</param>
         /// <param name="height">Height of new Bitmap</param>
         /// <returns>Bitmap with imgArray pixel data</returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static Bitmap ToBitmap(this int[] imgArray, int width, int height)
         {
             if (width * height != imgArray.Length)

@@ -4,7 +4,7 @@ using System.Linq;
 namespace Kontur.ImageTransformer
 {
     /// <summary>
-    /// Precalculated values for filters. Without alpha channel, in ARGB format
+    /// Filtering Bitmap
     /// </summary>
     public static class ImageFilters
     {
@@ -67,17 +67,6 @@ namespace Kontur.ImageTransformer
 
             return (int) ((k < level ? 0x0 : 0xFFFFFF) | pixel & 0xFF000000);
         }
-
-#if DEBUG
-        /// <summary>
-        /// Return source pixel without changes
-        /// </summary>
-        /// <param name="pixel">Pixel in ARGB format</param>
-        /// <param name="level">Unused params</param>
-        /// <returns>Original pixel</returns>
-        public static int EqualFilter(int pixel, byte level = 0) => pixel;
-#endif
-
 
         private static int GrayPix(int r, int g, int b) => (r + g + b) / 3;
 

@@ -1,6 +1,4 @@
-﻿#define filesave
-
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Imaging;
 using System.Net;
 using System.Threading.Tasks;
@@ -23,12 +21,6 @@ namespace Kontur.ImageTransformer.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> Sepia(int x, int y, int w, int h) =>
             await Do(x, y, w, h, ImageFilters.SepiaFilter);
-
-#if DEBUG
-        [HttpPost]
-        public async Task<IHttpActionResult> Crop(int x, int y, int w, int h) =>
-            await Do(x, y, w, h, ImageFilters.EqualFilter);
-#endif
 
         private async Task<IHttpActionResult> Do(int x, int y, int w, int h, ImageFilters.Filter filter, int level = 0)
         {
