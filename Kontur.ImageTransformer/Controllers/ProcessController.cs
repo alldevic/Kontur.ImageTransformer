@@ -3,7 +3,6 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Net;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Kontur.ImageTransformer.Formatters;
@@ -33,13 +32,7 @@ namespace Kontur.ImageTransformer.Controllers
 
         private async Task<IHttpActionResult> Do(int x, int y, int w, int h, ImageFilters.Filter filter, int level = 0)
         {
-            Bitmap img;
-
-            try
-            {
-                img = new Bitmap(Request.Content.ReadAsStreamAsync().Result);
-            }
-            catch
+            if (!Request.TryToBitmap(out var img))
             {
                 return await Task.FromResult(BadRequest());
             }
@@ -51,11 +44,8 @@ namespace Kontur.ImageTransformer.Controllers
             }
 
             var bytes = plot.Width * plot.Height;
-            var argbValues = new int[bytes];
+            var argbValues = img.ToArray(plot);
 
-            var bmpData = img.LockBits(plot, ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-            Marshal.Copy(bmpData.Scan0, argbValues, 0, bytes);
-            img.UnlockBits(bmpData);
             var byteLevel = (byte) (255 * level / 100);
             int i;
             for (i = 0; i < bytes; i++)
@@ -63,12 +53,7 @@ namespace Kontur.ImageTransformer.Controllers
                 argbValues[i] = filter(argbValues[i], byteLevel);
             }
 
-
-            img = new Bitmap(plot.Width, plot.Height, PixelFormat.Format32bppArgb);
-            bmpData = img.LockBits(new Rectangle(0, 0, plot.Width, plot.Height),
-                ImageLockMode.WriteOnly, img.PixelFormat);
-            Marshal.Copy(argbValues, 0, bmpData.Scan0, bytes);
-            img.UnlockBits(bmpData);
+            img = argbValues.ToBitmap(plot.Width, plot.Height);
 
 #if filesave
             img.Save("file.png", ImageFormat.Png);

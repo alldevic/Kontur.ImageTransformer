@@ -64,6 +64,7 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="Controllers\BadRequestController.cs" />
     <Compile Include="Controllers\ProcessController.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Formatters\BitmapWriteFormatter.cs" />
     <Compile Include="Handlers\PostOnlyHandler.cs" />
     <Compile Include="ImageFilters.cs" />
