@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using System.Web.Http;
+﻿using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Dispatcher;
 using System.Web.Http.ExceptionHandling;
@@ -20,24 +19,10 @@ namespace Kontur.ImageTransformer
 
         public static HttpSelfHostConfiguration SetConfiguration()
         {
-            Logger.Info("Starting configuration");
-            var appSettings = ConfigurationManager.AppSettings;
-            var address = appSettings["Address"] ?? "http://localhost:8080";
-            if (!int.TryParse(appSettings["MaxReceiveSize"], out var maxReceiveSize))
+            var config = new HttpSelfHostConfiguration("http://localhost:8080")
             {
-                maxReceiveSize = 102400;
-            }
-
-            if (!int.TryParse(appSettings["MaxConcurrentRequests"], out var maxRequests))
-            {
-                maxRequests = 102400;
-            }
-
-            var config = new HttpSelfHostConfiguration(address)
-            {
-                MaxConcurrentRequests = maxRequests,
-                MaxReceivedMessageSize = maxReceiveSize,
-                MaxBufferSize = maxReceiveSize,
+                MaxConcurrentRequests = 100,
+                MaxReceivedMessageSize = int.MaxValue,
             };
 
             config.MessageHandlers.Add(new MainCheckHandler());

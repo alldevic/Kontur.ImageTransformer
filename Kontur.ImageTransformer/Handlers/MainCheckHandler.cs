@@ -9,7 +9,7 @@ namespace Kontur.ImageTransformer.Handlers
     /// <inheritdoc />
     /// <summary>
     /// Check for method, correct Content-Length, header and nullable content
-    ///  Accept POST, image/png, application/octet-stream
+    /// Accept POST, image/png, application/octet-stream, content-length in (0; 102400)
     /// </summary>
     public class MainCheckHandler : DelegatingHandler
     {
@@ -18,7 +18,8 @@ namespace Kontur.ImageTransformer.Handlers
         {
             if (request.Method != HttpMethod.Post ||
                 request.Content == null ||
-                request.Content.Headers.ContentLength <= 0)
+                request.Content.Headers.ContentLength <= 0 ||
+                request.Content.Headers.ContentLength > 102400)
             {
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
