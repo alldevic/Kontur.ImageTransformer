@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Dispatcher;
-using System.Web.Http.Routing.Constraints;
+using System.Web.Http.ExceptionHandling;
 using System.Web.Http.SelfHost;
-using Kontur.ImageTransformer.Formatters;
+using System.Web.Http.Tracing;
 using Kontur.ImageTransformer.Handlers;
+using Kontur.ImageTransformer.Helpers;
 using Kontur.ImageTransformer.Selectors;
 using NLog;
 using ThrottlingSuite.Core;
@@ -27,28 +28,28 @@ namespace Kontur.ImageTransformer
 
         public static void SetConfiguration(HttpSelfHostConfiguration config)
         {
+            Logger.Info("Starting configuration");
             config.MaxConcurrentRequests = 100;
             config.MaxReceivedMessageSize = MaxReceivedSize;
             config.MaxBufferSize = MaxReceivedSize;
             config.ReceiveTimeout = TimeSpan.FromMilliseconds(100);
             config.SendTimeout = TimeSpan.FromMilliseconds(200);
-            Logger.Trace("Set main limits");
 
             config.Services.Replace(typeof(IHttpControllerSelector), new Http404DefaultSelector(config));
             config.Services.Replace(typeof(IHttpActionSelector), new Http404ActionSelector());
+            config.Services.Replace(typeof(ITraceWriter), new NlogTraceWriter());
+            config.Services.Add(typeof(IExceptionLogger), new NLogExceptionLogger());
 
-            config.Formatters.Add(new BitmapWriteFormatter());
             config.Formatters.Remove(config.Formatters.FormUrlEncodedFormatter);
             config.Formatters.Remove(config.Formatters.XmlFormatter);
-            Logger.Trace("Configured selectors and formatters");
 
             ConfigureMessageHandlers(config);
-            Logger.Trace("Configured throttling policy");
             ConfigureRoutes(config);
-            Logger.Trace("Configured routes");
+
+            Logger.Info("Configuration done");
             Logger.Info("Starting precalc");
             PrecalcInit();
-            Logger.Trace("Configuration done");
+            Logger.Trace("Precalc done");
         }
 
         private static void ConfigureMessageHandlers(HttpSelfHostConfiguration config)

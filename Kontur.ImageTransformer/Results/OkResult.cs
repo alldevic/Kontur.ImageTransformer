@@ -16,17 +16,17 @@ namespace Kontur.ImageTransformer.Results
     public class OkResult : IHttpActionResult
     {
         private readonly Bitmap _value;
-        private readonly string _contetntType;
+        private readonly string _contentType;
 
         /// <summary> 
         /// Send a content of Bitmap in body of response with specific Content-Type HTTP header 
         /// </summary> 
         /// <param name="value">Bitmap for pushing in reponse</param> 
-        /// <param name="contetntType">Specific Content-Type HTTP header</param> 
-        public OkResult(Bitmap value, string contetntType = "application/octet-stream")
+        /// <param name="contentType">Specific Content-Type HTTP header</param> 
+        public OkResult(Bitmap value, string contentType = "application/octet-stream")
         {
             _value = value;
-            _contetntType = contetntType;
+            _contentType = contentType;
         }
 
         public async Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
@@ -38,7 +38,7 @@ namespace Kontur.ImageTransformer.Results
                 response.Content = new ByteArrayContent(ms.ToArray());
             }
 
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue(_contetntType);
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue(_contentType);
 
             return await Task.FromResult(response);
         }

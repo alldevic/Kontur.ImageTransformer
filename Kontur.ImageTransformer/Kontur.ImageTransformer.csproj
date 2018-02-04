@@ -64,8 +64,10 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="Controllers\BadRequestController.cs" />
     <Compile Include="Controllers\ProcessController.cs" />
-    <Compile Include="Extensions.cs" />
     <Compile Include="Handlers\PostOnlyHandler.cs" />
+    <Compile Include="Helpers\Extensions.cs" />
+    <Compile Include="Helpers\NLogExceptionLogger.cs" />
+    <Compile Include="Helpers\NLogTraceWriter.cs" />
     <Compile Include="ImageFilters.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -3,6 +3,7 @@ using System.Drawing.Imaging;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Kontur.ImageTransformer.Helpers;
 using Kontur.ImageTransformer.Results;
 
 namespace Kontur.ImageTransformer.Controllers
@@ -28,6 +29,7 @@ namespace Kontur.ImageTransformer.Controllers
             if (!Request.TryToBitmap(out var img) || img.PixelFormat != PixelFormat.Format32bppArgb ||
                 img.Width > 1000 || img.Height > 1000)
             {
+                //_tracer.Info(Request, ControllerContext.ControllerDescriptor.ControllerType.FullName, "Incorrect Bitmap");
                 return BadRequest();
             }
 
@@ -37,6 +39,7 @@ namespace Kontur.ImageTransformer.Controllers
                 return StatusCode(HttpStatusCode.NoContent);
             }
 
+            //_tracer.Info(Request, ControllerContext.ControllerDescriptor.ControllerType.FullName, "Filter begin");
             var bytes = plot.Width * plot.Height;
             var argbValues = img.ToArray(plot);
 
@@ -45,6 +48,9 @@ namespace Kontur.ImageTransformer.Controllers
             {
                 argbValues[i] = filter(argbValues[i], byteLevel);
             }
+
+            img = argbValues.ToBitmap(plot.Width, plot.Height);
+            //_tracer.Info(Request, ControllerContext.ControllerDescriptor.ControllerType.FullName, "Filter end");
 
             return await Task.FromResult(new OkResult(img));
         }
