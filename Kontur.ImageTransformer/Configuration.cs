@@ -64,8 +64,8 @@ namespace Kontur.ImageTransformer
 
         private static void PrecalcInit()
         {
-            Logger.Trace($"Init Sepia precalc: [0xFFFFFF]={ImageFilters.SepiaInt[0xFFFFFF]}");
-            Logger.Trace($"Init Grayscale  precalc: [0xFFFFFF]={ImageFilters.GrayInt[0xFFFFFF]}");
+            Logger.Trace($"Init Sepia precalc: [0xFFFFFF]={ImageFilters.SepiaUInt[0xFFFFFF]}");
+            Logger.Trace($"Init Grayscale  precalc: [0xFFFFFF]={ImageFilters.GrayUInt[0xFFFFFF]}");
         }
     }
 }

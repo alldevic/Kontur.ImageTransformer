@@ -8,24 +8,24 @@ namespace Kontur.ImageTransformer
     /// </summary>
     public static class ImageFilters
     {
-        public delegate int Filter(int pix, byte level = 0);
+        public delegate int Filter(uint pix, byte level = 0);
 
         /// <summary>
         /// Precalculated values for grayscale filter in ARGB format. Default alpha channel is 0 
         /// </summary>
-        public static readonly int[] GrayInt = (from r in Enumerable.Range(0x00, 0x100)
+        public static readonly uint[] GrayUInt = (from r in Enumerable.Range(0x00, 0x100)
             from g in Enumerable.Range(0x00, 0x100)
             from b in Enumerable.Range(0x00, 0x100)
-            select (((GrayPix(r, g, b) << 8) + GrayPix(r, g, b)) << 8) + GrayPix(r, g, b)
+            select (uint) ((((GrayPix(r, g, b) << 8) + GrayPix(r, g, b)) << 8) + GrayPix(r, g, b))
         ).ToArray();
 
         /// <summary>
         /// Precalculated values for sepia filter in ARGB format. Default alpha channel is 0 
         /// </summary>
-        public static readonly int[] SepiaInt = (from r in Enumerable.Range(0x00, 0x100)
+        public static readonly uint[] SepiaUInt = (from r in Enumerable.Range(0x00, 0x100)
             from g in Enumerable.Range(0x00, 0x100)
             from b in Enumerable.Range(0x00, 0x100)
-            select (((SepiaR(r, g, b) << 8) + SepiaG(r, g, b)) << 8) + SepiaB(r, g, b)
+            select (uint) ((((SepiaR(r, g, b) << 8) + SepiaG(r, g, b)) << 8) + SepiaB(r, g, b))
         ).ToArray();
 
 
@@ -36,8 +36,8 @@ namespace Kontur.ImageTransformer
         /// <param name="pixel">Pixel in ARGB format</param>
         /// <param name="level">Unused argument</param>
         /// <returns>Filtered pixel with saved source alpha channel</returns>
-        public static int GrayscaleFilter(int pixel, byte level = 0) =>
-            (int) (GrayInt[pixel & 0x00FFFFFF] | pixel & 0xFF000000);
+        public static int GrayscaleFilter(uint pixel, byte level = 0) =>
+            (int) (GrayUInt[pixel & 0x00FFFFFF] | pixel & 0xFF000000);
 
         /// <summary>
         /// Implementation of sepia filter with save source alpha channel. Give precalculated value from static array.
@@ -46,10 +46,10 @@ namespace Kontur.ImageTransformer
         /// newBlue = (oldRed * .272) + (oldGreen *.534) + (oldBlue * .131)
         /// </summary>
         /// <param name="pixel">Pixel in ARGB format</param>
-        /// <param name="level">Unused params</param>
+        /// <param name="level">Unused argument</param>
         /// <returns>Filtered pixel with saved source alpha channel</returns>
-        public static int SepiaFilter(int pixel, byte level = 0) =>
-            (int) (SepiaInt[pixel & 0x00FFFFFF] | pixel & 0xFF000000);
+        public static int SepiaFilter(uint pixel, byte level = 0) =>
+            (int) (SepiaUInt[pixel & 0x00FFFFFF] | pixel & 0xFF000000);
 
         /// <summary>
         /// Implementation of threshold filter. Get a last byte from precalculated average filter values.
@@ -61,11 +61,11 @@ namespace Kontur.ImageTransformer
         /// <param name="pixel">Pixel in ARGB format</param>
         /// <param name="level">Intensity of threshold filter</param>
         /// <returns>Filtered pixel with saved source alpha channel</returns>
-        public static int ThresholdFilter(int pixel, byte level = 0)
+        public static int ThresholdFilter(uint pixel, byte level = 0)
         {
-            var k = (byte) (GrayInt[pixel & 0x00FFFFFF] & 0x000000FF);
+            var k = (byte) (GrayUInt[pixel & 0x00FFFFFF] & 0x000000FF);
 
-            return (int) ((k < level ? 0x0 : 0xFFFFFF) | pixel & 0xFF000000);
+            return (int) ((k < level ? 0x0u : 0xFFFFFFu) | pixel & 0xFF000000);
         }
 
         private static int GrayPix(int r, int g, int b) => (r + g + b) / 3;

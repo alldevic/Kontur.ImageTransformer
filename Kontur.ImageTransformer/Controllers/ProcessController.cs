@@ -49,7 +49,7 @@ namespace Kontur.ImageTransformer.Controllers
             var byteLevel = (byte) (255 * level / 100);
             for (var i = 0; i < bytes; i++)
             {
-                argbValues[i] = filter(argbValues[i], byteLevel);
+                argbValues[i] = filter((uint)argbValues[i], byteLevel);
             }
 
             img = argbValues.ToBitmap(plot.Width, plot.Height);
