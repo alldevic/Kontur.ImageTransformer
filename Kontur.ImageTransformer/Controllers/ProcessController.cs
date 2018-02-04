@@ -39,6 +39,7 @@ namespace Kontur.ImageTransformer.Controllers
             var plot = Rectangle.Intersect(new Rectangle(x, y, w, h), new Rectangle(0, 0, img.Width, img.Height));
             if (plot.IsEmpty || plot.Width == 0 || plot.Height == 0)
             {
+                tracer.Info(Request, ControllerContext.ControllerDescriptor.ControllerType.FullName, "Empty rectangle");
                 return StatusCode(HttpStatusCode.NoContent);
             }
 
@@ -49,7 +50,7 @@ namespace Kontur.ImageTransformer.Controllers
             var byteLevel = (byte) (255 * level / 100);
             for (var i = 0; i < bytes; i++)
             {
-                argbValues[i] = filter((uint)argbValues[i], byteLevel);
+                argbValues[i] = filter((uint) argbValues[i], byteLevel);
             }
 
             img = argbValues.ToBitmap(plot.Width, plot.Height);
