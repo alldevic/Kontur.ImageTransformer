@@ -11,6 +11,10 @@ namespace Kontur.ImageTransformer.Controllers
     public class BadRequestController : ApiController
     {
         [HttpPost]
-        public HttpResponseMessage Handle404() => new HttpResponseMessage(HttpStatusCode.BadRequest);
+        public HttpResponseMessage Handle404()
+        {
+            //_tracer.Info(Request, ControllerContext.ControllerDescriptor.ControllerType.FullName, "Handle 404");
+            return new HttpResponseMessage(HttpStatusCode.BadRequest);
+        }
     }
 }
