@@ -40,7 +40,7 @@ namespace Kontur.ImageTransformer
                 MaxBufferSize = maxReceiveSize,
             };
 
-            config.MessageHandlers.Add(new PostOnlyHandler());
+            config.MessageHandlers.Add(new MainCheckHandler());
             config.MessageHandlers.Add(new ThrottlingHandler(new ThrottlingControllerSuite()));
 
             config.Services.Replace(typeof(IHttpControllerSelector), new Http404DefaultSelector(config));
