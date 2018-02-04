@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Tracing;
 
 namespace Kontur.ImageTransformer.Controllers
 {
@@ -13,7 +14,9 @@ namespace Kontur.ImageTransformer.Controllers
         [HttpPost]
         public HttpResponseMessage Handle404()
         {
-            //_tracer.Info(Request, ControllerContext.ControllerDescriptor.ControllerType.FullName, "Handle 404");
+            Request.GetConfiguration().Services.GetTraceWriter().Info(Request,
+                ControllerContext.ControllerDescriptor.ControllerType.FullName, "Handle 404");
+
             return new HttpResponseMessage(HttpStatusCode.BadRequest);
         }
     }

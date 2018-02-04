@@ -1,8 +1,10 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Tracing;
 using Kontur.ImageTransformer.Helpers;
 using Kontur.ImageTransformer.Results;
 
@@ -26,10 +28,11 @@ namespace Kontur.ImageTransformer.Controllers
 
         private async Task<IHttpActionResult> Do(int x, int y, int w, int h, ImageFilters.Filter filter, int level = 0)
         {
+            var tracer = Request.GetConfiguration().Services.GetTraceWriter();
             if (!Request.TryToBitmap(out var img) || img.PixelFormat != PixelFormat.Format32bppArgb ||
                 img.Width > 1000 || img.Height > 1000)
             {
-                //_tracer.Info(Request, ControllerContext.ControllerDescriptor.ControllerType.FullName, "Incorrect Bitmap");
+                tracer.Info(Request, ControllerContext.ControllerDescriptor.ControllerType.FullName, "Incorrect PNG");
                 return BadRequest();
             }
 
@@ -39,7 +42,7 @@ namespace Kontur.ImageTransformer.Controllers
                 return StatusCode(HttpStatusCode.NoContent);
             }
 
-            //_tracer.Info(Request, ControllerContext.ControllerDescriptor.ControllerType.FullName, "Filter begin");
+            tracer.Info(Request, ControllerContext.ControllerDescriptor.ControllerType.FullName, "Filter begin");
             var bytes = plot.Width * plot.Height;
             var argbValues = img.ToArray(plot);
 
@@ -50,7 +53,7 @@ namespace Kontur.ImageTransformer.Controllers
             }
 
             img = argbValues.ToBitmap(plot.Width, plot.Height);
-            //_tracer.Info(Request, ControllerContext.ControllerDescriptor.ControllerType.FullName, "Filter end");
+            tracer.Info(Request, ControllerContext.ControllerDescriptor.ControllerType.FullName, "Filter end");
 
             return await Task.FromResult(new OkResult(img));
         }

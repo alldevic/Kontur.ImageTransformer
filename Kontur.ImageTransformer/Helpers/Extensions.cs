@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Kontur.ImageTransformer.Helpers
@@ -14,6 +15,7 @@ namespace Kontur.ImageTransformer.Helpers
         /// <param name="request"></param>
         /// <param name="img"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool TryToBitmap(this HttpRequestMessage request, out Bitmap img)
         {
             try
@@ -36,6 +38,7 @@ namespace Kontur.ImageTransformer.Helpers
         /// <param name="area">Rectangle for copied to array</param>
         /// <returns>Array with ARGB pixels</returns>
         /// <exception cref="ArgumentException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int[] ToArray(this Bitmap img, Rectangle area)
         {
             if (img.PixelFormat != PixelFormat.Format32bppArgb || area.IsEmpty)
@@ -59,6 +62,7 @@ namespace Kontur.ImageTransformer.Helpers
         /// <param name="height">Height of new Bitmap</param>
         /// <returns>Bitmap with imgArray pixel data</returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Bitmap ToBitmap(this int[] imgArray, int width, int height)
         {
             if (width * height != imgArray.Length)
