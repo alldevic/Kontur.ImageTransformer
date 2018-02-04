@@ -7,21 +7,20 @@ namespace Kontur.ImageTransformer
     public class Program
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        
+
         /// <summary>
         /// The main entry point for the application
         /// </summary>
         public static void Main(string[] args)
         {
             Logger.Warn($"{typeof(Program).Assembly.GetName().Name} started");
-            var config = new HttpSelfHostConfiguration(Configuration.Address);
-            Configuration.SetConfiguration(config);
 
+            var config = Configuration.SetConfiguration();
 
             using (var server = new HttpSelfHostServer(config))
             {
                 server.OpenAsync().Wait();
-                Logger.Warn($"Server running at {Configuration.Address}");
+                Logger.Warn($"Server running at {config.BaseAddress}");
                 Console.ReadLine();
             }
 
