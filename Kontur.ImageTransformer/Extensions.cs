@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Kontur.ImageTransformer.Helpers
+namespace Kontur.ImageTransformer
 {
     public static class Extensions
     {

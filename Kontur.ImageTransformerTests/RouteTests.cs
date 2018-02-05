@@ -1,6 +1,6 @@
-﻿using System;
-using System.Net;
-using System.Net.Http;
+﻿using System.Net.Http;
+using Kontur.ImageTransformer.Controllers;
+using MyTested.WebApi;
 using NUnit.Framework;
 
 namespace Kontur.ImageTransformerTests
@@ -8,7 +8,7 @@ namespace Kontur.ImageTransformerTests
     [TestFixture]
     public class RouteTests
     {
-        private HttpClient _client;
+        /*private HttpClient _client;
 
         [SetUp]
         public void SetUp()
@@ -131,6 +131,26 @@ namespace Kontur.ImageTransformerTests
             Assert.AreEqual(0, response.Content.Headers.ContentLength);
         }
 
-        #endregion
+        #endregion*/
+        [Test]
+        public void SepiaMap()
+        {
+            MyWebApi.Routes().ShouldMap("process/sepia/1,2,3,4").WithHttpMethod(HttpMethod.Post)
+                .To<ProcessController>(c => c.Sepia(1, 2, 3, 4));
+        }
+
+        [Test]
+        public void GrayscaleMap()
+        {
+            MyWebApi.Routes().ShouldMap("process/grayscale/1,2,3,4").WithHttpMethod(HttpMethod.Post)
+                .To<ProcessController>(c => c.Grayscale(1, 2, 3, 4));
+        }
+        
+        [Test]
+        public void ThresholdMap()
+        {
+            MyWebApi.Routes().ShouldMap("process/threshold(5)/1,2,3,4").WithHttpMethod(HttpMethod.Post)
+                .To<ProcessController>(c => c.Threshold(5, 1, 2, 3, 4));
+        }
     }
 }

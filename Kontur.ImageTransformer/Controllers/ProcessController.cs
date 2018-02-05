@@ -10,7 +10,7 @@ using Kontur.ImageTransformer.Results;
 
 namespace Kontur.ImageTransformer.Controllers
 {
-    [OverrideAuthentication, OverrideAuthorization]
+    [OverrideAuthentication, OverrideAuthorization, AllowAnonymous]
     [RoutePrefix("process")]
     public class ProcessController : ApiController
     {
@@ -21,7 +21,7 @@ namespace Kontur.ImageTransformer.Controllers
         [HttpPost, Route("threshold({level:int:range(0,100)})/{x:int},{y:int},{w:int},{h:int}")]
         public async Task<IHttpActionResult> Threshold(byte level, int x, int y, int w, int h) =>
             await Do(x, y, w, h, ImageFilters.ThresholdFilter, level);
-
+        
         [HttpPost, Route("sepia/{x:int},{y:int},{w:int},{h:int}")]
         public async Task<IHttpActionResult> Sepia(int x, int y, int w, int h) =>
             await Do(x, y, w, h, ImageFilters.SepiaFilter);
