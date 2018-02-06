@@ -8,8 +8,6 @@ using Kontur.ImageTransformer.Handlers;
 using Kontur.ImageTransformer.Helpers;
 using Kontur.ImageTransformer.Selectors;
 using NLog;
-using ThrottlingSuite.Core;
-using ThrottlingSuite.Http.Handlers;
 
 namespace Kontur.ImageTransformer
 {
@@ -21,13 +19,11 @@ namespace Kontur.ImageTransformer
         {
             var config = new HttpSelfHostConfiguration("http://localhost:8080")
             {
-                MaxConcurrentRequests = 100,
+                MaxConcurrentRequests = 200,
                 MaxReceivedMessageSize = int.MaxValue,
             };
 
             config.MessageHandlers.Add(new MainCheckHandler());
-            config.MessageHandlers.Add(new ThrottlingHandler(new ThrottlingControllerSuite()));
-
             config.Services.Replace(typeof(IHttpControllerSelector), new Http404DefaultSelector(config));
             config.Services.Replace(typeof(IHttpActionSelector), new Http404ActionSelector());
             config.Services.Replace(typeof(ITraceWriter), new NlogTraceWriter());
