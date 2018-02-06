@@ -21,10 +21,10 @@ namespace Kontur.ImageTransformer
             {
                 server.OpenAsync().Wait();
                 Logger.Warn($"Server running at {config.BaseAddress}");
-                Console.ReadLine();
+                Console.ReadKey(true);
             }
 
-            Logger.Info($"{typeof(Program).Assembly.GetName().Name} stopped");
+            Logger.Warn($"{typeof(Program).Assembly.GetName().Name} stopped");
         }
     }
 }
