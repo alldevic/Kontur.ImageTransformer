@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Tracing;
-using Kontur.ImageTransformer.Helpers;
 using Kontur.ImageTransformer.Results;
 
 namespace Kontur.ImageTransformer.Controllers
@@ -21,7 +20,7 @@ namespace Kontur.ImageTransformer.Controllers
         [HttpPost, Route("threshold({level:int:range(0,100)})/{x:int},{y:int},{w:int},{h:int}")]
         public async Task<IHttpActionResult> Threshold(byte level, int x, int y, int w, int h) =>
             await Do(x, y, w, h, ImageFilters.ThresholdFilter, level);
-        
+
         [HttpPost, Route("sepia/{x:int},{y:int},{w:int},{h:int}")]
         public async Task<IHttpActionResult> Sepia(int x, int y, int w, int h) =>
             await Do(x, y, w, h, ImageFilters.SepiaFilter);
@@ -48,10 +47,10 @@ namespace Kontur.ImageTransformer.Controllers
             var argbValues = img.ToArray(plot);
 
             var byteLevel = (byte) (255 * level / 100);
-            for (var i = 0; i < bytes; i++)
-            {
-                argbValues[i] = filter((uint) argbValues[i], byteLevel);
-            }
+
+            Parallel.For(0, bytes,
+                i => argbValues[i] = filter((uint) argbValues[i], byteLevel)
+            );
 
             img = argbValues.ToBitmap(plot.Width, plot.Height);
             tracer.Info(Request, ControllerContext.ControllerDescriptor.ControllerType.FullName, "Filter end");
