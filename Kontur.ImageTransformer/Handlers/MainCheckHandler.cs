@@ -13,7 +13,7 @@ namespace Kontur.ImageTransformer.Handlers
     /// </summary>
     public class MainCheckHandler : DelegatingHandler
     {
-        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
             if (request.Method != HttpMethod.Post ||
@@ -21,7 +21,7 @@ namespace Kontur.ImageTransformer.Handlers
                 request.Content.Headers.ContentLength <= 0 ||
                 request.Content.Headers.ContentLength > 102400)
             {
-                return Task.FromResult(request.CreateResponse(HttpStatusCode.BadRequest));
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
 
             var contentType = request.Content.Headers.ContentType;
@@ -31,7 +31,7 @@ namespace Kontur.ImageTransformer.Handlers
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
 
-            return base.SendAsync(request, cancellationToken);
+            return await base.SendAsync(request, cancellationToken);
         }
     }
 }

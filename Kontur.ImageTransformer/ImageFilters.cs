@@ -14,19 +14,19 @@ namespace Kontur.ImageTransformer
         /// Precalculated values for grayscale filter in ARGB format. Default alpha channel is 0 
         /// </summary>
         public static readonly uint[] GrayUInt = (from r in Enumerable.Range(0x00, 0x100)
-            from g in Enumerable.Range(0x00, 0x100)
-            from b in Enumerable.Range(0x00, 0x100)
-            select (uint) ((((GrayPix(r, g, b) << 8) + GrayPix(r, g, b)) << 8) + GrayPix(r, g, b))
-        ).ToArray();
+                from g in Enumerable.Range(0x00, 0x100)
+                from b in Enumerable.Range(0x00, 0x100)
+                select (uint) ((((GrayPix(r, g, b) << 8) + GrayPix(r, g, b)) << 8) + GrayPix(r, g, b))
+            ).ToArray();
 
         /// <summary>
         /// Precalculated values for sepia filter in ARGB format. Default alpha channel is 0 
         /// </summary>
         public static readonly uint[] SepiaUInt = (from r in Enumerable.Range(0x00, 0x100)
-            from g in Enumerable.Range(0x00, 0x100)
-            from b in Enumerable.Range(0x00, 0x100)
-            select (uint) ((((SepiaR(r, g, b) << 8) + SepiaG(r, g, b)) << 8) + SepiaB(r, g, b))
-        ).ToArray();
+                from g in Enumerable.Range(0x00, 0x100)
+                from b in Enumerable.Range(0x00, 0x100)
+                select (uint) ((((SepiaR(r, g, b) << 8) + SepiaG(r, g, b)) << 8) + SepiaB(r, g, b))
+            ).ToArray();
 
 
         /// <summary>

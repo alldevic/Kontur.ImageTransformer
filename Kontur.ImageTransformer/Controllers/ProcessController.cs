@@ -48,9 +48,19 @@ namespace Kontur.ImageTransformer.Controllers
 
             var byteLevel = (byte) (255 * level / 100);
 
-            Parallel.For(0, bytes,
-                i => argbValues[i] = filter((uint) argbValues[i], byteLevel)
-            );
+            int i;
+            for (i = 0; i < bytes - 3; i += 4)
+            {
+                argbValues[i] = filter((uint) argbValues[i], byteLevel);
+                argbValues[i + 1] = filter((uint) argbValues[i + 1], byteLevel);
+                argbValues[i + 2] = filter((uint) argbValues[i + 2], byteLevel);
+                argbValues[i + 3] = filter((uint) argbValues[i + 3], byteLevel);
+            }
+
+            for (; i < bytes; i++)
+            {
+                argbValues[i] = filter((uint) argbValues[i], byteLevel);
+            }
 
             img = argbValues.ToBitmap(plot.Width, plot.Height);
             tracer.Info(Request, ControllerContext.ControllerDescriptor.ControllerType.FullName, "Filter end");
