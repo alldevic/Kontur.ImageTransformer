@@ -87,7 +87,5 @@ namespace Kontur.ImageTransformerTests
                 )
                 .ShouldReturnHttpResponseMessage().WithStatusCode(HttpStatusCode.BadRequest);
         }
-        
-        
     }
 }
