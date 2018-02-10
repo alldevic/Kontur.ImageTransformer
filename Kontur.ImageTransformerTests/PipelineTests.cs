@@ -1,6 +1,5 @@
-﻿// TODO: Add content check (now only status code and length)
-// TODO: max content length
-// TODO: add rectangle tests
+﻿// Content length in handler
+// Content and rectangle checks in  filters and process controller
 
 using System.Collections;
 using System.Collections.Generic;
@@ -43,8 +42,7 @@ namespace Kontur.ImageTransformerTests
                         .WithByteArrayContent(Utils.OnePixPng())
                         .WithContentHeader(HttpContentHeader.ContentType, contentType)
                 )
-                .ShouldReturnHttpResponseMessage().WithStatusCode(HttpStatusCode.OK)
-                .ContainingContentHeader(HttpContentHeader.ContentLength, Utils.OnePixPng().Length.ToString());
+                .ShouldReturnHttpResponseMessage().WithStatusCode(HttpStatusCode.OK);
         }
 
 
