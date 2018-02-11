@@ -23,24 +23,22 @@ namespace Kontur.ImageTransformerTests
         {
             var filters = new List<string> {"grayscale", "sepia"};
             filters.AddRange(Enumerable.Range(0, 101).Select(thr => $"threshold({thr})"));
-            var types = new List<string> {"image/png", "application/octet-stream"};
 
             foreach (var flt in filters)
-            foreach (var type in types)
             {
-                yield return new TestCaseData(flt, type);
+                yield return new TestCaseData(flt);
             }
         }
 
         [TestCaseSource(nameof(FilterCases))]
-        public void CorrectFilterRequest(string filter, string contentType)
+        public void CorrectFilterRequest(string filter)
         {
             MyWebApi.Server().Working(Configuration.SetConfiguration())
                 .WithHttpRequestMessage(
                     request => request.WithMethod(HttpMethod.Post)
                         .WithRequestUri($"/process/{filter}/0,0,200,200")
                         .WithByteArrayContent(Utils.OnePixPng())
-                        .WithContentHeader(HttpContentHeader.ContentType, contentType)
+                        .WithContentHeader(HttpContentHeader.ContentType, "image/png")
                 )
                 .ShouldReturnHttpResponseMessage().WithStatusCode(HttpStatusCode.OK);
         }
