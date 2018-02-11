@@ -28,6 +28,7 @@ namespace Kontur.ImageTransformer.Controllers
         private async Task<IHttpActionResult> Do(int x, int y, int w, int h, ImageFilters.Filter filter, int level = 0)
         {
             var tracer = Request.GetConfiguration().Services.GetTraceWriter();
+
             if (!Request.TryToBitmap(out var img) || img.PixelFormat != PixelFormat.Format32bppArgb ||
                 img.Width > 1000 || img.Height > 1000)
             {

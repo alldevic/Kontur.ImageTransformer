@@ -1,4 +1,4 @@
-image: Visual Studio 2015
+image: Visual Studio 2017
 version: 0.0.{build}
 
 init:
@@ -6,7 +6,7 @@ init:
 
 branches:
   only:
-    - appveyor
+    - master
 
 clone_folder: c:\Kontur.ImageTransformer
 shallow_clone: true
