@@ -59,6 +59,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControllersTests\ProcessControllerTests.cs" />
     <Compile Include="ExtensionsTests.cs" />
     <Compile Include="HandlersTests\MainCheckHandlerTests.cs" />
     <Compile Include="ImageFiltersTests.cs" />
@@ -74,9 +75,6 @@
       <Project>{a98befb7-99bb-453f-9afa-20b66c87577f}</Project>
       <Name>Kontur.ImageTransformer</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ControllersTests" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

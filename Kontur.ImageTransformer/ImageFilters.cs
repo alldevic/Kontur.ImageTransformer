@@ -59,13 +59,13 @@ namespace Kontur.ImageTransformer
         ///     R = G = B = 0x0
         /// </summary>
         /// <param name="pixel">Pixel in ARGB format</param>
-        /// <param name="level">Intensity of threshold filter</param>
+        /// <param name="level">Intensity of threshold filter [0..255]</param>
         /// <returns>Filtered pixel with saved source alpha channel</returns>
         public static int ThresholdFilter(uint pixel, byte level = 0)
         {
             var k = (byte) (GrayUInt[pixel & 0x00FFFFFF] & 0x000000FF);
 
-            return (int) ((k < level ? 0x0u : 0xFFFFFFu) | pixel & 0xFF000000);
+            return (int) ((k < level ? 0x0u : 0x00FFFFFFu) | pixel & 0xFF000000);
         }
 
         private static int GrayPix(int r, int g, int b) => (r + g + b) / 3;
