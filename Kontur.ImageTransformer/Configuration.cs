@@ -74,7 +74,7 @@ namespace Kontur.ImageTransformer
                     }, new List<IThrottlingControllerInstance>(new[]
                     {
                         ThrottlingControllerInstance
-                            .Create<LinearThrottlingController>("api", 1000, 250).IncludeInScope("process")
+                            .Create<LinearThrottlingController>("api", 1000, 500).IncludeInScope("process")
                     }))));
             }
         }
