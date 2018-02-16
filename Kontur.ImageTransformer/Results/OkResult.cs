@@ -32,14 +32,11 @@ namespace Kontur.ImageTransformer.Results
         public async Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
         {
             var response = new HttpResponseMessage();
-            using (var ms = new MemoryStream())
-            {
-                _value.Save(ms, ImageFormat.Png);
-                response.Content = new ByteArrayContent(ms.ToArray());
-            }
-
+            var ms = new MemoryStream();
+            _value.Save(ms, ImageFormat.Png);
+            ms.Position = 0;
+            response.Content = new StreamContent(ms);
             response.Content.Headers.ContentType = new MediaTypeHeaderValue(_contentType);
-
             return await Task.FromResult(response);
         }
     }
