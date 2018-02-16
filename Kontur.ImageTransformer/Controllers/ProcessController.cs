@@ -63,6 +63,7 @@ namespace Kontur.ImageTransformer.Controllers
                 argbValues[i] = filter((uint) argbValues[i], byteLevel);
             }
 
+            img.Dispose();
             img = argbValues.ToBitmap(plot.Width, plot.Height);
             tracer.Info(Request, ControllerContext.ControllerDescriptor.ControllerType.FullName, "Filter end");
 
