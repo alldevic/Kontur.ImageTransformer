@@ -24,12 +24,21 @@ namespace Kontur.ImageTransformer.Handlers
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
 
-            var contentType = request.Content.Headers.ContentType;
-            if (!string.Equals("image/png", contentType.MediaType, StringComparison.OrdinalIgnoreCase) &&
-                !string.Equals("application/octet-stream", contentType.MediaType, StringComparison.OrdinalIgnoreCase))
+            try
+            {
+                var contentType = request.Content.Headers.ContentType;
+                if (!string.Equals("image/png", contentType.MediaType, StringComparison.OrdinalIgnoreCase) &&
+                    !string.Equals("application/octet-stream", contentType.MediaType,
+                        StringComparison.OrdinalIgnoreCase))
+                {
+                    throw new Exception();
+                }
+            }
+            catch
             {
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
+
 
             return await base.SendAsync(request, cancellationToken);
         }
