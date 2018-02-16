@@ -22,7 +22,7 @@ namespace Kontur.ImageTransformer
         {
             var config = new HttpSelfHostConfiguration("http://localhost:8080")
             {
-                MaxConcurrentRequests = 200,
+                MaxConcurrentRequests = 100,
                 MaxReceivedMessageSize = int.MaxValue,
             };
 
