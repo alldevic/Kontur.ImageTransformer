@@ -45,7 +45,6 @@ namespace Kontur.ImageTransformer
 
             Logger.Info("Configuration done");
             Logger.Info("Starting precalc");
-            PrecalcInit();
             Logger.Trace("Precalc done");
             return config;
         }
@@ -77,12 +76,6 @@ namespace Kontur.ImageTransformer
                             .Create<LinearThrottlingController>("api", 1000, 500).IncludeInScope("process")
                     }))));
             }
-        }
-
-        private static void PrecalcInit()
-        {
-            Logger.Trace($"Init Sepia precalc: [0xFFFFFF]={ImageFilters.SepiaUInt[0xFFFFFF]}");
-            Logger.Trace($"Init Grayscale  precalc: [0xFFFFFF]={ImageFilters.GrayUInt[0xFFFFFF]}");
         }
     }
 }

@@ -13,19 +13,8 @@ namespace Kontur.ImageTransformer.Controllers
     [RoutePrefix("process")]
     public class ProcessController : ApiController
     {
-        [HttpPost, Route("grayscale/{x:int},{y:int},{w:int},{h:int}")]
-        public async Task<IHttpActionResult> Grayscale(int x, int y, int w, int h) =>
-            await Do(x, y, w, h, ImageFilters.GrayscaleFilter);
-
-        [HttpPost, Route("threshold({level:int:range(0,100)})/{x:int},{y:int},{w:int},{h:int}")]
-        public async Task<IHttpActionResult> Threshold(byte level, int x, int y, int w, int h) =>
-            await Do(x, y, w, h, ImageFilters.ThresholdFilter, level);
-
-        [HttpPost, Route("sepia/{x:int},{y:int},{w:int},{h:int}")]
-        public async Task<IHttpActionResult> Sepia(int x, int y, int w, int h) =>
-            await Do(x, y, w, h, ImageFilters.SepiaFilter);
-
-        private async Task<IHttpActionResult> Do(int x, int y, int w, int h, ImageFilters.Filter filter, int level = 0)
+        [HttpPost, Route("rotate-cw/{x:int},{y:int},{w:int},{h:int}")]
+        public async Task<IHttpActionResult> Grayscale(int x, int y, int w, int h)
         {
             var tracer = Request.GetConfiguration().Services.GetTraceWriter();
 
@@ -36,6 +25,8 @@ namespace Kontur.ImageTransformer.Controllers
                 return BadRequest();
             }
 
+            #region Not Working
+
             var plot = Rectangle.Intersect(new Rectangle(x, y, w, h), new Rectangle(0, 0, img.Width, img.Height));
             if (plot.IsEmpty || plot.Width == 0 || plot.Height == 0)
             {
@@ -43,31 +34,17 @@ namespace Kontur.ImageTransformer.Controllers
                 return StatusCode(HttpStatusCode.NoContent);
             }
 
-            tracer.Info(Request, ControllerContext.ControllerDescriptor.ControllerType.FullName, "Filter begin");
-            var bytes = plot.Width * plot.Height;
-            var argbValues = img.ToArray(plot);
+            img.Crop(plot);
 
-            var byteLevel = (byte) (255 * level / 100);
+            #endregion
 
-            int i;
-            for (i = 0; i < bytes - 3; i += 4)
-            {
-                argbValues[i] = filter((uint) argbValues[i], byteLevel);
-                argbValues[i + 1] = filter((uint) argbValues[i + 1], byteLevel);
-                argbValues[i + 2] = filter((uint) argbValues[i + 2], byteLevel);
-                argbValues[i + 3] = filter((uint) argbValues[i + 3], byteLevel);
-            }
-
-            for (; i < bytes; i++)
-            {
-                argbValues[i] = filter((uint) argbValues[i], byteLevel);
-            }
-
-            img.Dispose();
-            img = argbValues.ToBitmap(plot.Width, plot.Height);
+            img.RotateFlip(RotateFlipType.Rotate90FlipNone);
             tracer.Info(Request, ControllerContext.ControllerDescriptor.ControllerType.FullName, "Filter end");
-
             return await Task.FromResult(new OkResult(img));
         }
+
+        //rotate-ccw: Rotate270FlipNone
+        //flip-h: RotateNoneFlipX
+        //flip-v: RotateNoneFlipY
     }
 }
