@@ -3,8 +3,10 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Dispatcher;
 using System.Web.Http.ExceptionHandling;
+using System.Web.Http.Routing;
 using System.Web.Http.SelfHost;
 using System.Web.Http.Tracing;
+using Kontur.ImageTransformer.Constraints;
 using Kontur.ImageTransformer.Handlers;
 using Kontur.ImageTransformer.Helpers;
 using Kontur.ImageTransformer.Selectors;
@@ -39,13 +41,13 @@ namespace Kontur.ImageTransformer
             config.Formatters.Remove(config.Formatters.FormUrlEncodedFormatter);
             config.Formatters.Remove(config.Formatters.XmlFormatter);
 
-            config.MapHttpAttributeRoutes();
+            var constraintResolver = new DefaultInlineConstraintResolver();
+            constraintResolver.ConstraintMap.Add("transform", typeof(TransformConstraint));
+            config.MapHttpAttributeRoutes(constraintResolver);
 
             config.Routes.MapHttpRoute("404-API", "{*url}", new {controller = "BadRequest", action = "Handle404"});
 
             Logger.Info("Configuration done");
-            Logger.Info("Starting precalc");
-            Logger.Trace("Precalc done");
             return config;
         }
 

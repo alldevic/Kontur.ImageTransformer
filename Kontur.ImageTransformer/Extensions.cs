@@ -27,9 +27,43 @@ namespace Kontur.ImageTransformer
             return true;
         }
 
-        public static void Crop(this Bitmap img, Rectangle area)
+
+        public static Rectangle RotatiFlip(this Rectangle rect, RotateFlipType rotateFlipType)
         {
-            throw new NotImplementedException();
+            int t;
+            switch (rotateFlipType)
+            {
+                case RotateFlipType.RotateNoneFlipNone: // == Rotate180FlipXY
+                    return rect;
+                case RotateFlipType.Rotate90FlipNone: // == Rotate270FlipXY
+                    rect.X += rect.Width;
+                    rect.Y = rect.Y;
+                    t = rect.Width;
+                    rect.Width = rect.Height;
+                    rect.Height = -t;
+                    return rect;
+                case RotateFlipType.Rotate270FlipNone: // == Rotate90FlipXY
+                    rect.X = rect.X;
+                    rect.Y += rect.Height;
+                    t = rect.Width;
+                    rect.Width = -rect.Height;
+                    rect.Height = t;
+                    return rect;
+                case RotateFlipType.RotateNoneFlipX: // == Rotate180FlipY
+                    rect.X += rect.Width;
+                    rect.Y = rect.Y;
+                    rect.Width = -rect.Width;
+                    rect.Height = rect.Height;
+                    return rect;
+                case RotateFlipType.RotateNoneFlipY: // == Rotate180FlipX
+                    rect.X = rect.X;
+                    rect.Y += rect.Height;
+                    rect.Width = rect.Width;
+                    rect.Height = -rect.Height;
+                    return rect;
+                default:
+                    throw new NotFiniteNumberException();
+            }
         }
     }
 }

@@ -1,10 +1,8 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Tracing;
 using Kontur.ImageTransformer.Results;
 
 namespace Kontur.ImageTransformer.Controllers
@@ -13,38 +11,26 @@ namespace Kontur.ImageTransformer.Controllers
     [RoutePrefix("process")]
     public class ProcessController : ApiController
     {
-        [HttpPost, Route("rotate-cw/{x:int},{y:int},{w:int},{h:int}")]
-        public async Task<IHttpActionResult> Grayscale(int x, int y, int w, int h)
+        [HttpPost, Route("{trn:transform}/{x:int},{y:int},{w:int},{h:int}")]
+        public async Task<IHttpActionResult> Grayscale(RotateFlipType trn, int x, int y, int w, int h)
         {
-            var tracer = Request.GetConfiguration().Services.GetTraceWriter();
-
             if (!Request.TryToBitmap(out var img) || img.PixelFormat != PixelFormat.Format32bppArgb ||
                 img.Width > 1000 || img.Height > 1000)
             {
-                tracer.Info(Request, ControllerContext.ControllerDescriptor.ControllerType.FullName, "Incorrect PNG");
                 return BadRequest();
             }
 
-            #region Not Working
-
-            var plot = Rectangle.Intersect(new Rectangle(x, y, w, h), new Rectangle(0, 0, img.Width, img.Height));
+            var rect = new Rectangle(x, y, w, h);
+            rect.RotatiFlip(trn);
+            var plot = Rectangle.Intersect(rect, new Rectangle(0, 0, img.Width, img.Height));
             if (plot.IsEmpty || plot.Width == 0 || plot.Height == 0)
             {
-                tracer.Info(Request, ControllerContext.ControllerDescriptor.ControllerType.FullName, "Empty rectangle");
                 return StatusCode(HttpStatusCode.NoContent);
             }
 
-            img.Crop(plot);
-
-            #endregion
-
-            img.RotateFlip(RotateFlipType.Rotate90FlipNone);
-            tracer.Info(Request, ControllerContext.ControllerDescriptor.ControllerType.FullName, "Filter end");
+            img = img.Clone(plot, img.PixelFormat);
+            img.RotateFlip(trn);
             return await Task.FromResult(new OkResult(img));
         }
-
-        //rotate-ccw: Rotate270FlipNone
-        //flip-h: RotateNoneFlipX
-        //flip-v: RotateNoneFlipY
     }
 }
