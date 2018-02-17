@@ -12,7 +12,7 @@ namespace Kontur.ImageTransformer.Controllers
     public class ProcessController : ApiController
     {
         [HttpPost, Route("{trn:transform}/{x:int},{y:int},{w:int},{h:int}")]
-        public async Task<IHttpActionResult> Grayscale(RotateFlipType trn, int x, int y, int w, int h)
+        public async Task<IHttpActionResult> Transform(RotateFlipType trn, int x, int y, int w, int h)
         {
             if (!Request.TryToBitmap(out var img) || img.PixelFormat != PixelFormat.Format32bppArgb ||
                 img.Width > 1000 || img.Height > 1000)
@@ -21,7 +21,7 @@ namespace Kontur.ImageTransformer.Controllers
             }
 
             var rect = new Rectangle(x, y, w, h);
-            rect.RotatiFlip(trn);
+            rect.RotateFlip(trn);
             var plot = Rectangle.Intersect(rect, new Rectangle(0, 0, img.Width, img.Height));
             if (plot.IsEmpty || plot.Width == 0 || plot.Height == 0)
             {

@@ -28,7 +28,7 @@ namespace Kontur.ImageTransformer
         }
 
 
-        public static Rectangle RotatiFlip(this Rectangle rect, RotateFlipType rotateFlipType)
+        public static Rectangle RotateFlip(this Rectangle rect, RotateFlipType rotateFlipType)
         {
             int t;
             switch (rotateFlipType)
