@@ -6929,7 +6929,7 @@
             Represents ContentLocation content header name.
             </summary>
         </member>
-        <member name="F:MyTested.WebApi.HttpContentHeader.ContentMD5">
+        <member name="F:MyTested.WebApi.HttpContentHeader.ContentMd5">
             <summary>
             Represents ContentMD5 content header name.
             </summary>
@@ -7255,7 +7255,7 @@
             Digest authenticated header scheme.
             </summary>
         </member>
-        <member name="F:MyTested.WebApi.AuthenticationScheme.NTLM">
+        <member name="F:MyTested.WebApi.AuthenticationScheme.Ntlm">
             <summary>
             NTLM authenticated header scheme.
             </summary>
@@ -7645,7 +7645,7 @@
             Represents SetCookie header name.
             </summary>
         </member>
-        <member name="F:MyTested.WebApi.HttpHeader.TE">
+        <member name="F:MyTested.WebApi.HttpHeader.Te">
             <summary>
             Represents TE header name.
             </summary>
@@ -7817,11 +7817,16 @@
             </summary>
             <value>Instance of String.</value>
         </member>
-        <member name="M:MyTested.WebApi.MyWebApi.IsUsingDefaultHttpConfiguration">
+        <member name="M:MyTested.WebApi.MyWebApi.IsUsingDefaultHttpConfiguration(System.Web.Http.Routing.IInlineConstraintResolver)">
             <summary>
             Sets the default HttpConfiguration which will be used in all tests.
             </summary>
-            <returns>HTTP configuration builder.</returns>
+            <param name="constraintResolver">
+            The optional constraint Resolver.
+            </param>
+            <returns>
+            HTTP configuration builder.
+            </returns>
         </member>
         <member name="M:MyTested.WebApi.MyWebApi.IsUsing(System.Web.Http.HttpConfiguration)">
             <summary>
