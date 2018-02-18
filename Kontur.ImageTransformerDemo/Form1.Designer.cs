@@ -1,4 +1,6 @@
-﻿namespace Kontur.ImageTransformerDemo
+﻿using System.Windows.Forms;
+
+namespace Kontur.ImageTransformerDemo
 {
     partial class frmMain
     {
@@ -30,21 +32,20 @@
         {
             this.splMain = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.prpRequest = new System.Windows.Forms.PropertyGrid();
             this.btnCheck = new System.Windows.Forms.Button();
-            this.lblServerState = new System.Windows.Forms.Label();
-            this.lblRequest = new System.Windows.Forms.Label();
-            this.cmbRequests = new System.Windows.Forms.ComboBox();
+            this.txtServer = new System.Windows.Forms.TextBox();
+            this.prpRequest = new System.Windows.Forms.PropertyGrid();
             this.btnSend = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.propertyGrid2 = new System.Windows.Forms.PropertyGrid();
+            this.cmbRequests = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.lblSelectPixel = new System.Windows.Forms.Label();
             this.numX = new System.Windows.Forms.NumericUpDown();
             this.numY = new System.Windows.Forms.NumericUpDown();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.imgRequest = new System.Windows.Forms.PictureBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.imgResponse = new System.Windows.Forms.PictureBox();
             this.lblRequestImg = new System.Windows.Forms.Label();
             this.lblResponseImg = new System.Windows.Forms.Label();
             this.lblRequestImgA = new System.Windows.Forms.Label();
@@ -55,11 +56,6 @@
             this.lblResponseImgR = new System.Windows.Forms.Label();
             this.lblResponseImgG = new System.Windows.Forms.Label();
             this.lblResponseImgB = new System.Windows.Forms.Label();
-            this.imgRequest = new System.Windows.Forms.PictureBox();
-            this.imgResponse = new System.Windows.Forms.PictureBox();
-            this.lblCheckResponse = new System.Windows.Forms.Label();
-            this.cmbCheck = new System.Windows.Forms.ComboBox();
-            this.lblCheckState = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splMain)).BeginInit();
             this.splMain.Panel1.SuspendLayout();
             this.splMain.Panel2.SuspendLayout();
@@ -67,11 +63,11 @@
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
-            this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numY)).BeginInit();
+            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgRequest)).BeginInit();
+            this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgResponse)).BeginInit();
             this.SuspendLayout();
             // 
@@ -103,52 +99,28 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel1.Controls.Add(this.prpRequest, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.btnCheck, 3, 0);
-            this.tableLayoutPanel1.Controls.Add(this.lblServerState, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.lblRequest, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.cmbRequests, 0, 11);
-            this.tableLayoutPanel1.Controls.Add(this.btnSend, 0, 12);
-            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 13);
-            this.tableLayoutPanel1.Controls.Add(this.propertyGrid2, 0, 14);
+            this.tableLayoutPanel1.Controls.Add(this.txtServer, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.prpRequest, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.btnSend, 0, 7);
+            this.tableLayoutPanel1.Controls.Add(this.cmbRequests, 0, 6);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 20;
+            this.tableLayoutPanel1.RowCount = 9;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(250, 561);
             this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // prpRequest
-            // 
-            this.tableLayoutPanel1.SetColumnSpan(this.prpRequest, 4);
-            this.prpRequest.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.prpRequest.LineColor = System.Drawing.SystemColors.ControlDark;
-            this.prpRequest.Location = new System.Drawing.Point(3, 57);
-            this.prpRequest.Name = "prpRequest";
-            this.tableLayoutPanel1.SetRowSpan(this.prpRequest, 9);
-            this.prpRequest.Size = new System.Drawing.Size(244, 237);
-            this.prpRequest.TabIndex = 1;
             // 
             // btnCheck
             // 
@@ -161,45 +133,33 @@
             this.btnCheck.UseVisualStyleBackColor = true;
             this.btnCheck.Click += new System.EventHandler(this.btnCheck_Click);
             // 
-            // lblServerState
+            // txtServer
             // 
-            this.lblServerState.AutoSize = true;
-            this.tableLayoutPanel1.SetColumnSpan(this.lblServerState, 3);
-            this.lblServerState.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblServerState.Location = new System.Drawing.Point(3, 0);
-            this.lblServerState.Name = "lblServerState";
-            this.lblServerState.Size = new System.Drawing.Size(180, 27);
-            this.lblServerState.TabIndex = 4;
-            this.lblServerState.Text = "Server state: not available";
-            this.lblServerState.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtServer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.SetColumnSpan(this.txtServer, 3);
+            this.txtServer.Location = new System.Drawing.Point(3, 3);
+            this.txtServer.Name = "txtServer";
+            this.txtServer.Size = new System.Drawing.Size(180, 20);
+            this.txtServer.TabIndex = 5;
+            this.txtServer.Text = "http://127.0.0.1:8080/";
+            this.txtServer.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtServer_KeyDown);
             // 
-            // lblRequest
+            // prpRequest
             // 
-            this.lblRequest.AutoSize = true;
-            this.tableLayoutPanel1.SetColumnSpan(this.lblRequest, 4);
-            this.lblRequest.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblRequest.Location = new System.Drawing.Point(3, 27);
-            this.lblRequest.Name = "lblRequest";
-            this.lblRequest.Size = new System.Drawing.Size(244, 27);
-            this.lblRequest.TabIndex = 4;
-            this.lblRequest.Text = "Request propeties:";
-            this.lblRequest.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
-            // 
-            // cmbRequests
-            // 
-            this.tableLayoutPanel1.SetColumnSpan(this.cmbRequests, 4);
-            this.cmbRequests.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmbRequests.FormattingEnabled = true;
-            this.cmbRequests.Location = new System.Drawing.Point(3, 300);
-            this.cmbRequests.Name = "cmbRequests";
-            this.cmbRequests.Size = new System.Drawing.Size(244, 21);
-            this.cmbRequests.TabIndex = 3;
+            this.tableLayoutPanel1.SetColumnSpan(this.prpRequest, 4);
+            this.prpRequest.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.prpRequest.LineColor = System.Drawing.SystemColors.ControlDark;
+            this.prpRequest.Location = new System.Drawing.Point(3, 30);
+            this.prpRequest.Name = "prpRequest";
+            this.tableLayoutPanel1.SetRowSpan(this.prpRequest, 5);
+            this.prpRequest.Size = new System.Drawing.Size(244, 447);
+            this.prpRequest.TabIndex = 1;
             // 
             // btnSend
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.btnSend, 4);
             this.btnSend.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnSend.Location = new System.Drawing.Point(3, 327);
+            this.btnSend.Location = new System.Drawing.Point(3, 510);
             this.btnSend.Name = "btnSend";
             this.btnSend.Size = new System.Drawing.Size(244, 21);
             this.btnSend.TabIndex = 2;
@@ -207,28 +167,15 @@
             this.btnSend.UseVisualStyleBackColor = true;
             this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
-            // label3
+            // cmbRequests
             // 
-            this.label3.AutoSize = true;
-            this.tableLayoutPanel1.SetColumnSpan(this.label3, 4);
-            this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Location = new System.Drawing.Point(3, 351);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(244, 27);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Response propeties:";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
-            // 
-            // propertyGrid2
-            // 
-            this.tableLayoutPanel1.SetColumnSpan(this.propertyGrid2, 6);
-            this.propertyGrid2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propertyGrid2.LineColor = System.Drawing.SystemColors.ControlDark;
-            this.propertyGrid2.Location = new System.Drawing.Point(3, 381);
-            this.propertyGrid2.Name = "propertyGrid2";
-            this.tableLayoutPanel1.SetRowSpan(this.propertyGrid2, 6);
-            this.propertyGrid2.Size = new System.Drawing.Size(244, 177);
-            this.propertyGrid2.TabIndex = 1;
+            this.tableLayoutPanel1.SetColumnSpan(this.cmbRequests, 4);
+            this.cmbRequests.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmbRequests.FormattingEnabled = true;
+            this.cmbRequests.Location = new System.Drawing.Point(3, 483);
+            this.cmbRequests.Name = "cmbRequests";
+            this.cmbRequests.Size = new System.Drawing.Size(244, 21);
+            this.cmbRequests.TabIndex = 3;
             // 
             // tableLayoutPanel2
             // 
@@ -272,23 +219,16 @@
             // 
             // tableLayoutPanel3
             // 
-            this.tableLayoutPanel3.ColumnCount = 9;
+            this.tableLayoutPanel3.ColumnCount = 5;
             this.tableLayoutPanel2.SetColumnSpan(this.tableLayoutPanel3, 12);
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.Controls.Add(this.lblSelectPixel, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.numX, 2, 0);
             this.tableLayoutPanel3.Controls.Add(this.numY, 3, 0);
-            this.tableLayoutPanel3.Controls.Add(this.lblCheckResponse, 5, 0);
-            this.tableLayoutPanel3.Controls.Add(this.cmbCheck, 6, 0);
-            this.tableLayoutPanel3.Controls.Add(this.lblCheckState, 7, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
@@ -297,6 +237,33 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.Size = new System.Drawing.Size(530, 27);
             this.tableLayoutPanel3.TabIndex = 0;
+            // 
+            // lblSelectPixel
+            // 
+            this.lblSelectPixel.AutoSize = true;
+            this.lblSelectPixel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblSelectPixel.Location = new System.Drawing.Point(168, 0);
+            this.lblSelectPixel.Name = "lblSelectPixel";
+            this.lblSelectPixel.Size = new System.Drawing.Size(74, 27);
+            this.lblSelectPixel.TabIndex = 0;
+            this.lblSelectPixel.Text = "Select pixel:";
+            this.lblSelectPixel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // numX
+            // 
+            this.numX.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.numX.Location = new System.Drawing.Point(248, 3);
+            this.numX.Name = "numX";
+            this.numX.Size = new System.Drawing.Size(54, 20);
+            this.numX.TabIndex = 1;
+            // 
+            // numY
+            // 
+            this.numY.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.numY.Location = new System.Drawing.Point(308, 3);
+            this.numY.Name = "numY";
+            this.numY.Size = new System.Drawing.Size(54, 20);
+            this.numY.TabIndex = 1;
             // 
             // panel1
             // 
@@ -309,6 +276,16 @@
             this.panel1.Size = new System.Drawing.Size(258, 474);
             this.panel1.TabIndex = 1;
             // 
+            // imgRequest
+            // 
+            this.imgRequest.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.imgRequest.Location = new System.Drawing.Point(45, 59);
+            this.imgRequest.Name = "imgRequest";
+            this.imgRequest.Size = new System.Drawing.Size(100, 50);
+            this.imgRequest.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.imgRequest.TabIndex = 0;
+            this.imgRequest.TabStop = false;
+            // 
             // panel2
             // 
             this.panel2.AutoScroll = true;
@@ -320,32 +297,15 @@
             this.panel2.Size = new System.Drawing.Size(260, 474);
             this.panel2.TabIndex = 1;
             // 
-            // lblSelectPixel
+            // imgResponse
             // 
-            this.lblSelectPixel.AutoSize = true;
-            this.lblSelectPixel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblSelectPixel.Location = new System.Drawing.Point(78, 0);
-            this.lblSelectPixel.Name = "lblSelectPixel";
-            this.lblSelectPixel.Size = new System.Drawing.Size(74, 27);
-            this.lblSelectPixel.TabIndex = 0;
-            this.lblSelectPixel.Text = "Select pixel:";
-            this.lblSelectPixel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // numX
-            // 
-            this.numX.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.numX.Location = new System.Drawing.Point(158, 3);
-            this.numX.Name = "numX";
-            this.numX.Size = new System.Drawing.Size(54, 20);
-            this.numX.TabIndex = 1;
-            // 
-            // numY
-            // 
-            this.numY.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.numY.Location = new System.Drawing.Point(218, 3);
-            this.numY.Name = "numY";
-            this.numY.Size = new System.Drawing.Size(54, 20);
-            this.numY.TabIndex = 1;
+            this.imgResponse.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.imgResponse.Location = new System.Drawing.Point(55, 59);
+            this.imgResponse.Name = "imgResponse";
+            this.imgResponse.Size = new System.Drawing.Size(100, 50);
+            this.imgResponse.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.imgResponse.TabIndex = 0;
+            this.imgResponse.TabStop = false;
             // 
             // lblRequestImg
             // 
@@ -459,57 +419,6 @@
             this.lblResponseImgB.Text = "B: 255";
             this.lblResponseImgB.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // imgRequest
-            // 
-            this.imgRequest.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.imgRequest.Location = new System.Drawing.Point(45, 59);
-            this.imgRequest.Name = "imgRequest";
-            this.imgRequest.Size = new System.Drawing.Size(100, 50);
-            this.imgRequest.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.imgRequest.TabIndex = 0;
-            this.imgRequest.TabStop = false;
-            // 
-            // imgResponse
-            // 
-            this.imgResponse.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.imgResponse.Location = new System.Drawing.Point(55, 59);
-            this.imgResponse.Name = "imgResponse";
-            this.imgResponse.Size = new System.Drawing.Size(100, 50);
-            this.imgResponse.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.imgResponse.TabIndex = 0;
-            this.imgResponse.TabStop = false;
-            // 
-            // lblCheckResponse
-            // 
-            this.lblCheckResponse.AutoSize = true;
-            this.lblCheckResponse.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblCheckResponse.Location = new System.Drawing.Point(315, 0);
-            this.lblCheckResponse.Name = "lblCheckResponse";
-            this.lblCheckResponse.Size = new System.Drawing.Size(74, 27);
-            this.lblCheckResponse.TabIndex = 0;
-            this.lblCheckResponse.Text = "Check:";
-            this.lblCheckResponse.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // cmbCheck
-            // 
-            this.cmbCheck.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmbCheck.FormattingEnabled = true;
-            this.cmbCheck.Location = new System.Drawing.Point(309, 1);
-            this.cmbCheck.Name = "cmbCheck";
-            this.cmbCheck.Size = new System.Drawing.Size(121, 21);
-            this.cmbCheck.TabIndex = 3;
-            // 
-            // lblCheckState
-            // 
-            this.lblCheckState.AutoSize = true;
-            this.lblCheckState.BackColor = System.Drawing.Color.ForestGreen;
-            this.lblCheckState.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblCheckState.Location = new System.Drawing.Point(475, 0);
-            this.lblCheckState.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.lblCheckState.Name = "lblCheckState";
-            this.lblCheckState.Size = new System.Drawing.Size(14, 27);
-            this.lblCheckState.TabIndex = 4;
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -531,13 +440,13 @@
             this.tableLayoutPanel2.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numY)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgRequest)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgResponse)).EndInit();
             this.ResumeLayout(false);
 
@@ -549,12 +458,8 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.PropertyGrid prpRequest;
         private System.Windows.Forms.Button btnCheck;
-        private System.Windows.Forms.Label lblServerState;
-        private System.Windows.Forms.Label lblRequest;
         private System.Windows.Forms.ComboBox cmbRequests;
         private System.Windows.Forms.Button btnSend;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.PropertyGrid propertyGrid2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.Label lblSelectPixel;
@@ -574,9 +479,7 @@
         private System.Windows.Forms.Label lblResponseImgB;
         private System.Windows.Forms.PictureBox imgRequest;
         private System.Windows.Forms.PictureBox imgResponse;
-        private System.Windows.Forms.Label lblCheckResponse;
-        private System.Windows.Forms.ComboBox cmbCheck;
-        private System.Windows.Forms.Label lblCheckState;
+        private System.Windows.Forms.TextBox txtServer;
     }
 }
 

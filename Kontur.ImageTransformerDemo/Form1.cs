@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net;
+using System.Net.Sockets;
 using System.Windows.Forms;
 
 namespace Kontur.ImageTransformerDemo
@@ -19,17 +15,24 @@ namespace Kontur.ImageTransformerDemo
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-
+            Utils.ServerAvaible(txtServer.Text, btnCheck);
         }
 
         private void btnCheck_Click(object sender, EventArgs e)
         {
-
+            Utils.ServerAvaible(txtServer.Text, btnCheck);
         }
 
         private void btnSend_Click(object sender, EventArgs e)
         {
+        }
 
+        private void txtServer_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                Utils.ServerAvaible(txtServer.Text, btnCheck);
+            }
         }
     }
 }
