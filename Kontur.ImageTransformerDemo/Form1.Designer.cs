@@ -141,7 +141,7 @@ namespace Kontur.ImageTransformerDemo
             this.txtServer.Name = "txtServer";
             this.txtServer.Size = new System.Drawing.Size(180, 20);
             this.txtServer.TabIndex = 5;
-            this.txtServer.Text = "http://127.0.0.1:8080/";
+            this.txtServer.Text = "http://localhost:8080/";
             this.txtServer.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtServer_KeyDown);
             // 
             // prpRequest
@@ -154,6 +154,7 @@ namespace Kontur.ImageTransformerDemo
             this.tableLayoutPanel1.SetRowSpan(this.prpRequest, 5);
             this.prpRequest.Size = new System.Drawing.Size(244, 447);
             this.prpRequest.TabIndex = 1;
+            this.prpRequest.ToolbarVisible = false;
             // 
             // btnSend
             // 

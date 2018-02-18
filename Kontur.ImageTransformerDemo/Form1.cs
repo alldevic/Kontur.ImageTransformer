@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Drawing;
-using System.Net;
-using System.Net.Sockets;
 using System.Windows.Forms;
 
 namespace Kontur.ImageTransformerDemo
@@ -15,6 +12,8 @@ namespace Kontur.ImageTransformerDemo
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+            var data = new HttpData();
+            prpRequest.SelectedObject = data;
             Utils.ServerAvaible(txtServer.Text, btnCheck);
         }
 
