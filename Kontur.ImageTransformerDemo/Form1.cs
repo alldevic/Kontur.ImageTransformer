@@ -21,5 +21,15 @@ namespace Kontur.ImageTransformerDemo
         {
 
         }
+
+        private void btnCheck_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnSend_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
