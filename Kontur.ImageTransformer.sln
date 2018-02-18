@@ -1,22 +1,47 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kontur.ImageTransformer", "Kontur.ImageTransformer\Kontur.ImageTransformer.csproj", "{A98BEFB7-99BB-453F-9AFA-20B66C87577F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kontur.ImageTransformerTests", "Kontur.ImageTransformerTests\Kontur.ImageTransformerTests.csproj", "{9484FB90-C99A-4B60-8508-6F62281F35ED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kontur.ImageTransformerDemo", "Kontur.ImageTransformerDemo\Kontur.ImageTransformerDemo.csproj", "{0A6CD272-640F-4798-867B-39CE1037CECC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A98BEFB7-99BB-453F-9AFA-20B66C87577F}.Debug|Any CPU.ActiveCfg = Debug|x64
 		{A98BEFB7-99BB-453F-9AFA-20B66C87577F}.Debug|x64.ActiveCfg = Debug|x64
 		{A98BEFB7-99BB-453F-9AFA-20B66C87577F}.Debug|x64.Build.0 = Debug|x64
+		{A98BEFB7-99BB-453F-9AFA-20B66C87577F}.Release|Any CPU.ActiveCfg = Release|x64
 		{A98BEFB7-99BB-453F-9AFA-20B66C87577F}.Release|x64.ActiveCfg = Release|x64
 		{A98BEFB7-99BB-453F-9AFA-20B66C87577F}.Release|x64.Build.0 = Release|x64
+		{9484FB90-C99A-4B60-8508-6F62281F35ED}.Debug|Any CPU.ActiveCfg = Debug|x64
 		{9484FB90-C99A-4B60-8508-6F62281F35ED}.Debug|x64.ActiveCfg = Debug|x64
 		{9484FB90-C99A-4B60-8508-6F62281F35ED}.Debug|x64.Build.0 = Debug|x64
+		{9484FB90-C99A-4B60-8508-6F62281F35ED}.Release|Any CPU.ActiveCfg = Release|x64
 		{9484FB90-C99A-4B60-8508-6F62281F35ED}.Release|x64.ActiveCfg = Release|x64
 		{9484FB90-C99A-4B60-8508-6F62281F35ED}.Release|x64.Build.0 = Release|x64
+		{0A6CD272-640F-4798-867B-39CE1037CECC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A6CD272-640F-4798-867B-39CE1037CECC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A6CD272-640F-4798-867B-39CE1037CECC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0A6CD272-640F-4798-867B-39CE1037CECC}.Debug|x64.Build.0 = Debug|Any CPU
+		{0A6CD272-640F-4798-867B-39CE1037CECC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A6CD272-640F-4798-867B-39CE1037CECC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A6CD272-640F-4798-867B-39CE1037CECC}.Release|x64.ActiveCfg = Release|Any CPU
+		{0A6CD272-640F-4798-867B-39CE1037CECC}.Release|x64.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2FFDF11C-3A86-40CC-BD25-45A167C3F62C}
 	EndGlobalSection
 EndGlobal
