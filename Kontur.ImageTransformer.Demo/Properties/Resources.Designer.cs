@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Kontur.ImageTransformerDemo.Properties
+namespace Kontur.ImageTransformer.Demo.Properties
 {
 
 
@@ -44,7 +44,7 @@ namespace Kontur.ImageTransformerDemo.Properties
             {
                 if ((resourceMan == null))
                 {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Kontur.ImageTransformerDemo.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Kontur.ImageTransformer.Demo.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

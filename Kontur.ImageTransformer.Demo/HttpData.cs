@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Net;
 
-namespace Kontur.ImageTransformerDemo
+namespace Kontur.ImageTransformer.Demo
 {
     public class HttpData
     {

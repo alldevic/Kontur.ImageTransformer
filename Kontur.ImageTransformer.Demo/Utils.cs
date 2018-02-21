@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Windows.Forms;
 
-namespace Kontur.ImageTransformerDemo
+namespace Kontur.ImageTransformer.Demo
 {
     public static class Utils
     {

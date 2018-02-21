@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Kontur.ImageTransformerDemo.Properties
+namespace Kontur.ImageTransformer.Demo.Properties
 {
 
 

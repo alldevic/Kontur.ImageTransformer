@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Kontur.ImageTransformerDemo
+namespace Kontur.ImageTransformer.Demo
 {
     public enum Actions
     {

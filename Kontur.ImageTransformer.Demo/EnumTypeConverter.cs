@@ -5,7 +5,7 @@ using System;
 using System.ComponentModel;
 using System.Globalization;
 
-namespace Kontur.ImageTransformerDemo
+namespace Kontur.ImageTransformer.Demo
 {
     class EnumTypeConverter : EnumConverter
     {

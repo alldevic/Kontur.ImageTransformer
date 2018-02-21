@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace Kontur.ImageTransformerDemo
+namespace Kontur.ImageTransformer.Demo
 {
     partial class frmMain
     {

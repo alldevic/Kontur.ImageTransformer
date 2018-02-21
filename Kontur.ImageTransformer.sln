@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kontur.ImageTransformer", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kontur.ImageTransformerTests", "Kontur.ImageTransformerTests\Kontur.ImageTransformerTests.csproj", "{9484FB90-C99A-4B60-8508-6F62281F35ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kontur.ImageTransformerDemo", "Kontur.ImageTransformerDemo\Kontur.ImageTransformerDemo.csproj", "{0A6CD272-640F-4798-867B-39CE1037CECC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kontur.ImageTransformer.Demo", "Kontur.ImageTransformer.Demo\Kontur.ImageTransformer.Demo.csproj", "{0A6CD272-640F-4798-867B-39CE1037CECC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
