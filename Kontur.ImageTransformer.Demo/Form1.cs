@@ -76,6 +76,8 @@ namespace Kontur.ImageTransformer.Demo
             {
                 lblRoute.Text = _data.Route();
             }
+            
+            btnSend_Click(s, e);
         }
     }
 }
