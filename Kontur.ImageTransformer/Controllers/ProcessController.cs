@@ -23,7 +23,7 @@ namespace Kontur.ImageTransformer.Controllers
             }
 
             var rect = new Rectangle(x, y, w, h);
-            rect.RotateFlip(trn);
+            rect.RotateFlip(trn, img.Width, img.Height);
             var plot = Rectangle.Intersect(rect, new Rectangle(0, 0, img.Width, img.Height));
             if (plot.IsEmpty || plot.Width == 0 || plot.Height == 0)
             {

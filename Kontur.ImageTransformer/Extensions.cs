@@ -56,28 +56,28 @@ namespace Kontur.ImageTransformer
 
         /// <summary>
         /// Partially implementing Image.RotateFlip (RotateFlipType) from System.Drawing for Rectangle.
-        /// Also, replace 90-none and 270-none for correct work.
+        /// Incorrect for default usage, only Kontur.ImageTransformer
         /// </summary>
         /// <param name="rect">Rectangle for transformation</param>
         /// <param name="rotateFlipType">COmbination of rotate and flip</param>
         /// <exception cref="NotFiniteNumberException">I implemented only needed consts</exception>
-        public static void RotateFlip(this Rectangle rect, RotateFlipType rotateFlipType)
+        public static void RotateFlip(this Rectangle rect, RotateFlipType rotateFlipType, int srcW, int srcH)
         {
             int t;
             switch (rotateFlipType)
             {
                 case RotateFlipType.RotateNoneFlipNone: // == Rotate180FlipXY
                     break;
-                case RotateFlipType.Rotate90FlipNone: // == Rotate270FlipXY
-                    rect.X += rect.Width;
+                case RotateFlipType.Rotate90FlipNone: // == Rotate270FlipXY cw
+                    rect.X = rect.Y;
                     rect.Y = rect.Y;
                     t = rect.Width;
-                    rect.Width = rect.Height;
-                    rect.Height = -t;
+                    rect.Width = -rect.Width;
+                    rect.Height = rect.Width;
                     break;
-                case RotateFlipType.Rotate270FlipNone: // == Rotate90FlipXY
-                    rect.X = rect.X;
-                    rect.Y += rect.Height;
+                case RotateFlipType.Rotate270FlipNone: // == Rotate90FlipXY ccw
+                    rect.X += rect.Width;
+                    rect.Y = rect.Y ;
                     t = rect.Width;
                     rect.Width = -rect.Height;
                     rect.Height = t;
