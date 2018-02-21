@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Net;
+using Kontur.ImageTransformer.Demo.Properties;
 
 namespace Kontur.ImageTransformer.Demo
 {
@@ -21,15 +21,12 @@ namespace Kontur.ImageTransformer.Demo
 
         [Category("Request")]
         [DisplayName("Coordinates")]
-        public Rectangle Coords { get; set; } = Rectangle.Empty;
+        public Rectangle Coords { get; set; } = new Rectangle(0, 0, 100, 100);
 
         [Category("Request")]
-        [DisplayName("HTTP Method")]
-        public string Method { get; set; } = "POST";
-
-        [Category("Request")]
+        [ReadOnly(true)]
         [DisplayName("Body")]
-        public Image RequestImage { get; set; } = new Bitmap(250, 250, PixelFormat.Format32bppArgb);
+        public Image RequestImage { get; set; } = new Bitmap(Resources.zebra);
 
         [Category("Request")]
         [DisplayName("Action")]
@@ -49,10 +46,17 @@ namespace Kontur.ImageTransformer.Demo
         [Category("Response")]
         [DisplayName("Body")]
         [ReadOnly(true)]
-        public Image ResponseImage { get; set; }
+        public Image ResponseImage { get; set; } = new Bitmap(1, 1, PixelFormat.Format32bppArgb);
 
         #endregion
 
-        private List<string> possibleRoutes { get; set; }
+
+        public string Route()
+        {
+            var str = Action.GetDescription();
+            return Action == Actions.threshold
+                ? $"process/{str}({ThresholdLevel})/{Coords.X},{Coords.Y},{Coords.Width},{Coords.Height}/"
+                : $"process/{str}/{Coords.X},{Coords.Y},{Coords.Width},{Coords.Height}/";
+        }
     }
 }

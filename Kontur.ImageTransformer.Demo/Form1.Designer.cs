@@ -34,9 +34,9 @@ namespace Kontur.ImageTransformer.Demo
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.btnCheck = new System.Windows.Forms.Button();
             this.txtServer = new System.Windows.Forms.TextBox();
-            this.prpRequest = new System.Windows.Forms.PropertyGrid();
+            this.prpData = new System.Windows.Forms.PropertyGrid();
             this.btnSend = new System.Windows.Forms.Button();
-            this.cmbRequests = new System.Windows.Forms.ComboBox();
+            this.lblRoute = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.lblSelectPixel = new System.Windows.Forms.Label();
@@ -101,9 +101,9 @@ namespace Kontur.ImageTransformer.Demo
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.Controls.Add(this.btnCheck, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.txtServer, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.prpRequest, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.prpData, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.btnSend, 0, 7);
-            this.tableLayoutPanel1.Controls.Add(this.cmbRequests, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.lblRoute, 0, 6);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
@@ -144,17 +144,19 @@ namespace Kontur.ImageTransformer.Demo
             this.txtServer.Text = "http://localhost:8080/";
             this.txtServer.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtServer_KeyDown);
             // 
-            // prpRequest
+            // prpData
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.prpRequest, 4);
-            this.prpRequest.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.prpRequest.LineColor = System.Drawing.SystemColors.ControlDark;
-            this.prpRequest.Location = new System.Drawing.Point(3, 30);
-            this.prpRequest.Name = "prpRequest";
-            this.tableLayoutPanel1.SetRowSpan(this.prpRequest, 5);
-            this.prpRequest.Size = new System.Drawing.Size(244, 447);
-            this.prpRequest.TabIndex = 1;
-            this.prpRequest.ToolbarVisible = false;
+            this.tableLayoutPanel1.SetColumnSpan(this.prpData, 4);
+            this.prpData.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.prpData.HelpVisible = false;
+            this.prpData.LineColor = System.Drawing.SystemColors.ControlDark;
+            this.prpData.Location = new System.Drawing.Point(3, 30);
+            this.prpData.Name = "prpData";
+            this.tableLayoutPanel1.SetRowSpan(this.prpData, 5);
+            this.prpData.Size = new System.Drawing.Size(244, 447);
+            this.prpData.TabIndex = 1;
+            this.prpData.ToolbarVisible = false;
+            this.prpData.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.prpRequest_PropertyValueChanged);
             // 
             // btnSend
             // 
@@ -168,15 +170,16 @@ namespace Kontur.ImageTransformer.Demo
             this.btnSend.UseVisualStyleBackColor = true;
             this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
-            // cmbRequests
+            // lblRoute
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.cmbRequests, 4);
-            this.cmbRequests.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmbRequests.FormattingEnabled = true;
-            this.cmbRequests.Location = new System.Drawing.Point(3, 483);
-            this.cmbRequests.Name = "cmbRequests";
-            this.cmbRequests.Size = new System.Drawing.Size(244, 21);
-            this.cmbRequests.TabIndex = 3;
+            this.lblRoute.AutoSize = true;
+            this.tableLayoutPanel1.SetColumnSpan(this.lblRoute, 4);
+            this.lblRoute.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblRoute.Location = new System.Drawing.Point(3, 480);
+            this.lblRoute.Name = "lblRoute";
+            this.lblRoute.Size = new System.Drawing.Size(244, 27);
+            this.lblRoute.TabIndex = 6;
+            this.lblRoute.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // tableLayoutPanel2
             // 
@@ -249,6 +252,7 @@ namespace Kontur.ImageTransformer.Demo
             this.lblSelectPixel.TabIndex = 0;
             this.lblSelectPixel.Text = "Select pixel:";
             this.lblSelectPixel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblSelectPixel.Visible = false;
             // 
             // numX
             // 
@@ -257,6 +261,7 @@ namespace Kontur.ImageTransformer.Demo
             this.numX.Name = "numX";
             this.numX.Size = new System.Drawing.Size(54, 20);
             this.numX.TabIndex = 1;
+            this.numX.Visible = false;
             // 
             // numY
             // 
@@ -265,6 +270,7 @@ namespace Kontur.ImageTransformer.Demo
             this.numY.Name = "numY";
             this.numY.Size = new System.Drawing.Size(54, 20);
             this.numY.TabIndex = 1;
+            this.numY.Visible = false;
             // 
             // panel1
             // 
@@ -279,10 +285,9 @@ namespace Kontur.ImageTransformer.Demo
             // 
             // imgRequest
             // 
-            this.imgRequest.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.imgRequest.Location = new System.Drawing.Point(45, 59);
+            this.imgRequest.Location = new System.Drawing.Point(0, 0);
             this.imgRequest.Name = "imgRequest";
-            this.imgRequest.Size = new System.Drawing.Size(100, 50);
+            this.imgRequest.Size = new System.Drawing.Size(10, 10);
             this.imgRequest.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.imgRequest.TabIndex = 0;
             this.imgRequest.TabStop = false;
@@ -300,10 +305,9 @@ namespace Kontur.ImageTransformer.Demo
             // 
             // imgResponse
             // 
-            this.imgResponse.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.imgResponse.Location = new System.Drawing.Point(55, 59);
+            this.imgResponse.Location = new System.Drawing.Point(0, 0);
             this.imgResponse.Name = "imgResponse";
-            this.imgResponse.Size = new System.Drawing.Size(100, 50);
+            this.imgResponse.Size = new System.Drawing.Size(10, 10);
             this.imgResponse.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.imgResponse.TabIndex = 0;
             this.imgResponse.TabStop = false;
@@ -342,6 +346,7 @@ namespace Kontur.ImageTransformer.Demo
             this.lblRequestImgA.TabIndex = 3;
             this.lblRequestImgA.Text = "A: 255";
             this.lblRequestImgA.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblRequestImgA.Visible = false;
             // 
             // lblRequestImgR
             // 
@@ -353,6 +358,7 @@ namespace Kontur.ImageTransformer.Demo
             this.lblRequestImgR.TabIndex = 3;
             this.lblRequestImgR.Text = "R: 255";
             this.lblRequestImgR.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblRequestImgR.Visible = false;
             // 
             // lblRequestImgG
             // 
@@ -364,6 +370,7 @@ namespace Kontur.ImageTransformer.Demo
             this.lblRequestImgG.TabIndex = 3;
             this.lblRequestImgG.Text = "G: 255";
             this.lblRequestImgG.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblRequestImgG.Visible = false;
             // 
             // lblbRequestImgB
             // 
@@ -375,6 +382,7 @@ namespace Kontur.ImageTransformer.Demo
             this.lblbRequestImgB.TabIndex = 3;
             this.lblbRequestImgB.Text = "B: 255";
             this.lblbRequestImgB.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblbRequestImgB.Visible = false;
             // 
             // lblResponseImgA
             // 
@@ -386,6 +394,7 @@ namespace Kontur.ImageTransformer.Demo
             this.lblResponseImgA.TabIndex = 3;
             this.lblResponseImgA.Text = "A: 255";
             this.lblResponseImgA.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblResponseImgA.Visible = false;
             // 
             // lblResponseImgR
             // 
@@ -397,6 +406,7 @@ namespace Kontur.ImageTransformer.Demo
             this.lblResponseImgR.TabIndex = 3;
             this.lblResponseImgR.Text = "R: 255";
             this.lblResponseImgR.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblResponseImgR.Visible = false;
             // 
             // lblResponseImgG
             // 
@@ -408,6 +418,7 @@ namespace Kontur.ImageTransformer.Demo
             this.lblResponseImgG.TabIndex = 3;
             this.lblResponseImgG.Text = "G: 255";
             this.lblResponseImgG.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblResponseImgG.Visible = false;
             // 
             // lblResponseImgB
             // 
@@ -419,6 +430,7 @@ namespace Kontur.ImageTransformer.Demo
             this.lblResponseImgB.TabIndex = 3;
             this.lblResponseImgB.Text = "B: 255";
             this.lblResponseImgB.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblResponseImgB.Visible = false;
             // 
             // frmMain
             // 
@@ -457,9 +469,8 @@ namespace Kontur.ImageTransformer.Demo
 
         private System.Windows.Forms.SplitContainer splMain;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.PropertyGrid prpRequest;
+        private System.Windows.Forms.PropertyGrid prpData;
         private System.Windows.Forms.Button btnCheck;
-        private System.Windows.Forms.ComboBox cmbRequests;
         private System.Windows.Forms.Button btnSend;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
@@ -481,6 +492,7 @@ namespace Kontur.ImageTransformer.Demo
         private System.Windows.Forms.PictureBox imgRequest;
         private System.Windows.Forms.PictureBox imgResponse;
         private System.Windows.Forms.TextBox txtServer;
+        private Label lblRoute;
     }
 }
 
