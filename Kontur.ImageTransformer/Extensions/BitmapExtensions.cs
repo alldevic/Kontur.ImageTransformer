@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Kontur.ImageTransformer
+namespace Kontur.ImageTransformer.Extensions
 {
     public static class Extensions
     {
@@ -52,51 +52,6 @@ namespace Kontur.ImageTransformer
             Marshal.Copy(bmpData.Scan0, imgArray, 0, bytes);
             img.UnlockBits(bmpData);
             return imgArray;
-        }
-
-        /// <summary>
-        /// Partially implementing Image.RotateFlip (RotateFlipType) from System.Drawing for Rectangle.
-        /// Incorrect for default usage, only Kontur.ImageTransformer
-        /// </summary>
-        /// <param name="rect">Rectangle for transformation</param>
-        /// <param name="rotateFlipType">COmbination of rotate and flip</param>
-        /// <exception cref="NotFiniteNumberException">I implemented only needed consts</exception>
-        public static void RotateFlip(this Rectangle rect, RotateFlipType rotateFlipType, int srcW, int srcH)
-        {
-            int t;
-            switch (rotateFlipType)
-            {
-                case RotateFlipType.RotateNoneFlipNone: // == Rotate180FlipXY
-                    break;
-                case RotateFlipType.Rotate90FlipNone: // == Rotate270FlipXY cw
-                    rect.X = rect.Y;
-                    rect.Y = rect.Y;
-                    t = rect.Width;
-                    rect.Width = -rect.Width;
-                    rect.Height = rect.Width;
-                    break;
-                case RotateFlipType.Rotate270FlipNone: // == Rotate90FlipXY ccw
-                    rect.X += rect.Width;
-                    rect.Y = rect.Y ;
-                    t = rect.Width;
-                    rect.Width = -rect.Height;
-                    rect.Height = t;
-                    break;
-                case RotateFlipType.RotateNoneFlipX: // == Rotate180FlipY
-                    rect.X += rect.Width;
-                    rect.Y = rect.Y;
-                    rect.Width = -rect.Width;
-                    rect.Height = rect.Height;
-                    break;
-                case RotateFlipType.RotateNoneFlipY: // == Rotate180FlipX
-                    rect.X = rect.X;
-                    rect.Y += rect.Height;
-                    rect.Width = rect.Width;
-                    rect.Height = -rect.Height;
-                    break;
-                default:
-                    throw new NotFiniteNumberException();
-            }
         }
 
         /// <summary>
