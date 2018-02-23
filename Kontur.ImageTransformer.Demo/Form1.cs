@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Windows.Forms;
@@ -42,6 +43,12 @@ namespace Kontur.ImageTransformer.Demo
                     content.Headers.ContentType = new MediaTypeHeaderValue(_data.ContentType);
                     var response = restClient.PostAsync(_data.Route(), content).Result;
                     _data.StatusCode = response.StatusCode;
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        prpData.Refresh();
+                        return;
+                    }
+
                     if (response.IsSuccessStatusCode)
                     {
                         _data.ResponseImage = new Bitmap(response.Content.ReadAsStreamAsync().Result);
@@ -76,7 +83,7 @@ namespace Kontur.ImageTransformer.Demo
             {
                 lblRoute.Text = _data.Route();
             }
-            
+
             btnSend_Click(s, e);
         }
     }
