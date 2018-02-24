@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Tracing;
+using Kontur.ImageTransformer.Extensions;
 using Kontur.ImageTransformer.Results;
 
 namespace Kontur.ImageTransformer.Controllers
@@ -23,14 +24,15 @@ namespace Kontur.ImageTransformer.Controllers
             }
 
             var rect = new Rectangle(x, y, w, h);
-            rect.RotateFlip(trn, img.Width, img.Height);
-            var plot = Rectangle.Intersect(rect, new Rectangle(0, 0, img.Width, img.Height));
-            if (plot.IsEmpty || plot.Width == 0 || plot.Height == 0)
+            rect = rect.Normalise().RotateFlip(trn, img.Width, img.Height);
+            rect = Rectangle.Intersect(rect, new Rectangle(0, 0, img.Width, img.Height));
+
+            if (rect.IsEmpty || rect.Width == 0 || rect.Height == 0)
             {
                 return StatusCode(HttpStatusCode.NoContent);
             }
 
-            img = img.Clone(plot, img.PixelFormat);
+            img = img.Clone(rect, img.PixelFormat);
             img.RotateFlip(trn);
             return await Task.FromResult(new OkResult(img));
         }
@@ -70,17 +72,7 @@ namespace Kontur.ImageTransformer.Controllers
             var argbValues = img.ToArray(plot);
 
             var byteLevel = (byte) (255 * level / 100);
-
-            int i;
-            for (i = 0; i < bytes - 3; i += 4)
-            {
-                argbValues[i] = filter((uint) argbValues[i], byteLevel);
-                argbValues[i + 1] = filter((uint) argbValues[i + 1], byteLevel);
-                argbValues[i + 2] = filter((uint) argbValues[i + 2], byteLevel);
-                argbValues[i + 3] = filter((uint) argbValues[i + 3], byteLevel);
-            }
-
-            for (; i < bytes; i++)
+            for (var i = 0; i < bytes; i++)
             {
                 argbValues[i] = filter((uint) argbValues[i], byteLevel);
             }
