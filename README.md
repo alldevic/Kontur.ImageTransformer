@@ -4,15 +4,18 @@
 Get a HTTP request containing a picture in png format, the coordinates of the rectangular area and the name of the filter. You need to apply a filter to the picture, cut out a fragment corresponding to the specified area, and send in response.
 
 ## API
-The service must support a single request:
+The service must support two requests:
 ```
 POST /process/<filter>/<coords>
+POST /process/<transform>/<coords>
 ```
 Body: png image, <=100KB - 200 OK, >100KB - 400 Bad Request
 
-`<filter>` — string grayscale, sepia or threshold(x), where x in `[0, 100]`.
+`<filter>` — string 'grayscale', 'sepia' or 'threshold(x)', where x in `[0, 100]`.
 Example of correct `<filter>`: threshold(30)
-If `<filter>` does not match this format, you need to send an empty response with 400 Bad Request.
+`<transform>` — string 'rotate-cw', 'rotate-ccw', 'flip-v' or 'flip-h'
+
+If `<filter>` or `<transform>` does not match this format, you need to send an empty response with 400 Bad Request.
 
 `<coords>` is a string of the form x, y, w, h, where x and y are integers specifying the coordinates of the upper-left corner of the rectangle, w and h are integers specifying the width and height of the rectangle.
 
@@ -61,3 +64,17 @@ R = (oldR * .393) + (oldG * .769) + (oldB * .189)
 G = (oldR * .349) + (oldG * .686) + (oldB * .168)
 B = (oldR * .272) + (oldG * .534) + (oldB * .131)
 ```
+
+## Transforms
+
+### rotate-cw
+Rotate сlockwise
+
+### rotate-ccw
+Rotate counter-clockwise
+
+### flip-h
+Reflection about the Y axis
+
+### flip-v
+Reflection about the X axis
