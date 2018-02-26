@@ -50,7 +50,7 @@ namespace Kontur.ImageTransformerTests.HandlersTests
         [Test]
         public void NullableContent()
         {
-            MyWebApi.Handler<MainCheckHandler>()
+            MyWebApi.Handler<CorrectRequestHandler>()
                 .WithHttpRequestMessage(request => request.WithContent(null))
                 .ShouldReturnHttpResponseMessage()
                 .WithStatusCode(HttpStatusCode.BadRequest);
