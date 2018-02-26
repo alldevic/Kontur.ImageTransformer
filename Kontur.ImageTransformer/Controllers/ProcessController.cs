@@ -60,7 +60,8 @@ namespace Kontur.ImageTransformer.Controllers
                 return BadRequest();
             }
 
-            var plot = Rectangle.Intersect(new Rectangle(x, y, w, h), new Rectangle(0, 0, img.Width, img.Height));
+            var rect = new Rectangle(x, y, w, h);
+            var plot = Rectangle.Intersect(rect.Normalise(), new Rectangle(0, 0, img.Width, img.Height));
             if (plot.IsEmpty || plot.Width == 0 || plot.Height == 0)
             {
                 tracer.Info(Request, ControllerContext.ControllerDescriptor.ControllerType.FullName, "Empty rectangle");
