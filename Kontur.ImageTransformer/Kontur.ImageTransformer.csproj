@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Configuration.cs" />
     <Compile Include="Constraints\CoordsConstraint.cs" />
+    <Compile Include="Constraints\FilterConstraint.cs" />
     <Compile Include="Constraints\TransformConstraint.cs" />
     <Compile Include="Controllers\BadRequestController.cs" />
     <Compile Include="Controllers\ProcessController.cs" />

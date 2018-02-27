@@ -36,6 +36,7 @@ namespace Kontur.ImageTransformer
             config.Formatters.Remove(config.Formatters.XmlFormatter);
 
             var constraintResolver = new DefaultInlineConstraintResolver();
+            constraintResolver.ConstraintMap.Add("filter", typeof(FilterConstraint));
             constraintResolver.ConstraintMap.Add("transform", typeof(TransformConstraint));
             constraintResolver.ConstraintMap.Add("coords", typeof(CoordsConstraint));
             config.MapHttpAttributeRoutes(constraintResolver);

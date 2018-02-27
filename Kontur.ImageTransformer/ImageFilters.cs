@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Kontur.ImageTransformer
 {
@@ -66,6 +67,29 @@ namespace Kontur.ImageTransformer
             var k = (byte) (GrayUInt[pixel & 0x00FFFFFF] & 0x000000FF);
 
             return (int) ((k < level ? 0x0u : 0x00FFFFFFu) | pixel & 0xFF000000);
+        }
+
+        public static Filter FromString(string flt, out byte level)
+        {
+            level = 0;
+            if (flt.Equals("grayscale"))
+            {
+                return GrayscaleFilter;
+            }
+
+            if (flt.Equals("sepia"))
+            {
+                return SepiaFilter;
+            }
+
+            if (Regex.IsMatch(flt, @"^threshold\(([0-9]|[1-9][0-9]|100)\)$",
+                RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline))
+            {
+                byte.TryParse(Regex.Match(flt, @"\d+").Value, out level);
+                return ThresholdFilter;
+            }
+
+            throw new ArgumentException();
         }
 
         private static int GrayPix(int r, int g, int b) => (r + g + b) / 3;

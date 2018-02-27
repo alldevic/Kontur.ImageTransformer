@@ -39,19 +39,8 @@ namespace Kontur.ImageTransformer.Controllers
             return await Task.FromResult(new OkResult(img));
         }
 
-        [HttpPost, Route("grayscale/{crd:coords}")]
-        public async Task<IHttpActionResult> Grayscale(string crd) =>
-            await Do(crd, ImageFilters.GrayscaleFilter);
-
-        [HttpPost, Route("threshold({level:int:range(0,100)})/{crd:coords}")]
-        public async Task<IHttpActionResult> Threshold(byte level, string crd) =>
-            await Do(crd, ImageFilters.ThresholdFilter, level);
-
-        [HttpPost, Route("sepia/{crd:coords}")]
-        public async Task<IHttpActionResult> Sepia(string crd) =>
-            await Do(crd, ImageFilters.SepiaFilter);
-
-        private async Task<IHttpActionResult> Do(string crd, ImageFilters.Filter filter, int level = 0)
+        [HttpPost, Route("{flt:filter}/{crd:coords}")]
+        public async Task<IHttpActionResult> Sepia(string flt, string crd)
         {
             var tracer = Request.GetConfiguration().Services.GetTraceWriter();
 
@@ -75,7 +64,7 @@ namespace Kontur.ImageTransformer.Controllers
             var bytes = plot.Width * plot.Height;
             var argbValues = img.ToArray(plot);
 
-            var byteLevel = (byte) (255 * level / 100);
+            var filter = ImageFilters.FromString(flt, out var byteLevel);
             for (var i = 0; i < bytes; i++)
             {
                 argbValues[i] = filter((uint) argbValues[i], byteLevel);
