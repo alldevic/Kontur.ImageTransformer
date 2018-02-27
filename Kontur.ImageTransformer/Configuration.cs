@@ -37,6 +37,7 @@ namespace Kontur.ImageTransformer
 
             var constraintResolver = new DefaultInlineConstraintResolver();
             constraintResolver.ConstraintMap.Add("transform", typeof(TransformConstraint));
+            constraintResolver.ConstraintMap.Add("coords", typeof(CoordsConstraint));
             config.MapHttpAttributeRoutes(constraintResolver);
 
             config.Routes.MapHttpRoute("404-API", "{*url}", new {controller = "BadRequest", action = "Handle404"});

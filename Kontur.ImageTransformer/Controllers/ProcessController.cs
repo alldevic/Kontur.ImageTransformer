@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -14,8 +15,8 @@ namespace Kontur.ImageTransformer.Controllers
     [RoutePrefix("process")]
     public class ProcessController : ApiController
     {
-        [HttpPost, Route("{trn:transform}/{x:int},{y:int},{w:int},{h:int}")]
-        public async Task<IHttpActionResult> Transform(RotateFlipType trn, int x, int y, int w, int h)
+        [HttpPost, Route("{trn:transform}/{crd:coords}")]
+        public async Task<IHttpActionResult> Transform(RotateFlipType trn, string crd)
         {
             if (!Request.TryToBitmap(out var img) || img.PixelFormat != PixelFormat.Format32bppArgb ||
                 img.Width > 1000 || img.Height > 1000)
@@ -23,7 +24,8 @@ namespace Kontur.ImageTransformer.Controllers
                 return BadRequest();
             }
 
-            var rect = new Rectangle(x, y, w, h);
+            var conv = new RectangleConverter();
+            var rect = (Rectangle) conv.ConvertFromString(null, CultureInfo.InvariantCulture, crd);
             rect = rect.Normalise().RotateFlip(trn, img.Width, img.Height);
             rect = Rectangle.Intersect(rect, new Rectangle(0, 0, img.Width, img.Height));
 
@@ -37,19 +39,19 @@ namespace Kontur.ImageTransformer.Controllers
             return await Task.FromResult(new OkResult(img));
         }
 
-        [HttpPost, Route("grayscale/{x:int},{y:int},{w:int},{h:int}")]
-        public async Task<IHttpActionResult> Grayscale(int x, int y, int w, int h) =>
-            await Do(x, y, w, h, ImageFilters.GrayscaleFilter);
+        [HttpPost, Route("grayscale/{crd:coords}")]
+        public async Task<IHttpActionResult> Grayscale(string crd) =>
+            await Do(crd, ImageFilters.GrayscaleFilter);
 
-        [HttpPost, Route("threshold({level:int:range(0,100)})/{x:int},{y:int},{w:int},{h:int}")]
-        public async Task<IHttpActionResult> Threshold(byte level, int x, int y, int w, int h) =>
-            await Do(x, y, w, h, ImageFilters.ThresholdFilter, level);
+        [HttpPost, Route("threshold({level:int:range(0,100)})/{crd:coords}")]
+        public async Task<IHttpActionResult> Threshold(byte level, string crd) =>
+            await Do(crd, ImageFilters.ThresholdFilter, level);
 
-        [HttpPost, Route("sepia/{x:int},{y:int},{w:int},{h:int}")]
-        public async Task<IHttpActionResult> Sepia(int x, int y, int w, int h) =>
-            await Do(x, y, w, h, ImageFilters.SepiaFilter);
+        [HttpPost, Route("sepia/{crd:coords}")]
+        public async Task<IHttpActionResult> Sepia(string crd) =>
+            await Do(crd, ImageFilters.SepiaFilter);
 
-        private async Task<IHttpActionResult> Do(int x, int y, int w, int h, ImageFilters.Filter filter, int level = 0)
+        private async Task<IHttpActionResult> Do(string crd, ImageFilters.Filter filter, int level = 0)
         {
             var tracer = Request.GetConfiguration().Services.GetTraceWriter();
 
@@ -60,7 +62,8 @@ namespace Kontur.ImageTransformer.Controllers
                 return BadRequest();
             }
 
-            var rect = new Rectangle(x, y, w, h);
+            var conv = new RectangleConverter();
+            var rect = (Rectangle) conv.ConvertFromString(null, CultureInfo.InvariantCulture, crd);
             var plot = Rectangle.Intersect(rect.Normalise(), new Rectangle(0, 0, img.Width, img.Height));
             if (plot.IsEmpty || plot.Width == 0 || plot.Height == 0)
             {
