@@ -10,6 +10,7 @@ namespace Kontur.ImageTransformer.Handlers
     /// <summary>
     /// Check for method, correct Content-Length, header and nullable content
     /// Accept POST, image/png, application/octet-stream, content-length in (0; 102400)
+    /// Correcting bandwidth
     /// </summary>
     public class CorrectRequestHandler : DelegatingHandler
     {
@@ -17,12 +18,8 @@ namespace Kontur.ImageTransformer.Handlers
 
         public CorrectRequestHandler()
         {
-            _bucket = new TokenBucket(102400 * Environment.ProcessorCount * 25, 900);
-        }
-
-        public CorrectRequestHandler(TokenBucket bucket)
-        {
-            _bucket = bucket;
+            //2800KB per cpu every 1s 
+            _bucket = new TokenBucket(102400 * Environment.ProcessorCount * 28, 1000);
         }
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,

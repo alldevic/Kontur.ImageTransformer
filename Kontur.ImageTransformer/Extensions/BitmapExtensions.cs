@@ -14,7 +14,7 @@ namespace Kontur.ImageTransformer.Extensions
         /// </summary>
         /// <param name="request"></param>
         /// <param name="img"></param>
-        /// <returns></returns>
+        /// <returns>true if successful</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool TryToBitmap(this HttpRequestMessage request, out Bitmap img)
         {
@@ -37,7 +37,7 @@ namespace Kontur.ImageTransformer.Extensions
         /// <param name="img">Source Bitmap</param>
         /// <param name="area">Rectangle for copied to array</param>
         /// <returns>Array with ARGB pixels</returns>
-        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentException">Rmpty image or not 32bppArgb</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int[] ToArray(this Bitmap img, Rectangle area)
         {
@@ -61,7 +61,7 @@ namespace Kontur.ImageTransformer.Extensions
         /// <param name="width">Width of new Bitmap</param>
         /// <param name="height">Height of new Bitmap</param>
         /// <returns>Bitmap with imgArray pixel data</returns>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException">length of array != width * height</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Bitmap ToBitmap(this int[] imgArray, int width, int height)
         {

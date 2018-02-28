@@ -10,6 +10,11 @@ using Kontur.ImageTransformer.Results;
 
 namespace Kontur.ImageTransformer.Controllers
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// POST /process/filter/coords
+    /// POST /process/transform/coords
+    /// </summary>
     [OverrideAuthentication, OverrideAuthorization, AllowAnonymous]
     [RoutePrefix("process")]
     public class ProcessController : ApiController

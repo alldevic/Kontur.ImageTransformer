@@ -5,6 +5,11 @@ namespace Kontur.ImageTransformer.Extensions
 {
     public static class RectangleExtensions
     {
+        /// <summary>
+        /// Correcting a rectangle withe negative width and height
+        /// </summary>
+        /// <param name="rect">Rectangle for normilising</param>
+        /// <returns>Normilised rectangle</returns>
         public static Rectangle Normalise(this Rectangle rect)
         {
             if (rect.Width < 0)

@@ -9,7 +9,7 @@ namespace Kontur.ImageTransformer
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
-        /// The main entry point for the application
+        /// The entry point for the application
         /// </summary>
         public static void Main(string[] args)
         {

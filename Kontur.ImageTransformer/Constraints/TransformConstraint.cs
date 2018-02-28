@@ -5,8 +5,13 @@ using System.Web.Http.Routing;
 
 namespace Kontur.ImageTransformer.Constraints
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Constrains a route parameter to represent only Transform values: rotate-cw, rotate-ccw, flip-v, flip-h 
+    /// </summary>
     public class TransformConstraint : IHttpRouteConstraint
     {
+        /// <inheritdoc />
         public bool Match(HttpRequestMessage request, IHttpRoute route, string parameterName,
             IDictionary<string, object> values, HttpRouteDirection routeDirection)
         {

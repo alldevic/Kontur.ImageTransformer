@@ -69,6 +69,13 @@ namespace Kontur.ImageTransformer
             return (int) ((k < level ? 0x0u : 0x00FFFFFFu) | pixel & 0xFF000000);
         }
 
+        /// <summary>
+        /// Return Filter delegate with  
+        /// </summary>
+        /// <param name="flt">String implementation of Filter</param>
+        /// <param name="level">Variable for threshold filter level</param>
+        /// <returns>Filter delegate</returns>
+        /// <exception cref="ArgumentException"></exception>
         public static Filter FromString(string flt, out byte level)
         {
             level = 0;

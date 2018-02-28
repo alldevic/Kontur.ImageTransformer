@@ -13,6 +13,9 @@ using NLog;
 
 namespace Kontur.ImageTransformer
 {
+    /// <summary>
+    /// Configure server
+    /// </summary>
     public static class Configuration
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
