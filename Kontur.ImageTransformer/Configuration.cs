@@ -44,9 +44,9 @@ namespace Kontur.ImageTransformer
             config.Routes.MapHttpRoute("404-API", "{*url}", new {controller = "BadRequest", action = "Handle404"});
 
             Logger.Info("Configuration done");
-            Logger.Info("Starting precalc");
+            Logger.Trace("Starting precalc");
             PrecalcInit();
-            Logger.Trace("Precalc done");
+            Logger.Info("Precalc done");
             return config;
         }
 

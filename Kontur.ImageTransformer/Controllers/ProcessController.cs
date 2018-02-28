@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
-using System.Globalization;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -18,24 +17,30 @@ namespace Kontur.ImageTransformer.Controllers
         [HttpPost, Route("{trn:transform}/{crd:coords}")]
         public async Task<IHttpActionResult> Transform(RotateFlipType trn, string crd)
         {
+            var tracer = Request.GetConfiguration().Services.GetTraceWriter();
+
             if (!Request.TryToBitmap(out var img) || img.PixelFormat != PixelFormat.Format32bppArgb ||
                 img.Width > 1000 || img.Height > 1000)
             {
+                tracer.Info(Request, ControllerContext.ControllerDescriptor.ControllerType.FullName, "Incorrect PNG");
                 return BadRequest();
             }
 
-            var conv = new RectangleConverter();
-            var rect = (Rectangle) conv.ConvertFromString(null, CultureInfo.InvariantCulture, crd);
+            var rect = (Rectangle) (new RectangleConverter().ConvertFromInvariantString(crd) ?? Rectangle.Empty);
             rect = rect.Normalise().RotateFlip(trn, img.Width, img.Height);
             rect = Rectangle.Intersect(rect, new Rectangle(0, 0, img.Width, img.Height));
 
             if (rect.IsEmpty || rect.Width == 0 || rect.Height == 0)
             {
+                tracer.Info(Request, ControllerContext.ControllerDescriptor.ControllerType.FullName, "Empty rectangle");
                 return StatusCode(HttpStatusCode.NoContent);
             }
 
             img = img.Clone(rect, img.PixelFormat);
+            tracer.Info(Request, ControllerContext.ControllerDescriptor.ControllerType.FullName, "Cropped");
             img.RotateFlip(trn);
+            tracer.Info(Request, ControllerContext.ControllerDescriptor.ControllerType.FullName, "Rotated");
+
             return await Task.FromResult(new OkResult(img));
         }
 
@@ -51,8 +56,7 @@ namespace Kontur.ImageTransformer.Controllers
                 return BadRequest();
             }
 
-            var conv = new RectangleConverter();
-            var rect = (Rectangle) conv.ConvertFromString(null, CultureInfo.InvariantCulture, crd);
+            var rect = (Rectangle) (new RectangleConverter().ConvertFromInvariantString(crd) ?? Rectangle.Empty);
             var plot = Rectangle.Intersect(rect.Normalise(), new Rectangle(0, 0, img.Width, img.Height));
             if (plot.IsEmpty || plot.Width == 0 || plot.Height == 0)
             {
