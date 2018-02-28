@@ -41,11 +41,11 @@ namespace Kontur.ImageTransformer.Controllers
             img.RotateFlip(trn);
             tracer.Info(Request, ControllerContext.ControllerDescriptor.ControllerType.FullName, "Rotated");
 
-            return await Task.FromResult(new OkResult(img));
+            return await Task.FromResult(new OkResult(img, Request.Content.Headers.ContentType.MediaType));
         }
 
         [HttpPost, Route("{flt:filter}/{crd:coords}")]
-        public async Task<IHttpActionResult> Sepia(string flt, string crd)
+        public async Task<IHttpActionResult> Filter(string flt, string crd)
         {
             var tracer = Request.GetConfiguration().Services.GetTraceWriter();
 
@@ -78,7 +78,7 @@ namespace Kontur.ImageTransformer.Controllers
             img = argbValues.ToBitmap(plot.Width, plot.Height);
             tracer.Info(Request, ControllerContext.ControllerDescriptor.ControllerType.FullName, "Filter end");
 
-            return await Task.FromResult(new OkResult(img));
+            return await Task.FromResult(new OkResult(img, Request.Content.Headers.ContentType.MediaType));
         }
     }
 }
