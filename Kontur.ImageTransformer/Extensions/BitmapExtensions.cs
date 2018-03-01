@@ -37,11 +37,11 @@ namespace Kontur.ImageTransformer.Extensions
         /// <param name="img">Source Bitmap</param>
         /// <param name="area">Rectangle for copied to array</param>
         /// <returns>Array with ARGB pixels</returns>
-        /// <exception cref="ArgumentException">Rmpty image or not 32bppArgb</exception>
+        /// <exception cref="ArgumentException">Empty image or not 32bppArgb</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int[] ToArray(this Bitmap img, Rectangle area)
         {
-            if (img.PixelFormat != PixelFormat.Format32bppArgb || area.IsEmpty)
+            if (img.PixelFormat != PixelFormat.Format32bppArgb || area.IsEmpty || area.Width == 0 || area.Height == 0)
             {
                 throw new ArgumentException();
             }
@@ -65,7 +65,7 @@ namespace Kontur.ImageTransformer.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Bitmap ToBitmap(this int[] imgArray, int width, int height)
         {
-            if (width * height != imgArray.Length)
+            if (width * height != imgArray.Length || imgArray.Length == 0)
             {
                 throw new ArgumentOutOfRangeException();
             }

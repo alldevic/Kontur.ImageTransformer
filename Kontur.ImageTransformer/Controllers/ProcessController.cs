@@ -62,28 +62,31 @@ namespace Kontur.ImageTransformer.Controllers
             }
 
             var rect = (Rectangle) (new RectangleConverter().ConvertFromInvariantString(crd) ?? Rectangle.Empty);
-            var plot = Rectangle.Intersect(rect.Normalise(), new Rectangle(0, 0, img.Width, img.Height));
-            if (plot.IsEmpty || plot.Width == 0 || plot.Height == 0)
+            rect = Rectangle.Intersect(rect.Normalise(), new Rectangle(0, 0, img.Width, img.Height));
+            if (rect.IsEmpty || rect.Width == 0 || rect.Height == 0)
             {
                 tracer.Info(Request, ControllerContext.ControllerDescriptor.ControllerType.FullName, "Empty rectangle");
                 return StatusCode(HttpStatusCode.NoContent);
             }
 
             tracer.Info(Request, ControllerContext.ControllerDescriptor.ControllerType.FullName, "Filter begin");
-            var bytes = plot.Width * plot.Height;
-            var argbValues = img.ToArray(plot);
-
+            img = img.Clone(rect, img.PixelFormat);
+            rect.X = 0;
+            rect.Y = 0;
+            var bytes = rect.Width * rect.Height;
+            var argbValues = img.ToArray(rect);
             var filter = ImageFilters.FromString(flt, out var byteLevel);
+
+
             for (var i = 0; i < bytes; i++)
             {
                 argbValues[i] = filter((uint) argbValues[i], byteLevel);
             }
 
-            img.Dispose();
-            img = argbValues.ToBitmap(plot.Width, plot.Height);
             tracer.Info(Request, ControllerContext.ControllerDescriptor.ControllerType.FullName, "Filter end");
 
-            return await Task.FromResult(new OkResult(img, Request.Content.Headers.ContentType.MediaType));
+            return await Task.FromResult(new OkResult(argbValues.ToBitmap(rect.Width, rect.Height),
+                Request.Content.Headers.ContentType.MediaType));
         }
     }
 }
