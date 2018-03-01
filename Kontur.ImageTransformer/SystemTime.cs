@@ -7,9 +7,9 @@ namespace Kontur.ImageTransformer
     public static class SystemTime
     {
         // Allow modification of "Today" for unit testing
-        private static readonly Func<DateTime> SetCurrentTimeUtc = () => DateTime.UtcNow;
-        private static readonly Func<DateTime> SetCurrentTime = () => DateTime.Now;
-        private static readonly Func<int> SetTickCount = () => Environment.TickCount;
+        public static Func<DateTime> SetCurrentTimeUtc = () => DateTime.UtcNow;
+        public static Func<DateTime> SetCurrentTime = () => DateTime.Now;
+        public static Func<int> SetTickCount = () => Environment.TickCount;
 
         public static DateTime UtcNow => SetCurrentTimeUtc();
 

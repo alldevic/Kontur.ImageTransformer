@@ -1,9 +1,8 @@
 ﻿using System.Drawing;
 using System.Linq;
-using Kontur.ImageTransformer;
 using NUnit.Framework;
 
-namespace Kontur.ImageTransformerTests
+namespace Kontur.ImageTransformer.Tests
 {
     [Ignore("Too slow, run if need")]
     [TestFixture]

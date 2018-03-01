@@ -8,8 +8,8 @@
     <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Kontur.ImageTransformerTests</RootNamespace>
-    <AssemblyName>Kontur.ImageTransformerTests</AssemblyName>
+    <RootNamespace>Kontur.ImageTransformer.Tests</RootNamespace>
+    <AssemblyName>Kontur.ImageTransformer.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -56,13 +56,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ControllersTests\ProcessControllerTests.cs" />
-    <Compile Include="ExtensionsTests.cs" />
-    <Compile Include="HandlersTests\MainCheckHandlerTests.cs" />
     <Compile Include="ImageFiltersTests.cs" />
-    <Compile Include="PipelineTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils.cs" />
+    <Compile Include="TokenBucketTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -72,6 +68,10 @@
       <Project>{a98befb7-99bb-453f-9afa-20b66c87577f}</Project>
       <Name>Kontur.ImageTransformer</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ControllersTests" />
+    <Folder Include="HandlersTests" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
