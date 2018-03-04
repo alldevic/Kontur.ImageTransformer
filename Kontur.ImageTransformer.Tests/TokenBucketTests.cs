@@ -6,6 +6,7 @@ using NUnit.Framework;
 
 namespace Kontur.ImageTransformer.Tests
 {
+    [TestFixture]
     public class TokenBucketTests
     {
         private TokenBucket _bucket;
