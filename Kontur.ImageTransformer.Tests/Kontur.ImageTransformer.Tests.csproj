@@ -56,10 +56,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControllersTests\ConstraintsTests.cs" />
+    <Compile Include="ExtensionsTests\RectangleExtensionsTests.cs" />
     <Compile Include="ImageFiltersTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TokenBucketTests.cs" />
-    <Compile Include="ConstraintsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -71,7 +72,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ControllersTests" />
+    <Folder Include="ConstraintsTests" />
     <Folder Include="HandlersTests" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

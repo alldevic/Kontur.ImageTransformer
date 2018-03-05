@@ -42,6 +42,11 @@ namespace Kontur.ImageTransformer.Extensions
         public static Rectangle RotateFlip(this Rectangle rect, RotateFlipType rotateFlipType, int srcW, int srcH)
         {
             int t;
+            if (rect.Width < 0 || rect.Width < 0)
+            {
+                rect = rect.Normalise();
+            }
+
             switch (rotateFlipType)
             {
                 case RotateFlipType.RotateNoneFlipNone: // == Rotate180FlipXY
