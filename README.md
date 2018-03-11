@@ -78,3 +78,11 @@ Reflection about the Y axis
 
 ### flip-v
 Reflection about the X axis
+
+## Structure of solution
+
+ImageTransformer - base solution
+
+Tests - unit testing of solution
+
+Demo - simple client
