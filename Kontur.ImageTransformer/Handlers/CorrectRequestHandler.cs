@@ -25,7 +25,7 @@ namespace Kontur.ImageTransformer.Handlers
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
-            if (!(MainCheck(request) && ContentTypeCheck(request) && ThrottleCheck(request)))
+            if (!(MainCheck(request) && ThrottleCheck(request)))
             {
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
@@ -37,26 +37,6 @@ namespace Kontur.ImageTransformer.Handlers
         {
             return request.Method == HttpMethod.Post && request.Content?.Headers.ContentLength != null &&
                    !(request.Content.Headers.ContentLength <= 0) && !(request.Content.Headers.ContentLength > 102400);
-        }
-
-        private static bool ContentTypeCheck(HttpRequestMessage request)
-        {
-            try
-            {
-                var contentType = request.Content.Headers.ContentType;
-                if (!string.Equals("image/png", contentType.MediaType, StringComparison.OrdinalIgnoreCase) &&
-                    !string.Equals("application/octet-stream", contentType.MediaType,
-                        StringComparison.OrdinalIgnoreCase))
-                {
-                    throw new Exception();
-                }
-            }
-            catch
-            {
-                return false;
-            }
-
-            return true;
         }
 
         private bool ThrottleCheck(HttpRequestMessage request)

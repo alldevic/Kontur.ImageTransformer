@@ -9,11 +9,11 @@ using System.Windows.Forms;
 
 namespace Kontur.ImageTransformer.Demo
 {
-    public partial class frmMain : Form
+    public partial class FrmMain : Form
     {
         private readonly HttpData _data = new HttpData();
 
-        public frmMain()
+        public FrmMain()
         {
             InitializeComponent();
         }

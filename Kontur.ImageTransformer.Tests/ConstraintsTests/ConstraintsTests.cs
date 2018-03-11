@@ -6,7 +6,7 @@ using System.Web.Http.Routing;
 using Kontur.ImageTransformer.Constraints;
 using NUnit.Framework;
 
-namespace Kontur.ImageTransformer.Tests.ControllersTests
+namespace Kontur.ImageTransformer.Tests.ConstraintsTests
 {
     [TestFixture]
     public class ConstraintsTests

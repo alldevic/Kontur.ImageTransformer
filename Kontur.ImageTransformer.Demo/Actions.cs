@@ -4,12 +4,12 @@ namespace Kontur.ImageTransformer.Demo
 {
     public enum Actions
     {
-        [Description("grayscale")] grayscale,
-        [Description("threshold")] threshold,
-        [Description("sepia")] sepia,
-        [Description("rotate-cw")] rotatecw,
-        [Description("rotate-ccw")] rotateccw,
-        [Description("flip-v")] flipv,
-        [Description("flip-h")] fliph
+        [Description("grayscale")] Grayscale,
+        [Description("threshold")] Threshold,
+        [Description("sepia")] Sepia,
+        [Description("rotate-cw")] Rotatecw,
+        [Description("rotate-ccw")] Rotateccw,
+        [Description("flip-v")] Flipv,
+        [Description("flip-h")] Fliph
     }
 }

@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Kontur.imageTransformerTests")]
+[assembly: AssemblyTitle("Kontur.ImageTransformer.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Kontur.imageTransformerTests")]
+[assembly: AssemblyProduct("Kontur.ImageTransformer.Tests")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("9484FB90-C99A-4B60-8508-6F62281F35ED")]
+[assembly: Guid("3F5EAA8A-8351-41D2-A460-73CBEB4DBC11")]
 
 // Version information for an assembly consists of the following four values:
 //

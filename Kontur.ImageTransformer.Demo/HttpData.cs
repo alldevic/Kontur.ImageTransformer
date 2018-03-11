@@ -31,7 +31,7 @@ namespace Kontur.ImageTransformer.Demo
         [Category("Request")]
         [DisplayName("Action")]
         [TypeConverter(typeof(EnumTypeConverter))]
-        public Actions Action { get; set; } = Actions.grayscale;
+        public Actions Action { get; set; } = Actions.Grayscale;
 
         #endregion
 
@@ -54,7 +54,7 @@ namespace Kontur.ImageTransformer.Demo
         public string Route()
         {
             var str = Action.GetDescription();
-            return Action == Actions.threshold
+            return Action == Actions.Threshold
                 ? $"process/{str}({ThresholdLevel})/{Coords.X},{Coords.Y},{Coords.Width},{Coords.Height}/"
                 : $"process/{str}/{Coords.X},{Coords.Y},{Coords.Width},{Coords.Height}/";
         }

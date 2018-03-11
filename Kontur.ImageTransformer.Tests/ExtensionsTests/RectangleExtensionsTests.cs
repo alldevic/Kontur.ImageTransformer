@@ -34,7 +34,5 @@ namespace Kontur.ImageTransformer.Tests.ExtensionsTests
         {
             Assert.That(src.Normalise(), Is.EqualTo(res));
         }
-        
-        
     }
 }

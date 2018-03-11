@@ -15,7 +15,7 @@ matrix:
     fast_finish: false
 
 platform:
-    - x64
+    - Any CPU
 
 configuration:
     - Release

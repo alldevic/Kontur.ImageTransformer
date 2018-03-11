@@ -46,7 +46,7 @@ namespace Kontur.ImageTransformer.Controllers
             img.RotateFlip(trn);
             tracer.Info(Request, ControllerContext.ControllerDescriptor.ControllerType.FullName, "Rotated");
 
-            return await Task.FromResult(new OkResult(img, Request.Content.Headers.ContentType.MediaType));
+            return await Task.FromResult(new OkResult(img));
         }
 
         [HttpPost, Route("{flt:filter}/{crd:coords}")]
@@ -85,8 +85,7 @@ namespace Kontur.ImageTransformer.Controllers
 
             tracer.Info(Request, ControllerContext.ControllerDescriptor.ControllerType.FullName, "Filter end");
 
-            return await Task.FromResult(new OkResult(argbValues.ToBitmap(rect.Width, rect.Height),
-                Request.Content.Headers.ContentType.MediaType));
+            return await Task.FromResult(new OkResult(argbValues.ToBitmap(rect.Width, rect.Height)));
         }
     }
 }

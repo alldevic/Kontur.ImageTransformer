@@ -2,7 +2,7 @@
 
 namespace Kontur.ImageTransformer.Demo
 {
-    partial class frmMain
+    partial class FrmMain
     {
         /// <summary>
         /// Required designer variable.
@@ -439,7 +439,7 @@ namespace Kontur.ImageTransformer.Demo
             this.ClientSize = new System.Drawing.Size(784, 561);
             this.Controls.Add(this.splMain);
             this.MinimumSize = new System.Drawing.Size(800, 600);
-            this.Name = "frmMain";
+            this.Name = "FrmMain";
             this.ShowIcon = false;
             this.Text = "Kontur.ImageTransformer Demo";
             this.Load += new System.EventHandler(this.frmMain_Load);
