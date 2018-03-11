@@ -18,8 +18,8 @@ namespace Kontur.ImageTransformer.Handlers
 
         public CorrectRequestHandler()
         {
-            //2800KB per cpu every 1s 
-            _bucket = new TokenBucket(102400 * Environment.ProcessorCount * 28, 1000);
+            //900KB per cpu every 1s 
+            _bucket = new TokenBucket(102400 * Environment.ProcessorCount * 9, 1000);
         }
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
